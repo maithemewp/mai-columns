@@ -1,0 +1,31 @@
+{
+	"name": "mai-rows",
+	"version": "0.1.0",
+	"description": "Example block scaffolded with Create Block tool.",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "10up-toolkit build",
+		"dev": "10up-toolkit build --watch",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start --webpack-copy-php"
+	},
+	"devDependencies": {
+		"10up-toolkit": "^5.2.1",
+		"@10up/babel-preset-default": "^2.1.0",
+		"@10up/eslint-config": "^3.1.1",
+		"@10up/stylelint-config": "^2.0.4",
+		"@wordpress/dependency-extraction-webpack-plugin": "^4.21.0",
+		"@wordpress/scripts": "^26.9.0",
+		"stylelint": "^15.10.2"
+	},
+	"dependencies": {
+		"@10up/block-components": "^1.15.13",
+		"@wordpress/icons": "^9.29.0"
+	}
+}
