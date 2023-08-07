@@ -8425,7 +8425,15 @@ function Edit({
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
     key: "setting"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", null, `
-
+							.repeater-item {
+								display: flex;
+								align-items: center;
+								margin-bottom: 1em;
+							}
+							.repeater-item .components-base-control {
+								flex: 1;
+								margin: 0 .5em 0 0;
+							}
 						`), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_10up_block_components__WEBPACK_IMPORTED_MODULE_5__.Repeater, {
     attribute: "columnsLg",
     addButton: customAddButton,
@@ -8442,30 +8450,31 @@ function Edit({
         columnsLgSize: value
       });
     },
-    options: [{
-      value: '',
-      label: 'Sizes:',
-      disabled: true
-    }, {
+    options: [
+    // { value: '', label: 'Sizes:', disabled: true },
+    {
       value: 'auto',
-      label: 'Fit'
+      label: 'Fit Content'
     }, {
-      value: '1:5',
+      value: 'fill',
+      label: 'Fill Space'
+    }, {
+      value: '1/5',
       label: '1/4'
     }, {
-      value: '1:3',
+      value: '1/3',
       label: '1/3'
     }, {
-      value: '1:2',
+      value: '1/2',
       label: '1/2'
     }, {
-      value: '2:3',
+      value: '2/3',
       label: '2/3'
     }, {
-      value: '3:4',
+      value: '3/4',
       label: '3/4'
     }, {
-      value: '1',
+      value: '1/1',
       label: 'Full Width'
     }],
     __nextHasNoMarginBottom: true
@@ -13910,7 +13919,7 @@ function combine (array, callback) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"columnsLg":{"type":"array","default":[{"columnsLgSize":""}]},"columnsMd":{"type":"array","default":[{"columnsMdsize":""}]}},"supports":{"html":false,"color":{"text":true,"background":true,"link":true},"spacing":{"margin":true,"padding":true,"blockGap":true}},"textdomain":"mai-rows","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"columnsLg":{"type":"array","default":[{"columnsLgSize":"1/3"}]},"columnsMd":{"type":"array","default":[{"columnsMdsize":"1/2"}]}},"supports":{"html":false,"color":{"text":true,"background":true,"link":true},"spacing":{"margin":true,"padding":true,"blockGap":true}},"textdomain":"mai-rows","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

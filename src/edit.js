@@ -57,7 +57,15 @@ export default function Edit({ attributes, setAttributes }) {
 				<PanelBody>
 					<style>
 						{`
-
+							.repeater-item {
+								display: flex;
+								align-items: center;
+								margin-bottom: 1em;
+							}
+							.repeater-item .components-base-control {
+								flex: 1;
+								margin: 0 .5em 0 0;
+							}
 						`}
 					</style>
 					{/* <p>{ __( 'Columns on Desktop' ) }</p> */}
@@ -71,14 +79,15 @@ export default function Edit({ attributes, setAttributes }) {
 										setItem({columnsLgSize: value})
 									} }
 									options={ [
-										{ value: '', label: 'Sizes:', disabled: true },
-										{ value: 'auto', label: 'Fit' },
-										{ value: '1:5', label: '1/4' },
-										{ value: '1:3', label: '1/3' },
-										{ value: '1:2', label: '1/2' },
-										{ value: '2:3', label: '2/3' },
-										{ value: '3:4', label: '3/4' },
-										{ value: '1', label: 'Full Width' },
+										// { value: '', label: 'Sizes:', disabled: true },
+										{ value: 'auto', label: 'Fit Content' },
+										{ value: 'fill', label: 'Fill Space' },
+										{ value: '1/5', label: '1/4' },
+										{ value: '1/3', label: '1/3' },
+										{ value: '1/2', label: '1/2' },
+										{ value: '2/3', label: '2/3' },
+										{ value: '3/4', label: '3/4' },
+										{ value: '1/1', label: 'Full Width' },
 									] }
 									__nextHasNoMarginBottom
 								/>
