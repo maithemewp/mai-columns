@@ -11,13 +11,15 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, BlockControls, JustifyContentControl, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
 
 import { InspectorControls } from '@wordpress/editor';
 import { Panel, PanelBody, PanelRow, FormTokenField } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { Repeater } from '@10up/block-components';
-import { close, plus, settings } from "@wordpress/icons";
+import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
+
+// TODO: https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/columns/edit.js
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -36,162 +38,117 @@ import './editor.scss';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const blockProps                      = useBlockProps();
-	const innerBlocksProps                = useInnerBlocksProps();
-	const { columnsLg, columnsMd }        = attributes;
-	// const [ columns, setColumns ]         = useState( '1/3' );
-	// const [ showCustomSize, setCustomSize ] = useState( false );
-	// const [ showCustomSize, setCustomSize ] = useState(
-		// value !== undefined && ! isValuePreset( value )
-		// false
-	// );
-	const [ selectedContinents, setSelectedContinents ] = useState( [] );
+	const { justifyContent, alignItems, columnsLg, columnsMd, columnsSm, columnsXs } = attributes;
 
-	// const [ item, setItem ] = useState( '' );
-	const options = [
-		{ label: 'Fit Content', value: 'auto' },
-		{ label: 'Fill', value: 'fill' },
-		{ label: '1/4', value: '1/4' },
-		{ label: '1/3', value: '1/3' },
-		{ label: '1/2', value: '1/2' },
-		{ label: '2/3', value: '2/3' },
-		{ label: 'Full', value: '1/1' },
-	];
+	const blockProps = useBlockProps({
+		className: 'mai-rows',
+	});
 
-	const sizes = [
-		// {
-		// 	value: 'auto',
-		// 	name: 'Fit Content',
-		// },
-		// {
-		// 	value: 'fill',
-		// 	name: 'Fill Space',
-		// },
-		{
-			name: 'Fit',
-			value: -1,
-		},
-		{
-			name: 'Fill',
-			value: 0,
-		},
-		// {
-		// 	name: '10',
-		// 	value: 10,
-		// },
-		{
-			name: '1/4',
-			value: .25,
-		},
-		{
-			name: '1/3',
-			value: .33,
-		},
-		{
-			name: '1/2',
-			value: .50,
-		},
-		{
-			name: '2/3',
-			value: .66,
-		},
-		// {
-		// 	name: '3/4',
-		// 	value: .75,
-		// },
-		// {
-		// 	name: 'Full',
-		// 	value: 1,
-		// },
-	];
-
-	const suggestionsOG = [
-		{ 'auto': 'Fit Content' },
-		{ 'fill': 'Fill' },
-		{ '1/4': '1/4' },
-		{ '1/3': '1/3' },
-		{ '1/2': '1/2' },
-		{ '2/3': '2/3' },
-		{ '1/1': 'Full' },
-	];
-
-	const suggestionss = {
-		'item-1': {
-			value: '1/3',
-			title: '1/3',
-		},
-		'item-2': {
-			value: '1/2',
-			title: '1/2',
-		}
+	const innerBlocksProps = useInnerBlocksProps();
+	const suggestions      = {
+		'auto': __( 'Equal Widths' ),
+		'1/4': __( '1/4' ),
+		'1/3': __( '1/3' ),
+		'1/2': __( '1/2' ),
+		'2/3': __( '2/3' ),
+		'3/4': __( '3/4' ),
+		'fit': __( 'Fit Content' ),
+		'fill': __( 'Fill Space' ),
 	};
 
-	// const suggestions = [
-	// 	{
-	// 		value: 'okay',
-	// 		title: 'Okay',
-	// 	},
-	// 	{
-	// 		value: 'another',
-	// 		title: 'Another',
-	// 	}
-	// ];
+	const reversed = Object.entries( suggestions ).reduce(
+		( acc, [key, value] ) => {
+			acc[value] = key;
+			return acc;
+		},
+		{}
+	);
 
-	const suggestions = [
-		'Equal Widths',
-		'1/4',
-		'1/3',
-		'1/2',
-		'2/3',
-		'3/4',
-		'Fit Content',
-		'Fill Space',
-	];
+	function mapValues( values, reverse = false ) {
+		let mapped = [];
+		let array  = reverse ? reversed : suggestions;
 
-	// const suggestions = [
-	// 	{ label: 'Option 1', value: 'option1' },
-	// 	{ label: 'Option 2', value: 'option2' },
-	// 	{ label: 'Option 3', value: 'option3' },
-	// ];
+		values.forEach( ( value ) => {
+			mapped.push( value in array ? array[ value ] : value );
+		});
+
+		return mapped;
+	}
 
 	return (
 		<div>
+			<style>
+				{`
+					.column-widths-heading ~ .components-form-token-field:not(:first-of-type) .components-form-token-field__input-container {
+						margin-bottom: 16px;
+					}
+					.column-widths-heading ~ .components-form-token-field:not(:first-of-type) .components-form-token-field__help {
+						display: none;
+					}
+				`}
+			</style>
+			<BlockControls group="block">
+				<JustifyContentControl
+					value={ justifyContent }
+					onChange={ ( value ) => {
+						setAttributes( { justifyContent: value } );
+					} }
+				/>
+				<BlockVerticalAlignmentToolbar
+					value={ alignItems }
+					onChange={ ( value ) => {
+						setAttributes( { alignItems: value } );
+					}}
+				/>
+			</BlockControls>
 			<InspectorControls key="setting">
 				<PanelBody>
-					<style>
-						{`
-
-						`}
-					</style>
-					{/* <FormTokenField
-						__experimentalAutoSelectFirstMatch
-						__experimentalExpandOnFocus
-						label="Select size(s)"
-						onChange={function noRefCheck(){}}
-						suggestions={[
-							'Africa',
-							'America',
-							'Antarctica',
-							'Asia',
-							'Europe',
-							'Oceania'
-						]}
-						value={[]}
-					/> */}
+					<h2 className="column-widths-heading">{ __( 'Column Width(s)' ) }</h2>
 					<FormTokenField
 						__experimentalAutoSelectFirstMatch
 						__experimentalExpandOnFocus
-						label={ __( 'Select size(s)' ) }
-						value={ selectedContinents }
-						onChange={ ( tokens ) => setSelectedContinents( tokens ) }
-						suggestions={ suggestions }
+						label={ __( 'Desktop' ) }
+						value={ mapValues( columnsLg, false ) }
+						suggestions={ Object.values( suggestions ) }
+						onChange={ ( values ) => {
+							setAttributes( { columnsLg: mapValues( values, true ) } );
+						}}
 					/>
+					<FormTokenField
+						__experimentalAutoSelectFirstMatch
+						__experimentalExpandOnFocus
+						label={ __( 'Large Tablet' ) }
+						value={ mapValues( columnsMd, false ) }
+						suggestions={ Object.values( suggestions ) }
+						onChange={ ( values ) => {
+							setAttributes( { columnsMd: mapValues( values, true ) } );
+						}}
+					/>
+					<FormTokenField
+						__experimentalAutoSelectFirstMatch
+						__experimentalExpandOnFocus
+						label={ __( 'Small Tablet' ) }
+						value={ mapValues( columnsSm, false ) }
+						suggestions={ Object.values( suggestions ) }
+						onChange={ ( values ) => {
+							setAttributes( { columnsSm: mapValues( values, true ) } );
+						}}
+					/>
+					<FormTokenField
+						__experimentalAutoSelectFirstMatch
+						__experimentalExpandOnFocus
+						label={ __( 'Mobile' ) }
+						value={ mapValues( columnsSm, false ) }
+						suggestions={ Object.values( suggestions ) }
+						onChange={ ( values ) => {
+							setAttributes( { columnsSm: mapValues( values, true ) } );
+						}}
+					/>
+					<p>{ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same.' ) }</p>
 				</PanelBody>
 			</InspectorControls>
 			<div {...blockProps}>
-				<div className="mai-rows">
-					<div {...innerBlocksProps} />
-				</div>
+				<div {...innerBlocksProps} />
 			</div>
 		</div>
 	);

@@ -8317,6 +8317,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// TODO: https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/columns/edit.js
+
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -8337,149 +8339,116 @@ function Edit({
   attributes,
   setAttributes
 }) {
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)();
   const {
+    justifyContent,
+    alignItems,
     columnsLg,
-    columnsMd
+    columnsMd,
+    columnsSm,
+    columnsXs
   } = attributes;
-  // const [ columns, setColumns ]         = useState( '1/3' );
-  // const [ showCustomSize, setCustomSize ] = useState( false );
-  // const [ showCustomSize, setCustomSize ] = useState(
-  // value !== undefined && ! isValuePreset( value )
-  // false
-  // );
-  const [selectedContinents, setSelectedContinents] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-
-  // const [ item, setItem ] = useState( '' );
-  const options = [{
-    label: 'Fit Content',
-    value: 'auto'
-  }, {
-    label: 'Fill',
-    value: 'fill'
-  }, {
-    label: '1/4',
-    value: '1/4'
-  }, {
-    label: '1/3',
-    value: '1/3'
-  }, {
-    label: '1/2',
-    value: '1/2'
-  }, {
-    label: '2/3',
-    value: '2/3'
-  }, {
-    label: 'Full',
-    value: '1/1'
-  }];
-  const sizes = [
-  // {
-  // 	value: 'auto',
-  // 	name: 'Fit Content',
-  // },
-  // {
-  // 	value: 'fill',
-  // 	name: 'Fill Space',
-  // },
-  {
-    name: 'Fit',
-    value: -1
-  }, {
-    name: 'Fill',
-    value: 0
-  },
-  // {
-  // 	name: '10',
-  // 	value: 10,
-  // },
-  {
-    name: '1/4',
-    value: .25
-  }, {
-    name: '1/3',
-    value: .33
-  }, {
-    name: '1/2',
-    value: .50
-  }, {
-    name: '2/3',
-    value: .66
-  }
-  // {
-  // 	name: '3/4',
-  // 	value: .75,
-  // },
-  // {
-  // 	name: 'Full',
-  // 	value: 1,
-  // },
-  ];
-
-  const suggestionsOG = [{
-    'auto': 'Fit Content'
-  }, {
-    'fill': 'Fill'
-  }, {
-    '1/4': '1/4'
-  }, {
-    '1/3': '1/3'
-  }, {
-    '1/2': '1/2'
-  }, {
-    '2/3': '2/3'
-  }, {
-    '1/1': 'Full'
-  }];
-  const suggestionss = {
-    'item-1': {
-      value: '1/3',
-      title: '1/3'
-    },
-    'item-2': {
-      value: '1/2',
-      title: '1/2'
-    }
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
+    className: 'mai-rows'
+  });
+  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)();
+  const suggestions = {
+    'auto': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Equal Widths'),
+    '1/4': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('1/4'),
+    '1/3': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('1/3'),
+    '1/2': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('1/2'),
+    '2/3': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('2/3'),
+    '3/4': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('3/4'),
+    'fit': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fit Content'),
+    'fill': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fill Space')
   };
-
-  // const suggestions = [
-  // 	{
-  // 		value: 'okay',
-  // 		title: 'Okay',
-  // 	},
-  // 	{
-  // 		value: 'another',
-  // 		title: 'Another',
-  // 	}
-  // ];
-
-  const suggestions = ['Equal Widths', '1/4', '1/3', '1/2', '2/3', '3/4', 'Fit Content', 'Fill Space'];
-
-  // const suggestions = [
-  // 	{ label: 'Option 1', value: 'option1' },
-  // 	{ label: 'Option 2', value: 'option2' },
-  // 	{ label: 'Option 3', value: 'option3' },
-  // ];
-
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
+  const reversed = Object.entries(suggestions).reduce((acc, [key, value]) => {
+    acc[value] = key;
+    return acc;
+  }, {});
+  function mapValues(values, reverse = false) {
+    let mapped = [];
+    let array = reverse ? reversed : suggestions;
+    values.forEach(value => {
+      mapped.push(value in array ? array[value] : value);
+    });
+    return mapped;
+  }
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", null, `
+					.column-widths-heading ~ .components-form-token-field:not(:first-of-type) .components-form-token-field__input-container {
+						margin-bottom: 16px;
+					}
+					.column-widths-heading ~ .components-form-token-field:not(:first-of-type) .components-form-token-field__help {
+						display: none;
+					}
+				`), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
+    group: "block"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.JustifyContentControl, {
+    value: justifyContent,
+    onChange: value => {
+      setAttributes({
+        justifyContent: value
+      });
+    }
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockVerticalAlignmentToolbar, {
+    value: alignItems,
+    onChange: value => {
+      setAttributes({
+        alignItems: value
+      });
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
     key: "setting"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", null, `
-
-						`), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.FormTokenField, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "column-widths-heading"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Width(s)')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.FormTokenField, {
     __experimentalAutoSelectFirstMatch: true,
     __experimentalExpandOnFocus: true,
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select size(s)'),
-    value: selectedContinents,
-    onChange: tokens => setSelectedContinents(tokens),
-    suggestions: suggestions
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Desktop'),
+    value: mapValues(columnsLg, false),
+    suggestions: Object.values(suggestions),
+    onChange: values => {
+      setAttributes({
+        columnsLg: mapValues(values, true)
+      });
+    }
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.FormTokenField, {
+    __experimentalAutoSelectFirstMatch: true,
+    __experimentalExpandOnFocus: true,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Large Tablet'),
+    value: mapValues(columnsMd, false),
+    suggestions: Object.values(suggestions),
+    onChange: values => {
+      setAttributes({
+        columnsMd: mapValues(values, true)
+      });
+    }
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.FormTokenField, {
+    __experimentalAutoSelectFirstMatch: true,
+    __experimentalExpandOnFocus: true,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Small Tablet'),
+    value: mapValues(columnsSm, false),
+    suggestions: Object.values(suggestions),
+    onChange: values => {
+      setAttributes({
+        columnsSm: mapValues(values, true)
+      });
+    }
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.FormTokenField, {
+    __experimentalAutoSelectFirstMatch: true,
+    __experimentalExpandOnFocus: true,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Mobile'),
+    value: mapValues(columnsSm, false),
+    suggestions: Object.values(suggestions),
+    onChange: values => {
+      setAttributes({
+        columnsSm: mapValues(values, true)
+      });
+    }
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same.')))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "mai-rows"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...innerBlocksProps
-  }))));
+  })));
 }
 
 /***/ }),
@@ -13896,7 +13865,7 @@ function combine (array, callback) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"columnsLg":{"type":"array","default":{}},"columnsMd":{"type":"array","default":{}}},"supports":{"html":false,"color":{"text":true,"background":true,"link":true},"spacing":{"margin":true,"padding":true,"blockGap":true}},"textdomain":"mai-rows","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"columnsLg":{"type":"array","default":{}},"columnsMd":{"type":"array","default":{}},"columnsSm":{"type":"array","default":{}},"columnsXs":{"type":"array","default":{}}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":true}},"textdomain":"mai-rows","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

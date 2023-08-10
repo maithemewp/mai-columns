@@ -8,6 +8,12 @@
   "icon": "smiley",
   "description": "Example block scaffolded with Create Block tool.",
   "attributes": {
+    "alignItems": {
+      "type": "string"
+    },
+    "justifyContent": {
+      "type": "string"
+    },
     "columnsLg": {
       "type": "array",
       "default": {}
@@ -15,15 +21,28 @@
     "columnsMd": {
       "type": "array",
       "default": {}
+    },
+    "columnsSm": {
+      "type": "array",
+      "default": {}
+    },
+    "columnsXs": {
+      "type": "array",
+      "default": {}
     }
   },
   "supports": {
-    "html": false,
+    "anchor": true,
+    "align": [
+      "wide",
+      "full"
+    ],
     "color": {
       "text": true,
       "background": true,
       "link": true
     },
+    "html": false,
     "spacing": {
       "margin": true,
       "padding": true,
