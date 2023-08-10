@@ -10,19 +10,11 @@
 	"attributes": {
 		"columnsLg": {
 			"type": "array",
-			"default": [
-				{
-					"columnsLgSize": "1/3"
-				}
-			]
+			"default": {}
 		},
 		"columnsMd": {
 			"type": "array",
-			"default": [
-				{
-					"columnsMdsize": "1/2"
-				}
-			]
+			"default": {}
 		}
 	},
 	"supports": {

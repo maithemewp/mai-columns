@@ -32,6 +32,6 @@ add_action( 'init', 'create_block_mai_rows_block_init' );
 
 function mai_do_rows_block( $block_attributes, $content ) {
 	$attributes = get_block_wrapper_attributes();
-	ray( $block_attributes, $content );
+	// ray( $block_attributes, $content );
 	return sprintf( '<div class="mai-rows">%s</div>', $content );
 }

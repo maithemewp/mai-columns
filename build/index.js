@@ -8272,70 +8272,6 @@ function useFloating(options) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/icons/build-module/library/close.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/icons/build-module/library/close.js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/primitives */ "@wordpress/primitives");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const close = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.Path, {
-  d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
-}));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (close);
-//# sourceMappingURL=close.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/icons/build-module/library/plus.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@wordpress/icons/build-module/library/plus.js ***!
-  \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/primitives */ "@wordpress/primitives");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const plus = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.Path, {
-  d: "M18 11.2h-5.2V6h-1.6v5.2H6v1.6h5.2V18h1.6v-5.2H18z"
-}));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (plus);
-//# sourceMappingURL=plus.js.map
-
-/***/ }),
-
 /***/ "./src/edit.js":
 /*!*********************!*\
   !*** ./src/edit.js ***!
@@ -8359,8 +8295,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _10up_block_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @10up/block-components */ "./node_modules/@10up/block-components/dist/index.js");
 /* harmony import */ var _10up_block_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_10up_block_components__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/plus.js");
-/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/close.js");
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
 
 /**
@@ -8409,83 +8343,137 @@ function Edit({
     columnsLg,
     columnsMd
   } = attributes;
-  // const [ item, setItem ] = useState( '' );
+  // const [ columns, setColumns ]         = useState( '1/3' );
+  // const [ showCustomSize, setCustomSize ] = useState( false );
+  // const [ showCustomSize, setCustomSize ] = useState(
+  // value !== undefined && ! isValuePreset( value )
+  // false
+  // );
+  const [selectedContinents, setSelectedContinents] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
 
-  function customAddButton(addItem) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "repeater-controls"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "repeater-item-add"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
-      variant: "primary",
-      icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_7__["default"],
-      onClick: addItem
-    })));
+  // const [ item, setItem ] = useState( '' );
+  const options = [{
+    label: 'Fit Content',
+    value: 'auto'
+  }, {
+    label: 'Fill',
+    value: 'fill'
+  }, {
+    label: '1/4',
+    value: '1/4'
+  }, {
+    label: '1/3',
+    value: '1/3'
+  }, {
+    label: '1/2',
+    value: '1/2'
+  }, {
+    label: '2/3',
+    value: '2/3'
+  }, {
+    label: 'Full',
+    value: '1/1'
+  }];
+  const sizes = [
+  // {
+  // 	value: 'auto',
+  // 	name: 'Fit Content',
+  // },
+  // {
+  // 	value: 'fill',
+  // 	name: 'Fill Space',
+  // },
+  {
+    name: 'Fit',
+    value: -1
+  }, {
+    name: 'Fill',
+    value: 0
+  },
+  // {
+  // 	name: '10',
+  // 	value: 10,
+  // },
+  {
+    name: '1/4',
+    value: .25
+  }, {
+    name: '1/3',
+    value: .33
+  }, {
+    name: '1/2',
+    value: .50
+  }, {
+    name: '2/3',
+    value: .66
   }
+  // {
+  // 	name: '3/4',
+  // 	value: .75,
+  // },
+  // {
+  // 	name: 'Full',
+  // 	value: 1,
+  // },
+  ];
+
+  const suggestionsOG = [{
+    'auto': 'Fit Content'
+  }, {
+    'fill': 'Fill'
+  }, {
+    '1/4': '1/4'
+  }, {
+    '1/3': '1/3'
+  }, {
+    '1/2': '1/2'
+  }, {
+    '2/3': '2/3'
+  }, {
+    '1/1': 'Full'
+  }];
+  const suggestionss = {
+    'item-1': {
+      value: '1/3',
+      title: '1/3'
+    },
+    'item-2': {
+      value: '1/2',
+      title: '1/2'
+    }
+  };
+
+  // const suggestions = [
+  // 	{
+  // 		value: 'okay',
+  // 		title: 'Okay',
+  // 	},
+  // 	{
+  // 		value: 'another',
+  // 		title: 'Another',
+  // 	}
+  // ];
+
+  const suggestions = ['Equal Widths', '1/4', '1/3', '1/2', '2/3', '3/4', 'Fit Content', 'Fill Space'];
+
+  // const suggestions = [
+  // 	{ label: 'Option 1', value: 'option1' },
+  // 	{ label: 'Option 2', value: 'option2' },
+  // 	{ label: 'Option 3', value: 'option3' },
+  // ];
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
     key: "setting"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", null, `
-							.repeater-item {
-								display: flex;
-								align-items: center;
-								margin-bottom: 1em;
-							}
-							.repeater-item .components-base-control {
-								flex: 1;
-								margin: 0 .5em 0 0;
-							}
-						`), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_10up_block_components__WEBPACK_IMPORTED_MODULE_5__.Repeater, {
-    attribute: "columnsLg",
-    addButton: customAddButton,
-    allowReordering: true
-  }, (item, index, setItem, removeItem) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    key: index,
-    className: "repeater-item"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl
-  // label={ __( 'Select column size:' ) }
-  , {
-    value: item.columnsLgSize,
-    onChange: value => {
-      setItem({
-        columnsLgSize: value
-      });
-    },
-    options: [
-    // { value: '', label: 'Sizes:', disabled: true },
-    {
-      value: 'auto',
-      label: 'Fit Content'
-    }, {
-      value: 'fill',
-      label: 'Fill Space'
-    }, {
-      value: '1/5',
-      label: '1/4'
-    }, {
-      value: '1/3',
-      label: '1/3'
-    }, {
-      value: '1/2',
-      label: '1/2'
-    }, {
-      value: '2/3',
-      label: '2/3'
-    }, {
-      value: '3/4',
-      label: '3/4'
-    }, {
-      value: '1/1',
-      label: 'Full Width'
-    }],
-    __nextHasNoMarginBottom: true
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "repeater-item-remove"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
-    icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_8__["default"],
-    isDestructive: true,
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove'),
-    onClick: removeItem
-  })))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+
+						`), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.FormTokenField, {
+    __experimentalAutoSelectFirstMatch: true,
+    __experimentalExpandOnFocus: true,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select size(s)'),
+    value: selectedContinents,
+    onChange: tokens => setSelectedContinents(tokens),
+    suggestions: suggestions
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "mai-rows"
@@ -10830,17 +10818,6 @@ module.exports = window["wp"]["htmlEntities"];
 
 "use strict";
 module.exports = window["wp"]["i18n"];
-
-/***/ }),
-
-/***/ "@wordpress/primitives":
-/*!************************************!*\
-  !*** external ["wp","primitives"] ***!
-  \************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = window["wp"]["primitives"];
 
 /***/ }),
 
@@ -13919,7 +13896,7 @@ function combine (array, callback) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"columnsLg":{"type":"array","default":[{"columnsLgSize":"1/3"}]},"columnsMd":{"type":"array","default":[{"columnsMdsize":"1/2"}]}},"supports":{"html":false,"color":{"text":true,"background":true,"link":true},"spacing":{"margin":true,"padding":true,"blockGap":true}},"textdomain":"mai-rows","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"columnsLg":{"type":"array","default":{}},"columnsMd":{"type":"array","default":{}}},"supports":{"html":false,"color":{"text":true,"background":true,"link":true},"spacing":{"margin":true,"padding":true,"blockGap":true}},"textdomain":"mai-rows","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 
