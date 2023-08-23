@@ -17,7 +17,7 @@ import { useMemo } from "@wordpress/element";
  *
  * @returns bool
  */
-const isValue = ( value ) => {
+const isValid = ( value ) => {
 	const validStrings = [ 'auto', 'fill', 'full' ];
 
 	// It's an allowed predefined value.
@@ -77,7 +77,7 @@ const isFraction = ( value ) => {
 	// Bail if numerator is larger than denominator.
 	return numerator <= denominator;
 
-	
+
 }
 
 const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, onCreateOption = null } ) => {
@@ -177,9 +177,7 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 			onChange={ handleChange }
 			onCreateOption={ handleCreate }
 			options={ options.map( op => ( { ...op, actualValue: op.value, value: Math.random() * Math.random() } ) ) }
-			isValidNewOption={ ( value ) => {
-				return isValue( value );
-			}}
+			isValidNewOption={ isValid }
 		/>
 	);
 };

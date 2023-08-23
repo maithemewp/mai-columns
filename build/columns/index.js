@@ -2573,7 +2573,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @returns bool
  */
-const isValue = value => {
+const isValid = value => {
   const validStrings = ['auto', 'fill', 'full'];
 
   // It's an allowed predefined value.
@@ -2737,9 +2737,7 @@ const MaiMultiSelectDuplicate = ({
       actualValue: op.value,
       value: Math.random() * Math.random()
     })),
-    isValidNewOption: value => {
-      return isValue(value);
-    }
+    isValidNewOption: isValid
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MaiMultiSelectDuplicate);
