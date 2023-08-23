@@ -20,6 +20,7 @@
 	// --flex-basis: calc((100% * var(--columns) - (var(--column-gap) * (1 - var(--columns)))) - 0.025px);
 	flex: var(--flex);
 	// margin-inline: var(--column-gap);
+	margin: 0;
 	padding: 20px;
 	background-color: white;
 	border: 1px dashed blue;

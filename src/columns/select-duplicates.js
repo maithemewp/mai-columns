@@ -1,10 +1,22 @@
+/**
+ * Retrieves the translation of text.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ */
+import { __ } from '@wordpress/i18n';
+
 import { useState } from "react";
 // import Select from "react-select";
 import CreatableSelect from 'react-select/creatable';
 
+/**
+ * Make sure a value is valid.
+ *
+ * @param {string} value
+ *
+ * @returns bool
+ */
 const isValue = ( value ) => {
-	// value = mapValues( [ value ], true )[0];
-
 	const validStrings = [ 'auto', 'fill', 'full' ];
 
 	// It's an allowed predefined value.
@@ -23,11 +35,25 @@ const isValue = ( value ) => {
 	}
 }
 
+/**
+ * If a value is a percentage.
+ *
+ * @param {string} value
+ *
+ * @returns bool
+ */
 const isPercent = ( value ) => {
 	const regex = /^\d+(\.\d+)?%$/;
 	return regex.test( value );
 }
 
+/**
+ * If a value is a fraction.
+ *
+ * @param {string} value
+ *
+ * @returns bool
+ */
 const isFraction = ( value ) => {
 	// Split the string into parts based on the '/' character.
 	const parts = value.split( '/' );
@@ -43,20 +69,20 @@ const isFraction = ( value ) => {
 
 	// Bail if either parts are not valid integers.
 	if ( isNaN( numerator ) || isNaN( denominator ) ) {
-		console.log( __( 'Numerator or denominator is not an integer.' ) );
+		// console.log( __( 'Numerator or denominator is not an integer.' ) );
 		return false;
 	}
 
 	// Bail if numerator is larger than denominator.
 	if ( numerator > denominator ) {
-		console.log( __( 'Numerator is larger than denominator.' ) );
+		// console.log( __( 'Numerator is larger than denominator.' ) );
 		return false;
 	}
 
 	return true;
 }
 
-const ReactMultiSelectDuplicate = ( { options = [], onChange = null } ) => {
+const MaiMultiSelectDuplicate = ( { options = [], onChange = null } ) => {
 	const [ selectedOptions, setSelectOption ] = useState( [] );
 
 	const handleChange = ( changedOptions ) => {
@@ -98,4 +124,4 @@ const ReactMultiSelectDuplicate = ( { options = [], onChange = null } ) => {
 	);
 };
 
-export default ReactMultiSelectDuplicate;
+export default MaiMultiSelectDuplicate;

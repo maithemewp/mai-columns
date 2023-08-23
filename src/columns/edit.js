@@ -12,11 +12,11 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { InspectorControls, useBlockProps, useInnerBlocksProps, BlockControls, JustifyContentControl, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
-import { Panel, PanelBody, PanelRow, TextControl, FormTokenField } from '@wordpress/components';
+import { Panel, PanelBody, PanelRow, BaseControl, TextControl, FormTokenField } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
 // import Select from 'react-select'
-import ReactMultiSelectDuplicate from './select-duplicates';
+import MaiMultiSelectDuplicate from './select-duplicates';
 // import { Repeater } from '@10up/block-components';
 import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
@@ -91,76 +91,6 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 	];
 
-	// const suggestions = {
-	// 	'auto': __( 'Equal Widths' ),
-	// 	'1:4': __( '1/4' ),
-	// 	'1:3': __( '1/3' ),
-	// 	'1:2': __( '1/2' ),
-	// 	'2:3': __( '2/3' ),
-	// 	'3:4': __( '3/4' ),
-	// 	'fit': __( 'Fit Content' ),
-	// 	'fill': __( 'Fill Space' ),
-	// };
-
-	// const reversed = Object.entries( suggestions ).reduce(
-	// 	( acc, [key, value] ) => {
-	// 		acc[value] = key;
-	// 		return acc;
-	// 	},
-	// 	{}
-	// );
-
-	// const getSuggestions = ( values ) => {
-	// 	if ( values.includes( 'auto' ) ) {
-	// 		return [];
-	// 	}
-
-	// 	return Object.values( suggestions );
-	// }
-
-	// const getKey = ( value ) => {
-	// 	// const handleChange = ( changedOptions ) => {
-	// 	// 	const newOptions = changedOptions.map( op => ( { ...op, value: Math.random() * Math.random() } ) );
-
-	// 	// 	setSelectOption( newOptions );
-
-	// 	// 	if ( onChange ) {
-	// 	// 		onChange( newOptions.map( ( obj ) => obj.actualValue ) );
-	// 	// 	}
-	// 	// };
-
-	// 	// reversed.map( op => ({
-	// 	// 	...op,
-	// 	// 	actualValue: op.value,
-	// 	// 	value: Math.random() * Math.random()
-	// 	// }));
-
-	// 	// console.log( mapValues( [ value ], true )[0] );
-
-	// 	value = value.replace( ':', '/' );
-
-	// 	if ( isValue( value ) ) {
-	// 		return value;
-	// 	}
-
-	// 	return mapValues( [ value ], true )[0];
-	// }
-
-	// const getValue = ( value ) => {
-	// 	return mapValues( [ value ], false )[0];
-	// }
-
-	// const mapValues = ( values, reverse = false ) => {
-	// 	let mapped = [];
-	// 	let array  = reverse ? reversed : suggestions;
-
-	// 	values.forEach( ( value ) => {
-	// 		mapped.push( value in array ? array[ value ] : value );
-	// 	});
-
-	// 	return mapped;
-	// }
-
 	return (
 		<>
 			<BlockControls group="block">
@@ -190,88 +120,51 @@ export default function Edit({ attributes, setAttributes }) {
 						`}
 					</style>
 					<h2 className="column-widths-heading">{ __( 'Column Width(s)' ) }</h2>
-					<ReactMultiSelectDuplicate
-						key="columnsLg"
-						options={ options }
-						value={ columnsLg }
-						onChange={ ( values ) => {
-							setAttributes( { columnsLg: values } );
-						}}
-						onCreateOption={ ( value ) => {
-							setAttributes( { columnsLg: columnsLg } );
-						}}
-					/>
-					{/* <ReactMultiSelectDuplicate
-						key="columnsMd"
-						options={ options }
-						onChange={ ( values ) => {
-							setAttributes( { columnsMd: values } );
-						}}
-					/>
-					<ReactMultiSelectDuplicate
-						key="columnsSm"
-						options={ options }
-						onChange={ ( values ) => {
-							setAttributes( { columnsSm: values } );
-						}}
-					/>
-					<ReactMultiSelectDuplicate
-						key="columnsXs"
-						options={ options }
-						onChange={ ( values ) => {
-							setAttributes( { columnsXs: values } );
-						}}
-					/> */}
-					{/* <FormTokenField
-						__experimentalAutoSelectFirstMatch
-						__experimentalExpandOnFocus
-						__experimentalValidateInput={ isValue }
-						label={ __( 'Desktop' ) }
-						value={ columnsLg }
-						suggestions={ getSuggestions( columnsLg ) }
-						displayTransform={ getValue }
-						saveTransform={ getKey }
-						onChange={ ( values ) => {
-							setAttributes( { columnsLg: values } );
-						}}
-					/> */}
-					{/* <FormTokenField
-						__experimentalAutoSelectFirstMatch
-						__experimentalExpandOnFocus
-						__experimentalValidateInput={ isValue }
-						label={ __( 'Large Tablet' ) }
-						value={ columnsMd }
-						suggestions={ getSuggestions( columnsMd ) }
-						displayTransform={ getValue }
-						saveTransform={ getKey }
-						multiple={ true }
-						onChange={ ( values ) => {
-							setAttributes( { columnsMd: values } );
-						}}
-					/> */}
-					{/* <FormTokenField
-						__experimentalAutoSelectFirstMatch
-						__experimentalExpandOnFocus
-						key="columnsSm"
-						label={ __( 'Small Tablet' ) }
-						value={ mapValues( columnsSm, false ) }
-						suggestions={ Object.values( suggestions ) }
-						onChange={ ( values ) => {
-							setAttributes( { columnsSm: mapValues( values, true ) } );
-						}}
-					/> */}
-					{/* <FormTokenField
-						__experimentalAutoSelectFirstMatch
-						__experimentalExpandOnFocus
-						key="columnsXs"
+					<BaseControl label={ __( 'Desktop' ) }>
+						{/* <p>{ __( 'Desktop' ) }</p> */}
+						<MaiMultiSelectDuplicate
+							key="columnsLg"
+							options={ options }
+							value={ columnsLg }
+							onChange={ ( values ) => {
+								setAttributes( { columnsLg: values } );
+							}}
+							onCreateOption={ ( value ) => {
+								setAttributes( { columnsLg: columnsLg } );
+							}}
+						/>
+					</BaseControl>
+					<BaseControl label={ __( 'Large Tablet' ) }>
+						<MaiMultiSelectDuplicate
+							key="columnsMd"
+							options={ options }
+							onChange={ ( values ) => {
+								setAttributes( { columnsMd: values } );
+							}}
+						/>
+					</BaseControl>
+					<BaseControl label={ __( 'Small Tablet' ) }>
+						<MaiMultiSelectDuplicate
+							key="columnsSm"
+							options={ options }
+							onChange={ ( values ) => {
+								setAttributes( { columnsSm: values } );
+							}}
+						/>
+					</BaseControl>
+					<BaseControl
 						label={ __( 'Mobile' ) }
-						value={ mapValues( columnsXs, false ) }
-						suggestions={ Object.values( suggestions ) }
-						onChange={ ( values ) => {
-							setAttributes( { columnsXs: mapValues( values, true ) } );
-						}}
-					/> */}
-					<p>{ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }</p>
+						help={ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }
+					>
+						<MaiMultiSelectDuplicate
+							key="columnsXs"
+							options={ options }
+							onChange={ ( values ) => {
+								setAttributes( { columnsXs: values } );
+							}}
+						/>
+					</BaseControl>
+					{/* <p>{ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }</p> */}
 				</PanelBody>
 			</InspectorControls>
 			<div { ...innerBlocksProps } />

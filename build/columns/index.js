@@ -2293,77 +2293,6 @@ function Edit({
     value: 'fill',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fill Space')
   }];
-
-  // const suggestions = {
-  // 	'auto': __( 'Equal Widths' ),
-  // 	'1:4': __( '1/4' ),
-  // 	'1:3': __( '1/3' ),
-  // 	'1:2': __( '1/2' ),
-  // 	'2:3': __( '2/3' ),
-  // 	'3:4': __( '3/4' ),
-  // 	'fit': __( 'Fit Content' ),
-  // 	'fill': __( 'Fill Space' ),
-  // };
-
-  // const reversed = Object.entries( suggestions ).reduce(
-  // 	( acc, [key, value] ) => {
-  // 		acc[value] = key;
-  // 		return acc;
-  // 	},
-  // 	{}
-  // );
-
-  // const getSuggestions = ( values ) => {
-  // 	if ( values.includes( 'auto' ) ) {
-  // 		return [];
-  // 	}
-
-  // 	return Object.values( suggestions );
-  // }
-
-  // const getKey = ( value ) => {
-  // 	// const handleChange = ( changedOptions ) => {
-  // 	// 	const newOptions = changedOptions.map( op => ( { ...op, value: Math.random() * Math.random() } ) );
-
-  // 	// 	setSelectOption( newOptions );
-
-  // 	// 	if ( onChange ) {
-  // 	// 		onChange( newOptions.map( ( obj ) => obj.actualValue ) );
-  // 	// 	}
-  // 	// };
-
-  // 	// reversed.map( op => ({
-  // 	// 	...op,
-  // 	// 	actualValue: op.value,
-  // 	// 	value: Math.random() * Math.random()
-  // 	// }));
-
-  // 	// console.log( mapValues( [ value ], true )[0] );
-
-  // 	value = value.replace( ':', '/' );
-
-  // 	if ( isValue( value ) ) {
-  // 		return value;
-  // 	}
-
-  // 	return mapValues( [ value ], true )[0];
-  // }
-
-  // const getValue = ( value ) => {
-  // 	return mapValues( [ value ], false )[0];
-  // }
-
-  // const mapValues = ( values, reverse = false ) => {
-  // 	let mapped = [];
-  // 	let array  = reverse ? reversed : suggestions;
-
-  // 	values.forEach( ( value ) => {
-  // 		mapped.push( value in array ? array[ value ] : value );
-  // 	});
-
-  // 	return mapped;
-  // }
-
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.JustifyContentControl, {
@@ -2391,7 +2320,9 @@ function Edit({
 							}
 						`), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     className: "column-widths-heading"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Width(s)')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Width(s)')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Desktop')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "columnsLg",
     options: options,
     value: columnsLg,
@@ -2405,7 +2336,38 @@ function Edit({
         columnsLg: columnsLg
       });
     }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.')))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Large Tablet')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    key: "columnsMd",
+    options: options,
+    onChange: values => {
+      setAttributes({
+        columnsMd: values
+      });
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Small Tablet')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    key: "columnsSm",
+    options: options,
+    onChange: values => {
+      setAttributes({
+        columnsSm: values
+      });
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Mobile'),
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    key: "columnsXs",
+    options: options,
+    onChange: values => {
+      setAttributes({
+        columnsXs: values
+      });
+    }
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...innerBlocksProps
   }));
 }
@@ -2569,16 +2531,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_select_creatable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select/creatable */ "./node_modules/react-select/creatable/dist/react-select-creatable.esm.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_select_creatable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select/creatable */ "./node_modules/react-select/creatable/dist/react-select-creatable.esm.js");
+
+/**
+ * Retrieves the translation of text.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ */
 
 
 // import Select from "react-select";
 
-const isValue = value => {
-  // value = mapValues( [ value ], true )[0];
 
+/**
+ * Make sure a value is valid.
+ *
+ * @param {string} value
+ *
+ * @returns bool
+ */
+const isValue = value => {
   const validStrings = ['auto', 'fill', 'full'];
 
   // It's an allowed predefined value.
@@ -2596,10 +2572,26 @@ const isValue = value => {
     return true;
   }
 };
+
+/**
+ * If a value is a percentage.
+ *
+ * @param {string} value
+ *
+ * @returns bool
+ */
 const isPercent = value => {
   const regex = /^\d+(\.\d+)?%$/;
   return regex.test(value);
 };
+
+/**
+ * If a value is a fraction.
+ *
+ * @param {string} value
+ *
+ * @returns bool
+ */
 const isFraction = value => {
   // Split the string into parts based on the '/' character.
   const parts = value.split('/');
@@ -2615,22 +2607,22 @@ const isFraction = value => {
 
   // Bail if either parts are not valid integers.
   if (isNaN(numerator) || isNaN(denominator)) {
-    console.log(__('Numerator or denominator is not an integer.'));
+    // console.log( __( 'Numerator or denominator is not an integer.' ) );
     return false;
   }
 
   // Bail if numerator is larger than denominator.
   if (numerator > denominator) {
-    console.log(__('Numerator is larger than denominator.'));
+    // console.log( __( 'Numerator is larger than denominator.' ) );
     return false;
   }
   return true;
 };
-const ReactMultiSelectDuplicate = ({
+const MaiMultiSelectDuplicate = ({
   options = [],
   onChange = null
 }) => {
-  const [selectedOptions, setSelectOption] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [selectedOptions, setSelectOption] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const handleChange = changedOptions => {
     const newOptions = changedOptions.map(op => ({
       ...op,
@@ -2651,7 +2643,7 @@ const ReactMultiSelectDuplicate = ({
     setSelectOption(newOptions);
     onChange(newOptions.map(obj => obj.actualValue));
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_3__["default"], {
     isMulti: true,
     hideSelectedOptions: false
     // isClearable={ true }
@@ -2669,7 +2661,7 @@ const ReactMultiSelectDuplicate = ({
     }
   });
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ReactMultiSelectDuplicate);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MaiMultiSelectDuplicate);
 
 /***/ }),
 

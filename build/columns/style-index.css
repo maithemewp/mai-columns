@@ -18,6 +18,7 @@
 
 .jivedig-column {
   flex: var(--flex);
+  margin: 0;
   padding: 20px;
   background-color: white;
   border: 1px dashed blue;
