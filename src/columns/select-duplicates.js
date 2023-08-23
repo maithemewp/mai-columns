@@ -172,11 +172,12 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 		<CreatableSelect
 			isMulti
 			hideSelectedOptions={ false }
-			// isClearable={ true }
+			isClearable={ true }
 			value={ selectedOptions }
 			onChange={ handleChange }
 			onCreateOption={ handleCreate }
 			options={ options.map( op => ( { ...op, actualValue: op.value, value: Math.random() * Math.random() } ) ) }
+			components={ { DropdownIndicator:() => null, IndicatorSeparator:() => null } }
 			isValidNewOption={ isValid }
 		/>
 	);

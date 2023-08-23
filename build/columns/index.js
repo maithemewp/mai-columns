@@ -2726,9 +2726,8 @@ const MaiMultiSelectDuplicate = ({
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_3__["default"], {
     isMulti: true,
-    hideSelectedOptions: false
-    // isClearable={ true }
-    ,
+    hideSelectedOptions: false,
+    isClearable: true,
     value: selectedOptions,
     onChange: handleChange,
     onCreateOption: handleCreate,
@@ -2737,6 +2736,10 @@ const MaiMultiSelectDuplicate = ({
       actualValue: op.value,
       value: Math.random() * Math.random()
     })),
+    components: {
+      DropdownIndicator: () => null,
+      IndicatorSeparator: () => null
+    },
     isValidNewOption: isValid
   });
 };
