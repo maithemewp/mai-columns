@@ -120,7 +120,6 @@ export default function Edit({ attributes, setAttributes }) {
 					</style>
 					<h2 className="column-widths-heading">{ __( 'Column Width(s)' ) }</h2>
 					<BaseControl label={ __( 'Desktop' ) }>
-						{/* <p>{ __( 'Desktop' ) }</p> */}
 						<MaiMultiSelectDuplicate
 							key="columnsLg"
 							options={ options }
@@ -175,7 +174,6 @@ export default function Edit({ attributes, setAttributes }) {
 							}}
 						/>
 					</BaseControl>
-					{/* <p>{ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }</p> */}
 				</PanelBody>
 			</InspectorControls>
 			<div { ...innerBlocksProps } />
