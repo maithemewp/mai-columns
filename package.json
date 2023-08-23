@@ -26,6 +26,9 @@
 	},
 	"dependencies": {
 		"@10up/block-components": "^1.15.13",
-		"@wordpress/icons": "^9.29.0"
+		"@wordpress/icons": "^9.29.0",
+		"@wordpress/server-side-render": "^4.17.0",
+		"react-select": "^5.7.4",
+		"tom-select": "^2.2.2"
 	}
 }

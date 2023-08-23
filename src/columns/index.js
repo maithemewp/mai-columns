@@ -18,6 +18,7 @@ import './style.scss';
  * Internal dependencies
  */
 import Edit from './edit';
+import Save from './save';
 import metadata from './block.json';
 
 /**
@@ -30,4 +31,23 @@ registerBlockType( metadata.name, {
 	 * @see ./edit.js
 	 */
 	edit: Edit,
+	/**
+	 * @see ./save.js
+	 */
+	save: Save,
 } );
+
+
+// document.querySelectorAll( '.mai-tom-select .components-text-control__input"' ).forEach( (el) => {
+// 	// console.log( 'we here?' );
+// 	// console.log( el );
+// 	new TomSelect( el,
+// 		{
+// 			create: true,
+// 			duplicates: true,
+// 			hideSelected: false,
+// 			plugins: ['drag_drop', 'remove_button'],
+// 			// plugins: ['remove_button'],
+// 		}
+// 	);
+// });

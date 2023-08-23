@@ -1,0 +1,1 @@
+{"version":3,"file":"columns/view.js","mappings":";;;;;AAAA;AACAA,OAAO,CAACC,GAAG,CAAC,oDAAoD,CAAC;AACjE,8B","sources":["webpack://mai-rows/./src/columns/view.js"],"sourcesContent":["/* eslint-disable no-console */\nconsole.log(\"Hello World! (from create-block-mai-columns block)\");\n/* eslint-enable no-console */\n"],"names":["console","log"],"sourceRoot":""}
