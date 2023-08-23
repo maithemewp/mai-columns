@@ -42,7 +42,6 @@ import './editor.scss';
  */
 export default function Edit({ attributes, setAttributes }) {
 	const { justifyContent, alignItems, columnsLg, columnsMd, columnsSm, columnsXs } = attributes;
-
 	const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
@@ -130,7 +129,7 @@ export default function Edit({ attributes, setAttributes }) {
 								setAttributes( { columnsLg: values } );
 							}}
 							onCreateOption={ ( value ) => {
-								setAttributes( { columnsLg: columnsLg } );
+								setAttributes( { columnsLg: [ ...columnsLg, value ] } );
 							}}
 						/>
 					</BaseControl>
@@ -138,8 +137,12 @@ export default function Edit({ attributes, setAttributes }) {
 						<MaiMultiSelectDuplicate
 							key="columnsMd"
 							options={ options }
+							value={ columnsMd }
 							onChange={ ( values ) => {
 								setAttributes( { columnsMd: values } );
+							}}
+							onCreateOption={ ( value ) => {
+								setAttributes( { columnsMd: [ ...columnsMd, value ] } );
 							}}
 						/>
 					</BaseControl>
@@ -147,8 +150,12 @@ export default function Edit({ attributes, setAttributes }) {
 						<MaiMultiSelectDuplicate
 							key="columnsSm"
 							options={ options }
+							value={ columnsSm }
 							onChange={ ( values ) => {
 								setAttributes( { columnsSm: values } );
+							}}
+							onCreateOption={ ( value ) => {
+								setAttributes( { columnsSm: [ ...columnsSm, value ] } );
 							}}
 						/>
 					</BaseControl>
@@ -159,8 +166,12 @@ export default function Edit({ attributes, setAttributes }) {
 						<MaiMultiSelectDuplicate
 							key="columnsXs"
 							options={ options }
+							value={ columnsXs }
 							onChange={ ( values ) => {
 								setAttributes( { columnsXs: values } );
+							}}
+							onCreateOption={ ( value ) => {
+								setAttributes( { columnsXs: [ ...columnsXs, value ] } );
 							}}
 						/>
 					</BaseControl>
