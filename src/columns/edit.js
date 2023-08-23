@@ -108,17 +108,7 @@ export default function Edit({ attributes, setAttributes }) {
 			</BlockControls>
 			<InspectorControls key="Columns">
 				<PanelBody>
-					<style>
-						{`
-							.column-widths-heading ~ .components-form-token-field:not(:first-of-type) .components-form-token-field__input-container {
-								margin-bottom: 16px;
-							}
-							.column-widths-heading ~ .components-form-token-field:not(:first-of-type) .components-form-token-field__help {
-								display: none;
-							}
-						`}
-					</style>
-					<h2 className="column-widths-heading">{ __( 'Column Width(s)' ) }</h2>
+					<h2>{ __( 'Column Width(s)' ) }</h2>
 					<BaseControl label={ __( 'Desktop' ) }>
 						<MaiMultiSelectDuplicate
 							key="columnsLg"

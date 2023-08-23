@@ -2311,16 +2311,7 @@ function Edit({
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
     key: "Columns"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", null, `
-							.column-widths-heading ~ .components-form-token-field:not(:first-of-type) .components-form-token-field__input-container {
-								margin-bottom: 16px;
-							}
-							.column-widths-heading ~ .components-form-token-field:not(:first-of-type) .components-form-token-field__help {
-								display: none;
-							}
-						`), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
-    className: "column-widths-heading"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Width(s)')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Width(s)')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Desktop')
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "columnsLg",
