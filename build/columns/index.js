@@ -2296,6 +2296,12 @@ function Edit({
     value: 'fill',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fill Space')
   }];
+  const mapValues = values => {
+    return columnsLg.map(value => {
+      const option = options.find(opt => opt.value === value);
+      return option ? option.label : value;
+    });
+  };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.JustifyContentControl, {
@@ -2319,7 +2325,7 @@ function Edit({
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "columnsLg",
     options: options,
-    value: columnsLg,
+    value: mapValues(columnsLg),
     onChange: values => {
       setAttributes({
         columnsLg: values
@@ -2335,7 +2341,7 @@ function Edit({
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "columnsMd",
     options: options,
-    value: columnsMd,
+    value: mapValues(columnsMd),
     onChange: values => {
       setAttributes({
         columnsMd: values
@@ -2351,7 +2357,7 @@ function Edit({
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "columnsSm",
     options: options,
-    value: columnsSm,
+    value: mapValues(columnsSm),
     onChange: values => {
       setAttributes({
         columnsSm: values
@@ -2368,7 +2374,7 @@ function Edit({
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "columnsXs",
     options: options,
-    value: columnsXs,
+    value: mapValues(columnsXs),
     onChange: values => {
       setAttributes({
         columnsXs: values

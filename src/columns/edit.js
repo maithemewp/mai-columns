@@ -94,6 +94,13 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 	];
 
+	const mapValues = ( values ) => {
+		return columnsLg.map( value => {
+			const option = options.find(opt => opt.value === value);
+			return option ? option.label : value;
+		});
+	}
+
 	return (
 		<>
 			<BlockControls group="block">
@@ -117,7 +124,7 @@ export default function Edit({ attributes, setAttributes }) {
 						<MaiMultiSelectDuplicate
 							key="columnsLg"
 							options={ options }
-							value={ columnsLg }
+							value={ mapValues( columnsLg ) }
 							onChange={ ( values ) => {
 								setAttributes( { columnsLg: values } );
 							}}
@@ -130,7 +137,7 @@ export default function Edit({ attributes, setAttributes }) {
 						<MaiMultiSelectDuplicate
 							key="columnsMd"
 							options={ options }
-							value={ columnsMd }
+							value={ mapValues( columnsMd ) }
 							onChange={ ( values ) => {
 								setAttributes( { columnsMd: values } );
 							}}
@@ -143,7 +150,7 @@ export default function Edit({ attributes, setAttributes }) {
 						<MaiMultiSelectDuplicate
 							key="columnsSm"
 							options={ options }
-							value={ columnsSm }
+							value={ mapValues( columnsSm ) }
 							onChange={ ( values ) => {
 								setAttributes( { columnsSm: values } );
 							}}
@@ -159,7 +166,7 @@ export default function Edit({ attributes, setAttributes }) {
 						<MaiMultiSelectDuplicate
 							key="columnsXs"
 							options={ options }
-							value={ columnsXs }
+							value={ mapValues( columnsXs ) }
 							onChange={ ( values ) => {
 								setAttributes( { columnsXs: values } );
 							}}
