@@ -2273,19 +2273,22 @@ function Edit({
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Equal Widths')
   }, {
     value: '1/4',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('1/4')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('25%')
   }, {
     value: '1/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('1/3')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('33%')
   }, {
     value: '1/2',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('1/2')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('50%')
   }, {
     value: '2/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('2/3')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('66%')
   }, {
     value: '3/4',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('3/4')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('75%')
+  }, {
+    value: '1/1',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('100%')
   }, {
     value: 'fit',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fit Content')

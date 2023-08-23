@@ -62,23 +62,27 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 		{
 			value: '1/4',
-			label: __( '1/4' ),
+			label: __( '25%' ),
 		},
 		{
 			value: '1/3',
-			label: __( '1/3' ),
+			label: __( '33%' ),
 		},
 		{
 			value: '1/2',
-			label: __( '1/2' ),
+			label: __( '50%' ),
 		},
 		{
 			value: '2/3',
-			label: __( '2/3' ),
+			label: __( '66%' ),
 		},
 		{
 			value: '3/4',
-			label: __( '3/4' ),
+			label: __( '75%' ),
+		},
+		{
+			value: '1/1',
+			label: __( '100%' ),
 		},
 		{
 			value: 'fit',
