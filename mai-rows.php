@@ -41,20 +41,25 @@ function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
 	// ray( $attributes, $content, $block );
 	// ray( $block->context, $content );
 
-	return sprintf( '<div class="jivedig-columns">%s</div>', $content );
+
+	// ray( $attributes );
+	// ray( $content );
+	// ray( $block->context );
+
+	// return sprintf( '<div class="jivedig-columns">%s</div>', $content );
 
 	static $i = 0;
 
 	$sizes = [
+		'xl' => $attributes['columnsXl'],
 		'lg' => $attributes['columnsLg'],
 		'md' => $attributes['columnsMd'],
 		'sm' => $attributes['columnsSm'],
-		'xs' => $attributes['columnsXs'],
 	];
 
 	$tags = new WP_HTML_Tag_Processor( $content );
 
-	while ( $tags->next_tag( [ 'tag_name' => 'div', 'class_name' => 'wp-block-mai-column' ] ) ) {
+	while ( $tags->next_tag( [ 'tag_name' => 'div', 'class_name' => 'jivedig-column' ] ) ) {
 		$style = (string) $tags->get_attribute( 'style' );
 
 		foreach ( $sizes as $break => $columns ) {
@@ -62,12 +67,7 @@ function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
 			$grow    = null;
 			$shrink  = null;
 			$size    = $columns ? jivedig_get_index_value_from_array( $i, $columns, $default ) : $default;
-
-			// if ( 'equal' === $size ) {
-				// $style .= sprintf( '--columns-%s:%s;', $break, 'something' );
-			// }
-
-			$style .= jivedig_columns_get_flex( $break, $size );
+			$style  .= jivedig_columns_get_flex( $break, $size );
 		}
 
 		$i++;
@@ -75,14 +75,17 @@ function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
 		$tags->set_attribute( 'style', $style );
 	}
 
-	return $tags->get_updated_html();
+	$content = $tags->get_updated_html();
 
-	return $content;
+	return sprintf( '<div class="jivedig-columns jivedig-okay">%s</div>', $content );
 }
 
 function jivedig_mai_do_column_block( $attributes, $content, $block ) {
+
+	// ray( $block->context );
+
 	// ray( $content );
-	return sprintf( '<div class="jivedig-column" data-okay="okayyyy">%s</div>', $content );
+	return sprintf( '<div class="jivedig-column" style="--testing:25%%;" data-okay="okayyyy">%s</div>', $content );
 }
 
 function jivedig_is_fraction( $string ) {
@@ -162,7 +165,9 @@ function jivedig_columns_get_flex_basis( string $size ) {
 	// Set columns.
 	if ( jivedig_is_fraction( $size ) ) {
 		$all[ $size ] = sprintf( 'calc(100%% * %s)', $size );
-	} else {
+	}
+	// Use raw value
+	else {
 		$all[ $size ] =  $size;
 	}
 

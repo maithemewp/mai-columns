@@ -13,11 +13,9 @@ import { __ } from '@wordpress/i18n';
  */
 import { InspectorControls, useBlockProps, useInnerBlocksProps, BlockControls, JustifyContentControl, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, BaseControl, TextControl, FormTokenField } from '@wordpress/components';
-import { useState } from '@wordpress/element';
-import ServerSideRender from '@wordpress/server-side-render';
-// import Select from 'react-select'
+// import { useState } from '@wordpress/element';
+// import { useSelect } from '@wordpress/data';
 import MaiMultiSelectDuplicate from './select-duplicates';
-// import { Repeater } from '@10up/block-components';
 import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
 // TODO: https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/columns/edit.js
@@ -30,8 +28,6 @@ import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from 
  */
 import './editor.scss';
 
-// import './tom-select.js';
-
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -41,13 +37,13 @@ import './editor.scss';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { justifyContent, alignItems, columnsLg, columnsMd, columnsSm, columnsXs } = attributes;
+	const { clientId, justifyContent, alignItems, columnsXl, columnsLg, columnsMd, columnsSm } = attributes;
 	const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
 			allowedBlocks: [ 'mai/column' ],
-			orientation: "horizontal",
+			orientation: 'horizontal',
 			template: [
 				[ 'mai/column' ],
 				[ 'mai/column' ],
@@ -66,7 +62,7 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 		{
 			value: '1/3',
-			label: __( '33%' ),
+			label: __( '33.33%' ),
 		},
 		{
 			value: '1/2',
@@ -74,7 +70,7 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 		{
 			value: '2/3',
-			label: __( '66%' ),
+			label: __( '66.66%' ),
 		},
 		{
 			value: '3/4',
@@ -94,12 +90,31 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 	];
 
-	const mapValues = ( values ) => {
+	const mapValuesToLabels = ( values ) => {
 		return values.map( value => {
-			const option = options.find(opt => opt.value === value);
+			const option = options.find( opt => opt.value === value );
 			return option ? option.label : value;
 		});
 	}
+
+	const mapLabelsToValues = ( values ) => {
+		return values.map( value => {
+			const option = options.find( opt => opt.label === value );
+			return option ? option.value : value;
+		});
+	}
+
+	// console.log('Client ID:', clientId);
+
+
+	// // Get innerBlocks using useSelect
+	// const innerBlocks = useSelect(
+	//   (select) => select(blockEditorStore).getBlock(clientId).innerBlocks,
+	// );
+
+	// // Handle innerBlocks here
+	// console.log(innerBlocks); // This will log all the inner blocks on your browser console
+
 
 	return (
 		<>
@@ -122,40 +137,40 @@ export default function Edit({ attributes, setAttributes }) {
 					<h2>{ __( 'Column Width(s)' ) }</h2>
 					<BaseControl label={ __( 'Desktop' ) }>
 						<MaiMultiSelectDuplicate
+							key="columnsXl"
+							options={ options }
+							value={ mapValuesToLabels( columnsXl ) }
+							onChange={ ( values ) => {
+								setAttributes( { columnsXl: mapLabelsToValues( values ) } );
+							}}
+							onCreateOption={ ( value ) => {
+								setAttributes( { columnsXl: [ ...columnsXl, value ] } );
+							}}
+						/>
+					</BaseControl>
+					<BaseControl label={ __( 'Large Tablet' ) }>
+						<MaiMultiSelectDuplicate
 							key="columnsLg"
 							options={ options }
-							value={ mapValues( columnsLg ) }
+							value={ mapValuesToLabels( columnsLg ) }
 							onChange={ ( values ) => {
-								setAttributes( { columnsLg: values } );
+								setAttributes( { columnsLg: mapLabelsToValues( values ) } );
 							}}
 							onCreateOption={ ( value ) => {
 								setAttributes( { columnsLg: [ ...columnsLg, value ] } );
 							}}
 						/>
 					</BaseControl>
-					<BaseControl label={ __( 'Large Tablet' ) }>
+					<BaseControl label={ __( 'Small Tablet' ) }>
 						<MaiMultiSelectDuplicate
 							key="columnsMd"
 							options={ options }
-							value={ mapValues( columnsMd ) }
+							value={ mapValuesToLabels( columnsMd ) }
 							onChange={ ( values ) => {
-								setAttributes( { columnsMd: values } );
+								setAttributes( { columnsMd: mapLabelsToValues( values ) } );
 							}}
 							onCreateOption={ ( value ) => {
 								setAttributes( { columnsMd: [ ...columnsMd, value ] } );
-							}}
-						/>
-					</BaseControl>
-					<BaseControl label={ __( 'Small Tablet' ) }>
-						<MaiMultiSelectDuplicate
-							key="columnsSm"
-							options={ options }
-							value={ mapValues( columnsSm ) }
-							onChange={ ( values ) => {
-								setAttributes( { columnsSm: values } );
-							}}
-							onCreateOption={ ( value ) => {
-								setAttributes( { columnsSm: [ ...columnsSm, value ] } );
 							}}
 						/>
 					</BaseControl>
@@ -164,20 +179,21 @@ export default function Edit({ attributes, setAttributes }) {
 						help={ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }
 					>
 						<MaiMultiSelectDuplicate
-							key="columnsXs"
+							key="columnsSm"
 							options={ options }
-							value={ mapValues( columnsXs ) }
+							value={ mapValuesToLabels( columnsSm ) }
 							onChange={ ( values ) => {
-								setAttributes( { columnsXs: values } );
+								setAttributes( { columnsSm: mapLabelsToValues( values ) } );
 							}}
 							onCreateOption={ ( value ) => {
-								setAttributes( { columnsXs: [ ...columnsXs, value ] } );
+								setAttributes( { columnsSm: [ ...columnsSm, value ] } );
 							}}
 						/>
 					</BaseControl>
 				</PanelBody>
 			</InspectorControls>
 			<div { ...innerBlocksProps } />
+			{/* <div {...innerBlocksProps} style={styleAttributes} /> */}
 		</>
 	);
 }

@@ -2201,10 +2201,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/server-side-render */ "@wordpress/server-side-render");
-/* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _select_duplicates__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./select-duplicates */ "./src/columns/select-duplicates.js");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/columns/editor.scss");
+/* harmony import */ var _select_duplicates__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select-duplicates */ "./src/columns/select-duplicates.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/columns/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -2221,11 +2219,9 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+// import { useState } from '@wordpress/element';
+// import { useSelect } from '@wordpress/data';
 
-
-// import Select from 'react-select'
-
-// import { Repeater } from '@10up/block-components';
 
 
 // TODO: https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/columns/edit.js
@@ -2237,8 +2233,6 @@ __webpack_require__.r(__webpack_exports__);
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 
-
-// import './tom-select.js';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -2253,19 +2247,20 @@ function Edit({
   setAttributes
 }) {
   const {
+    clientId,
     justifyContent,
     alignItems,
+    columnsXl,
     columnsLg,
     columnsMd,
-    columnsSm,
-    columnsXs
+    columnsSm
   } = attributes;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
     className: 'jivedig-columns'
   });
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
     allowedBlocks: ['mai/column'],
-    orientation: "horizontal",
+    orientation: 'horizontal',
     template: [['mai/column'], ['mai/column']]
   });
   const options = [{
@@ -2276,13 +2271,13 @@ function Edit({
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('25%')
   }, {
     value: '1/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('33%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('33.33%')
   }, {
     value: '1/2',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('50%')
   }, {
     value: '2/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('66%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('66.66%')
   }, {
     value: '3/4',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('75%')
@@ -2296,12 +2291,29 @@ function Edit({
     value: 'fill',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fill Space')
   }];
-  const mapValues = values => {
+  const mapValuesToLabels = values => {
     return values.map(value => {
       const option = options.find(opt => opt.value === value);
       return option ? option.label : value;
     });
   };
+  const mapLabelsToValues = values => {
+    return values.map(value => {
+      const option = options.find(opt => opt.label === value);
+      return option ? option.value : value;
+    });
+  };
+
+  // console.log('Client ID:', clientId);
+
+  // // Get innerBlocks using useSelect
+  // const innerBlocks = useSelect(
+  //   (select) => select(blockEditorStore).getBlock(clientId).innerBlocks,
+  // );
+
+  // // Handle innerBlocks here
+  // console.log(innerBlocks); // This will log all the inner blocks on your browser console
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.JustifyContentControl, {
@@ -2322,13 +2334,29 @@ function Edit({
     key: "Columns"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Width(s)')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Desktop')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    key: "columnsLg",
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    key: "columnsXl",
     options: options,
-    value: mapValues(columnsLg),
+    value: mapValuesToLabels(columnsXl),
     onChange: values => {
       setAttributes({
-        columnsLg: values
+        columnsXl: mapLabelsToValues(values)
+      });
+    },
+    onCreateOption: value => {
+      setAttributes({
+        columnsXl: [...columnsXl, value]
+      });
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Large Tablet')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    key: "columnsLg",
+    options: options,
+    value: mapValuesToLabels(columnsLg),
+    onChange: values => {
+      setAttributes({
+        columnsLg: mapLabelsToValues(values)
       });
     },
     onCreateOption: value => {
@@ -2337,14 +2365,14 @@ function Edit({
       });
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Large Tablet')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Small Tablet')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: "columnsMd",
     options: options,
-    value: mapValues(columnsMd),
+    value: mapValuesToLabels(columnsMd),
     onChange: values => {
       setAttributes({
-        columnsMd: values
+        columnsMd: mapLabelsToValues(values)
       });
     },
     onCreateOption: value => {
@@ -2353,36 +2381,20 @@ function Edit({
       });
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Small Tablet')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Mobile'),
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: "columnsSm",
     options: options,
-    value: mapValues(columnsSm),
+    value: mapValuesToLabels(columnsSm),
     onChange: values => {
       setAttributes({
-        columnsSm: values
+        columnsSm: mapLabelsToValues(values)
       });
     },
     onCreateOption: value => {
       setAttributes({
         columnsSm: [...columnsSm, value]
-      });
-    }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Mobile'),
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    key: "columnsXs",
-    options: options,
-    value: mapValues(columnsXs),
-    onChange: values => {
-      setAttributes({
-        columnsXs: values
-      });
-    },
-    onCreateOption: value => {
-      setAttributes({
-        columnsXs: [...columnsXs, value]
       });
     }
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -2522,7 +2534,8 @@ function save() {
   // const blockProps = useBlockProps.save();
 
   // return (
-  // 	<div { ...blockProps }>
+  // 	// <div { ...blockProps }>
+  // 	<div { ...innerBlocksProps }>
   // 		<InnerBlocks.Content />
   // 	</div>
   // );
@@ -2551,9 +2564,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_select_creatable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select/creatable */ "./node_modules/react-select/creatable/dist/react-select-creatable.esm.js");
+/* harmony import */ var react_select_creatable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select/creatable */ "./node_modules/react-select/creatable/dist/react-select-creatable.esm.js");
 
 /**
  * Retrieves the translation of text.
@@ -2561,6 +2572,8 @@ __webpack_require__.r(__webpack_exports__);
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
 
+
+// import { useState } from "react";
 
 // import Select from "react-select";
 
@@ -2651,8 +2664,9 @@ const MaiMultiSelectDuplicate = ({
     };
   });
 
-  // Initialize the state.
-  const [selectedOptions, setSelectOption] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(valueOptions);
+  // Initialize the states.
+  const [selectedOptions, setSelectOption] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(valueOptions);
+  // const [ styleAttributes, setStyleAttributes ] = useState( {} );
 
   /**
    * This function handles the change event of the `CreatableSelect` component.
@@ -2724,7 +2738,7 @@ const MaiMultiSelectDuplicate = ({
       onCreateOption(inputValue);
     }
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_2__["default"], {
     isMulti: true,
     hideSelectedOptions: false,
     isClearable: true,
@@ -7580,16 +7594,6 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
-/***/ "@wordpress/server-side-render":
-/*!******************************************!*\
-  !*** external ["wp","serverSideRender"] ***!
-  \******************************************/
-/***/ ((module) => {
-
-module.exports = window["wp"]["serverSideRender"];
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js ***!
@@ -11273,7 +11277,7 @@ function combine (array, callback) {
   \********************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"columnsLg":{"type":"array","default":{}},"columnsMd":{"type":"array","default":{}},"columnsSm":{"type":"array","default":{}},"columnsXs":{"type":"array","default":{}}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":true}},"providesContext":{"mai/columnsLg":"columnsLg","mai/columnsMd":"columnsMd","mai/columnsSm":"columnsSm","mai/columnsXs":"columnsXs"},"textdomain":"mai-columns","editorScript":"file:./index.js","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"columnsXl":{"type":"array","default":{}},"columnsLg":{"type":"array","default":{}},"columnsMd":{"type":"array","default":{}},"columnsSm":{"type":"array","default":{}},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":true}},"providesContext":{"mai/columnsLg":"columnsLg","mai/columnsMd":"columnsMd","mai/columnsSm":"columnsSm","mai/columnsXs":"columnsXs"},"textdomain":"mai-columns","editorScript":"file:./index.js","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

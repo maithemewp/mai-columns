@@ -5,7 +5,8 @@
  */
 import { __ } from '@wordpress/i18n';
 
-import { useState } from "react";
+// import { useState } from "react";
+import { useState } from '@wordpress/element';
 // import Select from "react-select";
 import CreatableSelect from 'react-select/creatable';
 import { useMemo } from "@wordpress/element";
@@ -93,8 +94,9 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 		};
 	});
 
-	// Initialize the state.
-	const [ selectedOptions, setSelectOption ] = useState(valueOptions);
+	// Initialize the states.
+	const [ selectedOptions, setSelectOption ]    = useState( valueOptions );
+	// const [ styleAttributes, setStyleAttributes ] = useState( {} );
 
 	/**
 	 * This function handles the change event of the `CreatableSelect` component.
