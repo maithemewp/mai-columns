@@ -2297,7 +2297,7 @@ function Edit({
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fill Space')
   }];
   const mapValues = values => {
-    return columnsLg.map(value => {
+    return values.map(value => {
       const option = options.find(opt => opt.value === value);
       return option ? option.label : value;
     });
@@ -2734,7 +2734,7 @@ const MaiMultiSelectDuplicate = ({
     options: options.map(op => ({
       ...op,
       actualValue: op.value,
-      value: Math.random() * Math.random()
+      value: `${op.value}_${Date.now()}`
     })),
     components: {
       DropdownIndicator: () => null,

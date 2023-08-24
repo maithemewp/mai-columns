@@ -95,7 +95,7 @@ export default function Edit({ attributes, setAttributes }) {
 	];
 
 	const mapValues = ( values ) => {
-		return columnsLg.map( value => {
+		return values.map( value => {
 			const option = options.find(opt => opt.value === value);
 			return option ? option.label : value;
 		});
