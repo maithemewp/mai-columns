@@ -2321,7 +2321,7 @@ function Edit({
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
     key: "Columns"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Width(s)')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.')
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Set just one value if you want all columns to be the same width. Leave empty to have equal columns based on the number of items.')
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Desktop')
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -2372,7 +2372,6 @@ function Edit({
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Mobile')
-    // help={ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: "columnsSm",
     options: options,

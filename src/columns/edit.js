@@ -124,7 +124,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<PanelBody>
 					<h2>{ __( 'Column Width(s)' ) }</h2>
 					<BaseControl
-						help={ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }
+						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all columns to be the same width. Leave empty to have equal columns based on the number of items.' ) }
 					></BaseControl>
 					<BaseControl label={ __( 'Desktop' ) }>
 						<MaiMultiSelectDuplicate
@@ -165,10 +165,7 @@ export default function Edit({ attributes, setAttributes }) {
 							}}
 						/>
 					</BaseControl>
-					<BaseControl
-						label={ __( 'Mobile' ) }
-						// help={ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }
-					>
+					<BaseControl label={ __( 'Mobile' ) }>
 						<MaiMultiSelectDuplicate
 							key="columnsSm"
 							options={ options }
