@@ -123,6 +123,9 @@ export default function Edit({ attributes, setAttributes }) {
 			<InspectorControls key="Columns">
 				<PanelBody>
 					<h2>{ __( 'Column Width(s)' ) }</h2>
+					<BaseControl
+						help={ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }
+					></BaseControl>
 					<BaseControl label={ __( 'Desktop' ) }>
 						<MaiMultiSelectDuplicate
 							key="columnsXl"
@@ -164,7 +167,7 @@ export default function Edit({ attributes, setAttributes }) {
 					</BaseControl>
 					<BaseControl
 						label={ __( 'Mobile' ) }
-						help={ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }
+						// help={ __( 'Custom arrangements will repeat in the sequence you set here. Only set one value if you want all columns to be the same size.' ) }
 					>
 						<MaiMultiSelectDuplicate
 							key="columnsSm"
