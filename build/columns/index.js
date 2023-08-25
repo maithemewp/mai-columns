@@ -2254,10 +2254,12 @@ function Edit({
   } = attributes;
   // const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
 
-  const options = [{
-    value: 'auto',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Equal Widths')
-  }, {
+  const options = [
+  // {
+  // 	value: 'auto',
+  // 	label: __( 'Equal Widths' ),
+  // },
+  {
     value: '1/4',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('25%')
   }, {
@@ -2567,7 +2569,8 @@ __webpack_require__.r(__webpack_exports__);
 
 // import Select from "react-select";
 
-
+// import { useDraggable } from "@dnd-kit/core";
+// import { SortableContainer, SortableElement, sortableHandle } from 'react-sortable-hoc';
 
 /**
  * Make sure a value is valid.
@@ -2593,6 +2596,7 @@ const isValid = value => {
   if (isFraction(value)) {
     return true;
   }
+  return false;
 };
 
 /**
@@ -2604,7 +2608,10 @@ const isValid = value => {
  */
 const isPercent = value => {
   const regex = /^\d+(\.\d+)?%$/;
-  return regex.test(value);
+  if (regex.test(value)) {
+    return parseFloat(value.replace('%', '')) <= 100;
+  }
+  return false;
 };
 
 /**

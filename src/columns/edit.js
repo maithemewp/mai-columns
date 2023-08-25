@@ -39,10 +39,10 @@ export default function Edit({ attributes, setAttributes }) {
 	// const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
 
 	const options = [
-		{
-			value: 'auto',
-			label: __( 'Equal Widths' ),
-		},
+	// {
+		// 	value: 'auto',
+		// 	label: __( 'Equal Widths' ),
+		// },
 		{
 			value: '1/4',
 			label: __( '25%' ),
@@ -75,6 +75,7 @@ export default function Edit({ attributes, setAttributes }) {
 			value: 'fill',
 			label: __( 'Fill Space' ),
 		},
+
 	];
 
 	const mapValuesToLabels = ( values ) => {
