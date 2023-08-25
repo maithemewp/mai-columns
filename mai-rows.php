@@ -35,52 +35,6 @@ function jivedig_mai_columns_block_init() {
 	);
 }
 
-function getFlex( $size ) {
-	if ( ! $size ) {
-		return '1';
-	}
-
-	switch ( $size ) {
-		case 'auto':
-			return '0 1 0%';
-		case 'fit':
-			return '0 1 auto';
-		case 'fill':
-			return '1 0 0';
-	}
-
-	return '0 1 var(--flex-basis)';
-}
-
-function isFraction( $value ) {
-	return preg_match( '/^\\d+\\/\\d+$/', $value );
-}
-
-function getFraction( $value ) {
-	if ( ! $value ) {
-		return false;
-	}
-
-	if ( in_array( $value, [ 'auto', 'fill', 'full'] ) ) {
-		return false;
-	}
-
-	if ( isFraction( $value ) ) {
-		return $value;
-	}
-
-	// If not a fraction, it's a percentage. Convert to fraction and reduce.
-	$percentage   = floatval( str_replace( '%', '', $value ) );
-	$decimalValue = $percentage / 100;
-	$numerator    = intval( round( $decimalValue * 100 ) );
-	$denominator  = 100;
-	$gcd          = jivedig_get_gcd( $numerator, $denominator );
-	$numerator    = $numerator / $gcd;
-	$denominator  = $denominator / $gcd;
-
-	return "$numerator/$denominator";
-}
-
 function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
 	if ( is_admin() ) {
 		return $content;
@@ -116,8 +70,8 @@ function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
 
 		foreach ( $arrangements as $key => $values ) {
 			$size      = $values ? jivedig_get_index_value_from_array( $i, $values ) : '';
-			$columns[] = sprintf( '--columns-%s:%s', $key, getFraction( $size ) ?: 1 );
-			$flexes[]  = sprintf( '--flex-%s:%s', $key, getFlex( $size ) );
+			$columns[] = sprintf( '--columns-%s:%s', $key, jivedig_get_fraction( $size ) ?: 1 );
+			$flexes[]  = sprintf( '--flex-%s:%s', $key, jivedig_get_flex( $size ) );
 		}
 
 		// Increment.
@@ -126,12 +80,13 @@ function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
 		// Merge.
 		$styles = array_merge( $styles, $columns, $flexes );
 
+		// Set styles attribute.
 		$tags->set_attribute( 'style', implode( ';', $styles ) );
 	}
 
 	$content = $tags->get_updated_html();
 
-	return sprintf( '<div class="jivedig-columns jivedig-okay">%s</div>', $content );
+	return sprintf( '<div class="jivedig-columns">%s</div>', $content );
 }
 
 function jivedig_mai_do_column_block( $attributes, $content, $block ) {
@@ -140,18 +95,6 @@ function jivedig_mai_do_column_block( $attributes, $content, $block ) {
 	}
 
 	return sprintf( '<div class="jivedig-column">%s</div>', $content );
-}
-
-function jivedig_get_gcd( $a, $b ) {
-	if ( 0 === $b ) {
-		return $a;
-	}
-
-	return jivedig_get_gcd( $b, $a % $b );
-}
-
-function jivedig_is_fraction( $string ) {
-	return 1 === preg_match('/^\d+\/\d+$/', $string );
 }
 
 /**
@@ -271,4 +214,58 @@ function jivedig_get_index_value_from_array( $index, $array, $default = null ) {
 	}
 
 	return $array[ $index % count( $array ) ] ?? $default;
+}
+
+function jivedig_get_fraction( $value ) {
+	if ( ! $value ) {
+		return false;
+	}
+
+	if ( in_array( $value, [ 'auto', 'fill', 'full'] ) ) {
+		return false;
+	}
+
+	if ( jivedig_is_fraction( $value ) ) {
+		return $value;
+	}
+
+	// If not a fraction, it's a percentage. Convert to fraction and reduce.
+	$percentage   = floatval( str_replace( '%', '', $value ) );
+	$decimalValue = $percentage / 100;
+	$numerator    = intval( round( $decimalValue * 100 ) );
+	$denominator  = 100;
+	$gcd          = jivedig_get_gcd( $numerator, $denominator );
+	$numerator    = $numerator / $gcd;
+	$denominator  = $denominator / $gcd;
+
+	return "$numerator/$denominator";
+}
+
+function jivedig_is_fraction( $value ) {
+	return preg_match( '/^\\d+\\/\\d+$/', $value );
+}
+
+function jivedig_get_gcd( $a, $b ) {
+	if ( 0 === $b ) {
+		return $a;
+	}
+
+	return jivedig_get_gcd( $b, $a % $b );
+}
+
+function jivedig_get_flex( $size ) {
+	if ( ! $size ) {
+		return '1';
+	}
+
+	switch ( $size ) {
+		case 'auto':
+			return '0 1 0%';
+		case 'fit':
+			return '0 1 auto';
+		case 'fill':
+			return '1 0 0';
+	}
+
+	return '0 1 var(--flex-basis)';
 }
