@@ -10,17 +10,15 @@
 	--row-gap: 1em;
 	display: flex;
 	flex-wrap: wrap;
-	// gap: var(--row-gap) var(--column-gap);
-	// margin-inline: calc(var(--column-gap) * -1);
+	gap: var(--row-gap) var(--column-gap);
 	padding: 40px;
 	background-color: plum;
 }
 
 .jivedig-column {
-	// --flex-basis: calc((100% * var(--columns) - (var(--column-gap) * (1 - var(--columns)))) - 0.025px);
+	--flex-basis: calc((100% * var(--columns) - (var(--column-gap) * (1 - var(--columns)))) - 0.025px);
 	flex: var(--flex);
-	// margin-inline: var(--column-gap);
-	margin: 0;
+	margin: 0 !important;
 	padding: 20px;
 	background-color: white;
 	border: 1px dashed blue;
@@ -30,11 +28,8 @@
 @media only screen and (max-width: 599px) {
 
 	.jivedig-column {
-		--columns: var(--columns-xs, 1);
-		--flex: var(--flex-xs, 1);
-		// flex-grow: var(--flex-grow-xs, 1);
-		// flex-shrink: var(--flex-shrink-xs, 1);
-		// flex-basis: var(--flex-basis-xs, 0%);
+		--columns: var(--columns-sm, 1);
+		--flex: var(--flex-sm, 1);
 	}
 }
 
@@ -42,11 +37,8 @@
 @media only screen and (min-width: 600px) and (max-width: 799px) {
 
 	.jivedig-column {
-		--columns: var(--columns-sm, 1);
-		--flex: var(--flex-sm, 1);
-		// flex-grow: var(--flex-grow-sm, 1);
-		// flex-shrink: var(--flex-shrink-sm, 1);
-		// flex-basis: var(--flex-basis-sm, 0%);
+		--columns: var(--columns-md, 1);
+		--flex: var(--flex-md, 1);
 	}
 }
 
@@ -54,11 +46,8 @@
 @media only screen and (min-width: 800px) and (max-width: 999px) {
 
 	.jivedig-column {
-		--columns: var(--columns-md, 1);
-		--flex: var(--flex-md, 1);
-		// flex-grow: var(--flex-grow-md, 1);
-		// flex-shrink: var(--flex-shrink-md, 1);
-		// flex-basis: var(--flex-basis-md, 0%);
+		--columns: var(--columns-lg, 1);
+		--flex: var(--flex-lg, 1);
 	}
 }
 
@@ -66,10 +55,7 @@
 @media only screen and (min-width: 1000px) {
 
 	.jivedig-column {
-		--columns: var(--columns-lg, 1);
-		--flex: var(--flex-lg, 1);
-		// flex-grow: var(--flex-grow-lg, 1);
-		// flex-shrink: var(--flex-shrink-lg, 1);
-		// flex-basis: var(--flex-basis-lg, 0%);
+		--columns: var(--columns-xl, 1);
+		--flex: var(--flex-xl, 1);
 	}
 }

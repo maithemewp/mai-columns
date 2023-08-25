@@ -2219,10 +2219,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-// import { useState } from '@wordpress/element';
-// import { useSelect } from '@wordpress/data';
 
-
+// import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
 // TODO: https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/columns/edit.js
 
@@ -2247,7 +2245,6 @@ function Edit({
   setAttributes
 }) {
   const {
-    clientId,
     justifyContent,
     alignItems,
     columnsXl,
@@ -2255,14 +2252,8 @@ function Edit({
     columnsMd,
     columnsSm
   } = attributes;
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
-    className: 'jivedig-columns'
-  });
-  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
-    allowedBlocks: ['mai/column'],
-    orientation: 'horizontal',
-    template: [['mai/column'], ['mai/column']]
-  });
+  // const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
+
   const options = [{
     value: 'auto',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Equal Widths')
@@ -2271,13 +2262,13 @@ function Edit({
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('25%')
   }, {
     value: '1/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('33.33%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('33%')
   }, {
     value: '1/2',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('50%')
   }, {
     value: '2/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('66.66%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('66%')
   }, {
     value: '3/4',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('75%')
@@ -2303,17 +2294,14 @@ function Edit({
       return option ? option.value : value;
     });
   };
-
-  // console.log('Client ID:', clientId);
-
-  // // Get innerBlocks using useSelect
-  // const innerBlocks = useSelect(
-  //   (select) => select(blockEditorStore).getBlock(clientId).innerBlocks,
-  // );
-
-  // // Handle innerBlocks here
-  // console.log(innerBlocks); // This will log all the inner blocks on your browser console
-
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
+    className: 'jivedig-columns'
+  });
+  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
+    allowedBlocks: ['mai/column'],
+    orientation: 'horizontal',
+    template: [['mai/column'], ['mai/column']]
+  });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.JustifyContentControl, {
@@ -11277,7 +11265,7 @@ function combine (array, callback) {
   \********************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"columnsXl":{"type":"array","default":{}},"columnsLg":{"type":"array","default":{}},"columnsMd":{"type":"array","default":{}},"columnsSm":{"type":"array","default":{}},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":true}},"providesContext":{"mai/columnsLg":"columnsLg","mai/columnsMd":"columnsMd","mai/columnsSm":"columnsSm","mai/columnsXs":"columnsXs"},"textdomain":"mai-columns","editorScript":"file:./index.js","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"columnsXl":{"type":"array","default":[]},"columnsLg":{"type":"array","default":[]},"columnsMd":{"type":"array","default":["1/1"]},"columnsSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":true}},"providesContext":{"mai/columnsXl":"columnsXl","mai/columnsLg":"columnsLg","mai/columnsMd":"columnsMd","mai/columnsSm":"columnsSm"},"textdomain":"mai-columns","editorScript":"file:./index.js","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

@@ -12,13 +12,15 @@
   --row-gap: 1em;
   display: flex;
   flex-wrap: wrap;
+  gap: var(--row-gap) var(--column-gap);
   padding: 40px;
   background-color: plum;
 }
 
 .jivedig-column {
+  --flex-basis: calc((100% * var(--columns) - (var(--column-gap) * (1 - var(--columns)))) - 0.025px);
   flex: var(--flex);
-  margin: 0;
+  margin: 0 !important;
   padding: 20px;
   background-color: white;
   border: 1px dashed blue;
@@ -27,29 +29,29 @@
 /* SM */
 @media only screen and (max-width: 599px) {
   .jivedig-column {
-    --columns: var(--columns-xs, 1);
-    --flex: var(--flex-xs, 1);
+    --columns: var(--columns-sm, 1);
+    --flex: var(--flex-sm, 1);
   }
 }
 /* MD */
 @media only screen and (min-width: 600px) and (max-width: 799px) {
   .jivedig-column {
-    --columns: var(--columns-sm, 1);
-    --flex: var(--flex-sm, 1);
+    --columns: var(--columns-md, 1);
+    --flex: var(--flex-md, 1);
   }
 }
 /* LG */
 @media only screen and (min-width: 800px) and (max-width: 999px) {
   .jivedig-column {
-    --columns: var(--columns-md, 1);
-    --flex: var(--flex-md, 1);
+    --columns: var(--columns-lg, 1);
+    --flex: var(--flex-lg, 1);
   }
 }
 /* XL */
 @media only screen and (min-width: 1000px) {
   .jivedig-column {
-    --columns: var(--columns-lg, 1);
-    --flex: var(--flex-lg, 1);
+    --columns: var(--columns-xl, 1);
+    --flex: var(--flex-xl, 1);
   }
 }
 

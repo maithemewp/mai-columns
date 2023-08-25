@@ -27,10 +27,10 @@
     }
   },
   "usesContext": [
+    "mai/columnsXl",
     "mai/columnsLg",
     "mai/columnsMd",
-    "mai/columnsSm",
-    "mai/columnsXs"
+    "mai/columnsSm"
   ],
   "textdomain": "mai-columns",
   "editorScript": "file:./index.js",

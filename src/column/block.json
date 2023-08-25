@@ -24,7 +24,7 @@
 			"blockGap": false
 		}
 	},
-	"usesContext": [ "mai/columnsLg", "mai/columnsMd", "mai/columnsSm", "mai/columnsXs" ],
+	"usesContext": [ "mai/columnsXl", "mai/columnsLg", "mai/columnsMd", "mai/columnsSm" ],
 	"textdomain": "mai-columns",
 	"editorScript": "file:./index.js",
 	"viewScript": "file:./view.js"

@@ -27,6 +27,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+// import { useEffect } from 'react';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -38,19 +39,98 @@ __webpack_require__.r(__webpack_exports__);
  */
 function Edit({
   attributes,
+  setAttributes,
   context,
   clientId
 }) {
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)({
-    className: 'jivedig-column'
-  });
-  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)(blockProps);
+  const getIndexOfArray = function (index, array, defaultVal = null) {
+    var _array;
+    if (undefined === array) {
+      return defaultVal;
+    }
+    if (undefined !== array[index]) {
+      return array[index];
+    }
+    if (1 === array.length) {
+      return array[0];
+    }
+    return (_array = array[index % array.length]) !== null && _array !== void 0 ? _array : defaultVal;
+  };
+  const getFlex = size => {
+    if (!size) {
+      return '1';
+    }
+    switch (size) {
+      case 'auto':
+        return '0 1 0%';
+      case 'fit':
+        return '0 1 auto';
+      case 'fill':
+        return '1 0 0';
+    }
+    return '0 1 var(--flex-basis)';
+  };
+  const isFraction = value => /^\d+\/\d+$/.test(value);
+  const getFraction = value => {
+    if (!value) {
+      return false;
+    }
+    if (['equal', 'auto', 'fill', 'full'].includes(value)) {
+      return false;
+    }
+    if (isFraction(value)) {
+      return value;
+    }
+    const percentage = parseFloat(value.replace('%', ''));
+    const decimalValue = percentage / 100;
+    const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+    const numerator = Math.round(decimalValue * 100);
+    const denominator = 100;
+    const divisor = gcd(numerator, denominator);
+    return `${numerator / divisor}/${denominator / divisor}`;
+  };
   const blockIndex = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     const {
       getBlockIndex
     } = select('core/block-editor');
     return getBlockIndex(clientId);
   }, [clientId]);
+  const inlineStyles = {};
+  const arrangements = {};
+  const data = [{
+    break: 'xl',
+    columns: context['mai/columnsXl'],
+    default: ''
+  }, {
+    break: 'lg',
+    columns: context['mai/columnsLg'],
+    default: ''
+  }, {
+    break: 'md',
+    columns: context['mai/columnsMd'],
+    default: ''
+  }, {
+    break: 'sm',
+    columns: context['mai/columnsSm'],
+    default: ''
+  }];
+  data.forEach(item => {
+    arrangements[item.break] = getIndexOfArray(blockIndex, item.columns, item.default);
+  });
+  Object.entries(arrangements).forEach(([key, value]) => {
+    const flex = getFlex(value);
+    const fraction = getFraction(value);
+    inlineStyles[`--flex-${key}`] = flex;
+    if (fraction) {
+      inlineStyles[`--columns-${key}`] = fraction;
+    }
+  });
+  const props = {
+    className: 'jivedig-column',
+    style: inlineStyles
+  };
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(props);
+  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)(blockProps);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...innerBlocksProps
   });
@@ -247,7 +327,7 @@ module.exports = window["wp"]["element"];
   \*******************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/columns"],"version":"0.1.0","title":"Mai Column","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/columnsLg","mai/columnsMd","mai/columnsSm","mai/columnsXs"],"textdomain":"mai-columns","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/columns"],"version":"0.1.0","title":"Mai Column","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/columnsXl","mai/columnsLg","mai/columnsMd","mai/columnsSm"],"textdomain":"mai-columns","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
 
 /***/ })
 

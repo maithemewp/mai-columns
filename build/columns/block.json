@@ -16,19 +16,23 @@
     },
     "columnsXl": {
       "type": "array",
-      "default": {}
+      "default": []
     },
     "columnsLg": {
       "type": "array",
-      "default": {}
+      "default": []
     },
     "columnsMd": {
       "type": "array",
-      "default": {}
+      "default": [
+        "1/1"
+      ]
     },
     "columnsSm": {
       "type": "array",
-      "default": {}
+      "default": [
+        "1/1"
+      ]
     },
     "innerBlocks": {
       "type": "array",
@@ -54,10 +58,10 @@
     }
   },
   "providesContext": {
+    "mai/columnsXl": "columnsXl",
     "mai/columnsLg": "columnsLg",
     "mai/columnsMd": "columnsMd",
-    "mai/columnsSm": "columnsSm",
-    "mai/columnsXs": "columnsXs"
+    "mai/columnsSm": "columnsSm"
   },
   "textdomain": "mai-columns",
   "editorScript": "file:./index.js",

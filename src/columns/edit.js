@@ -13,10 +13,8 @@ import { __ } from '@wordpress/i18n';
  */
 import { InspectorControls, useBlockProps, useInnerBlocksProps, BlockControls, JustifyContentControl, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, BaseControl, TextControl, FormTokenField } from '@wordpress/components';
-// import { useState } from '@wordpress/element';
-// import { useSelect } from '@wordpress/data';
 import MaiMultiSelectDuplicate from './select-duplicates';
-import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
+// import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
 // TODO: https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/columns/edit.js
 
@@ -37,19 +35,8 @@ import './editor.scss';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { clientId, justifyContent, alignItems, columnsXl, columnsLg, columnsMd, columnsSm } = attributes;
-	const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
-	const innerBlocksProps = useInnerBlocksProps(
-		blockProps,
-		{
-			allowedBlocks: [ 'mai/column' ],
-			orientation: 'horizontal',
-			template: [
-				[ 'mai/column' ],
-				[ 'mai/column' ],
-			]
-		}
-	);
+	const { justifyContent, alignItems, columnsXl, columnsLg, columnsMd, columnsSm } = attributes;
+	// const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
 
 	const options = [
 		{
@@ -62,7 +49,7 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 		{
 			value: '1/3',
-			label: __( '33.33%' ),
+			label: __( '33%' ),
 		},
 		{
 			value: '1/2',
@@ -70,7 +57,7 @@ export default function Edit({ attributes, setAttributes }) {
 		},
 		{
 			value: '2/3',
-			label: __( '66.66%' ),
+			label: __( '66%' ),
 		},
 		{
 			value: '3/4',
@@ -104,17 +91,18 @@ export default function Edit({ attributes, setAttributes }) {
 		});
 	}
 
-	// console.log('Client ID:', clientId);
-
-
-	// // Get innerBlocks using useSelect
-	// const innerBlocks = useSelect(
-	//   (select) => select(blockEditorStore).getBlock(clientId).innerBlocks,
-	// );
-
-	// // Handle innerBlocks here
-	// console.log(innerBlocks); // This will log all the inner blocks on your browser console
-
+	const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
+	const innerBlocksProps = useInnerBlocksProps(
+		blockProps,
+		{
+			allowedBlocks: [ 'mai/column' ],
+			orientation: 'horizontal',
+			template: [
+				[ 'mai/column' ],
+				[ 'mai/column' ],
+			]
+		}
+	);
 
 	return (
 		<>
@@ -193,7 +181,6 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 			<div { ...innerBlocksProps } />
-			{/* <div {...innerBlocksProps} style={styleAttributes} /> */}
 		</>
 	);
 }
