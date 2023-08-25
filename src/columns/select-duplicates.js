@@ -6,10 +6,11 @@
 import { __ } from '@wordpress/i18n';
 
 // import { useState } from "react";
-import { useState } from '@wordpress/element';
+import { useState, useMemo } from '@wordpress/element';
 // import Select from "react-select";
 import CreatableSelect from 'react-select/creatable';
-import { useMemo } from "@wordpress/element";
+// import { useDraggable } from "@dnd-kit/core";
+// import { SortableContainer, SortableElement, sortableHandle } from 'react-sortable-hoc';
 
 /**
  * Make sure a value is valid.
@@ -35,6 +36,8 @@ const isValid = ( value ) => {
 	if ( isFraction( value ) ) {
 		return true;
 	}
+
+	return false;
 }
 
 /**
@@ -46,7 +49,12 @@ const isValid = ( value ) => {
  */
 const isPercent = ( value ) => {
 	const regex = /^\d+(\.\d+)?%$/;
-	return regex.test( value );
+
+	if ( regex.test( value ) ) {
+		return parseFloat( value.replace( '%', '') ) <= 100;
+	}
+
+	return false;
 }
 
 /**
