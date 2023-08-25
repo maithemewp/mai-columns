@@ -75,7 +75,7 @@ function Edit({
     if (!value) {
       return false;
     }
-    if (['equal', 'auto', 'fill', 'full'].includes(value)) {
+    if (['auto', 'fill', 'full'].includes(value)) {
       return false;
     }
     if (isFraction(value)) {
@@ -118,12 +118,8 @@ function Edit({
     arrangements[item.break] = getIndexOfArray(blockIndex, item.columns, item.default);
   });
   Object.entries(arrangements).forEach(([key, value]) => {
-    const flex = getFlex(value);
-    const fraction = getFraction(value);
-    inlineStyles[`--flex-${key}`] = flex;
-    if (fraction) {
-      inlineStyles[`--columns-${key}`] = fraction;
-    }
+    inlineStyles[`--flex-${key}`] = getFlex(value);
+    inlineStyles[`--columns-${key}`] = getFraction(value) || 1;
   });
   const props = {
     className: 'jivedig-column',

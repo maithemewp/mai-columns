@@ -30,7 +30,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			return array[0];
 		}
 
-		return array[index % array.length] ?? defaultVal;
+		return array[ index % array.length ] ?? defaultVal;
 	};
 
 	const getFlex = ( size ) => {
@@ -57,7 +57,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			return false;
 		}
 
-		if ( [ 'equal', 'auto', 'fill', 'full' ].includes(value)) {
+		if ( [ 'auto', 'fill', 'full' ].includes( value )) {
 			return false;
 		}
 
@@ -113,14 +113,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	});
 
 	Object.entries( arrangements ).forEach( ( [key, value] ) => {
-		const flex     = getFlex(value);
-		const fraction = getFraction(value);
-
-		inlineStyles[`--flex-${key}`] = flex;
-
-		if ( fraction ) {
-			inlineStyles[`--columns-${key}`] = fraction;
-		}
+		inlineStyles[`--flex-${key}`]    = getFlex( value );
+		inlineStyles[`--columns-${key}`] = getFraction( value ) || 1;
 	});
 
 	const props = {

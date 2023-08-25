@@ -35,44 +35,98 @@ function jivedig_mai_columns_block_init() {
 	);
 }
 
+function getFlex( $size ) {
+	if ( ! $size ) {
+		return '1';
+	}
+
+	switch ( $size ) {
+		case 'auto':
+			return '0 1 0%';
+		case 'fit':
+			return '0 1 auto';
+		case 'fill':
+			return '1 0 0';
+	}
+
+	return '0 1 var(--flex-basis)';
+}
+
+function isFraction( $value ) {
+	return preg_match( '/^\\d+\\/\\d+$/', $value );
+}
+
+function getFraction( $value ) {
+	if ( ! $value ) {
+		return false;
+	}
+
+	if ( in_array( $value, [ 'auto', 'fill', 'full'] ) ) {
+		return false;
+	}
+
+	if ( isFraction( $value ) ) {
+		return $value;
+	}
+
+	// If not a fraction, it's a percentage. Convert to fraction and reduce.
+	$percentage   = floatval( str_replace( '%', '', $value ) );
+	$decimalValue = $percentage / 100;
+	$numerator    = intval( round( $decimalValue * 100 ) );
+	$denominator  = 100;
+	$gcd          = jivedig_get_gcd( $numerator, $denominator );
+	$numerator    = $numerator / $gcd;
+	$denominator  = $denominator / $gcd;
+
+	return "$numerator/$denominator";
+}
 
 function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
-	// $attributes = get_block_wrapper_attributes();
-	// ray( $attributes, $content, $block );
-	// ray( $block->context, $content );
+	if ( is_admin() ) {
+		return $content;
+	}
 
-
-	// ray( $attributes );
-	// ray( $content );
-	// ray( $block->context );
-
-	// return sprintf( '<div class="jivedig-columns">%s</div>', $content );
-
-	static $i = 0;
-
-	$sizes = [
+	// Get arrangements.
+	$arrangements = [
 		'xl' => $attributes['columnsXl'],
 		'lg' => $attributes['columnsLg'],
 		'md' => $attributes['columnsMd'],
 		'sm' => $attributes['columnsSm'],
 	];
 
+	// Set fallbacks.
+	foreach ( $arrangements as $key => $value ) {
+		if ( ! $value ) {
+			$keys                 = array_keys( $arrangements );
+			$shift                = array_shift( $keys );
+			$arrangements[ $key ] = $arrangements[ $shift ];
+		}
+	}
+
+	$i    = 0;
 	$tags = new WP_HTML_Tag_Processor( $content );
 
 	while ( $tags->next_tag( [ 'tag_name' => 'div', 'class_name' => 'jivedig-column' ] ) ) {
-		$style = (string) $tags->get_attribute( 'style' );
+		$columns = [];
+		$flexes  = [];
+		$styles  = (string) $tags->get_attribute( 'style' );
+		$styles  = explode( ';', $styles );
+		$styles  = array_map( 'trim', $styles );
+		$styles  = array_filter( $styles );
 
-		foreach ( $sizes as $break => $columns ) {
-			$default = '0%';
-			$grow    = null;
-			$shrink  = null;
-			$size    = $columns ? jivedig_get_index_value_from_array( $i, $columns, $default ) : $default;
-			$style  .= jivedig_columns_get_flex( $break, $size );
+		foreach ( $arrangements as $key => $values ) {
+			$size      = $values ? jivedig_get_index_value_from_array( $i, $values ) : '';
+			$columns[] = sprintf( '--columns-%s:%s', $key, getFraction( $size ) ?: 1 );
+			$flexes[]  = sprintf( '--flex-%s:%s', $key, getFlex( $size ) );
 		}
 
+		// Increment.
 		$i++;
 
-		$tags->set_attribute( 'style', $style );
+		// Merge.
+		$styles = array_merge( $styles, $columns, $flexes );
+
+		$tags->set_attribute( 'style', implode( ';', $styles ) );
 	}
 
 	$content = $tags->get_updated_html();
@@ -81,11 +135,19 @@ function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
 }
 
 function jivedig_mai_do_column_block( $attributes, $content, $block ) {
+	if ( is_admin() ) {
+		return $content;
+	}
 
-	// ray( $block->context );
+	return sprintf( '<div class="jivedig-column">%s</div>', $content );
+}
 
-	// ray( $content );
-	return sprintf( '<div class="jivedig-column" style="--testing:25%%;" data-okay="okayyyy">%s</div>', $content );
+function jivedig_get_gcd( $a, $b ) {
+	if ( 0 === $b ) {
+		return $a;
+	}
+
+	return jivedig_get_gcd( $b, $a % $b );
 }
 
 function jivedig_is_fraction( $string ) {
@@ -173,7 +235,6 @@ function jivedig_columns_get_flex_basis( string $size ) {
 
 	return $all[ $size ];
 }
-
 
 /**
  * Gets the correct column value from the repeated arrangement array.

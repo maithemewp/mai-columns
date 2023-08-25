@@ -36,13 +36,8 @@ import './editor.scss';
  */
 export default function Edit({ attributes, setAttributes }) {
 	const { justifyContent, alignItems, columnsXl, columnsLg, columnsMd, columnsSm } = attributes;
-	// const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
 
 	const options = [
-	// {
-		// 	value: 'auto',
-		// 	label: __( 'Equal Widths' ),
-		// },
 		{
 			value: '1/4',
 			label: __( '25%' ),
@@ -125,7 +120,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<PanelBody>
 					<h2>{ __( 'Column Width(s)' ) }</h2>
 					<BaseControl
-						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all columns to be the same width. Leave empty to have equal columns based on the number of items.' ) }
+						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all columns to be the same width. Leave empty to have equal columns based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
 					></BaseControl>
 					<BaseControl label={ __( 'Desktop' ) }>
 						<MaiMultiSelectDuplicate
@@ -179,6 +174,26 @@ export default function Edit({ attributes, setAttributes }) {
 							}}
 						/>
 					</BaseControl>
+					{/* <BaseControl
+						__nextHasNoMarginBottom
+						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all columns to be the same width. Leave empty to have equal columns based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
+					></BaseControl>
+					<BaseControl
+						__nextHasNoMarginBottom
+						help={ __( 'Custom arrangements will repeat in the sequence you set here.' ) }
+					></BaseControl>
+					<BaseControl
+						__nextHasNoMarginBottom
+						help={ __( 'Set just one value if you want all columns to be the same width.' ) }
+					></BaseControl>
+					<BaseControl
+						__nextHasNoMarginBottom
+						help={ __( 'Leave empty to have equal columns based on the number of items.' ) }
+					></BaseControl>
+					<BaseControl
+						__nextHasNoMarginBottom
+						help={ __( 'An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
+					></BaseControl> */}
 				</PanelBody>
 			</InspectorControls>
 			<div { ...innerBlocksProps } />
