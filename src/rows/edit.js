@@ -16,16 +16,6 @@ import { Panel, PanelBody, PanelRow, BaseControl, TextControl, FormTokenField } 
 import MaiMultiSelectDuplicate from './select-duplicates';
 // import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
-// TODO: https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/columns/edit.js
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-import './editor.scss';
-
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -37,6 +27,9 @@ import './editor.scss';
 export default function Edit({ attributes, setAttributes }) {
 	const { justifyContent, alignItems, sizesXl, sizesLg, sizesMd, sizesSm } = attributes;
 
+	/**
+	 * Set default options for the select field.
+	 */
 	const options = [
 		{
 			value: '1/4',
@@ -73,6 +66,13 @@ export default function Edit({ attributes, setAttributes }) {
 
 	];
 
+	/**
+	 * Map values to labels.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return string
+	 */
 	const mapValuesToLabels = ( values ) => {
 		return values.map( value => {
 			const option = options.find( opt => opt.value === value );
@@ -80,6 +80,13 @@ export default function Edit({ attributes, setAttributes }) {
 		});
 	}
 
+	/**
+	 * Map labels to values.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return string
+	 */
 	const mapLabelsToValues = ( values ) => {
 		return values.map( value => {
 			const option = options.find( opt => opt.label === value );
@@ -87,6 +94,9 @@ export default function Edit({ attributes, setAttributes }) {
 		});
 	}
 
+	/**
+	 * Set block props.
+	 */
 	const blockProps       = useBlockProps( { className: 'mai-rows' } );
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
@@ -118,9 +128,9 @@ export default function Edit({ attributes, setAttributes }) {
 			</BlockControls>
 			<InspectorControls key="Columns">
 				<PanelBody>
-					<h2>{ __( 'Column Width(s)' ) }</h2>
+					<h2>{ __( 'Size Arrangments)' ) }</h2>
 					<BaseControl
-						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all columns to be the same width. Leave empty to have equal columns based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
+						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
 					></BaseControl>
 					<BaseControl label={ __( 'Desktop' ) }>
 						<MaiMultiSelectDuplicate
@@ -174,26 +184,6 @@ export default function Edit({ attributes, setAttributes }) {
 							}}
 						/>
 					</BaseControl>
-					{/* <BaseControl
-						__nextHasNoMarginBottom
-						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all columns to be the same width. Leave empty to have equal columns based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
-					></BaseControl>
-					<BaseControl
-						__nextHasNoMarginBottom
-						help={ __( 'Custom arrangements will repeat in the sequence you set here.' ) }
-					></BaseControl>
-					<BaseControl
-						__nextHasNoMarginBottom
-						help={ __( 'Set just one value if you want all columns to be the same width.' ) }
-					></BaseControl>
-					<BaseControl
-						__nextHasNoMarginBottom
-						help={ __( 'Leave empty to have equal columns based on the number of items.' ) }
-					></BaseControl>
-					<BaseControl
-						__nextHasNoMarginBottom
-						help={ __( 'An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
-					></BaseControl> */}
 				</PanelBody>
 			</InspectorControls>
 			<div { ...innerBlocksProps } />

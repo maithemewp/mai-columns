@@ -11,25 +11,19 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--row-gap) var(--column-gap);
-	padding: 10px;
-	background-color: plum;
 }
 
 .mai-row-item {
-	--flex-basis: calc((100% * var(--columns) - (var(--column-gap) * (1 - var(--columns)))) - 0.025px);
+	--flex-basis: calc((100% * var(--size) - (var(--column-gap) * (1 - var(--size)))) - 0.025px);
 	flex: var(--flex);
 	margin: 0 !important;
-	padding: 20px;
-	background-color: white;
-	border: 1px dashed blue;
-	word-break: break-all; /* for testing */
 }
 
 /* SM */
 @media only screen and (max-width: 599px) {
 
 	.mai-row-item {
-		--columns: var(--size-sm, 1);
+		--size: var(--size-sm, 1);
 		--flex: var(--flex-sm, 1);
 	}
 }
@@ -38,7 +32,7 @@
 @media only screen and (min-width: 600px) and (max-width: 799px) {
 
 	.mai-row-item {
-		--columns: var(--size-md, 1);
+		--size: var(--size-md, 1);
 		--flex: var(--flex-md, 1);
 	}
 }
@@ -47,7 +41,7 @@
 @media only screen and (min-width: 800px) and (max-width: 999px) {
 
 	.mai-row-item {
-		--columns: var(--size-lg, 1);
+		--size: var(--size-lg, 1);
 		--flex: var(--flex-lg, 1);
 	}
 }
@@ -56,7 +50,7 @@
 @media only screen and (min-width: 1000px) {
 
 	.mai-row-item {
-		--columns: var(--size-xl, 1);
+		--size: var(--size-xl, 1);
 		--flex: var(--flex-xl, 1);
 	}
 }
