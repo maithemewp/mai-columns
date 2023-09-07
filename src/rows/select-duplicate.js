@@ -194,14 +194,6 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 				formatCreateLabel={ formatCreateLabel }
 				components={ { DropdownIndicator:() => null, IndicatorSeparator:() => null } }
 				isValidNewOption={ isValid }
-				// styles={{
-				// 	input: (providedStyles, props) => ({
-				// 		...providedStyles,
-				// 		boxShadow: 0,
-				// 		maxHeight: 'unset',
-				// 		border: '1px dashed red',
-				// 	}),
-				// }}
 			/>
 		</>
 	);

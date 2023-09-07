@@ -47,8 +47,7 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @param string $break Either xs, sm, md, etc.
-   * @param string $size
+   * @param string size The size value from settings.
    *
    * @return string
    */
@@ -72,9 +71,9 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @param int   $index   The current item index to get the value for.
-   * @param array $array   The array to get index value from.
-   * @param mixed $default The default value if there is no index.
+   * @param int   index   The current item index to get the value for.
+   * @param array array   The array to get index value from.
+   * @param mixed default The default value if there is no index.
    *
    * @return mixed
    */
@@ -92,7 +91,7 @@ function Edit({
   /**
    * Gets the fraction value from a given value.
    *
-   * @param string $value
+   * @param string value
    *
    * @return string
    */
@@ -119,8 +118,8 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @param int $a
-   * @param int $b
+   * @param int a
+   * @param int b
    *
    * @return int
    */
@@ -137,7 +136,7 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @param string $value
+   * @param string value
    *
    * @return bool
    */
@@ -193,7 +192,7 @@ function Edit({
    * Set props.
    */
   const props = {
-    className: 'mai-row-item',
+    className: 'mai-column',
     style: inlineStyles
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(props);
@@ -355,7 +354,7 @@ module.exports = window["wp"]["element"];
   \*******************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/row-item","parent":["mai/rows"],"version":"0.1.0","title":"Mai Row Item","category":"widgets","icon":"smiley","description":"Add a row item inside Mai Rows block","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/sizesXl","mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-rows","editorScript":"file:./index.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/rows"],"version":"0.1.0","title":"Mai Column","category":"widgets","icon":"smiley","description":"An individual row item.","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/sizesXl","mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-rows","editorScript":"file:./index.js"}');
 
 /***/ })
 
@@ -363,7 +362,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -377,17 +376,17 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = __webpack_modules__;
-/******/
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/chunk loaded */
 /******/ 	(() => {
@@ -422,7 +421,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			return result;
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -434,7 +433,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			return getter;
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -446,12 +445,12 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -462,11 +461,11 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/
+/******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
 /******/ 	(() => {
 /******/ 		// no baseURI
-/******/
+/******/ 		
 /******/ 		// object to store loaded and loading chunks
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
@@ -474,19 +473,19 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			"column/index": 0,
 /******/ 			"column/style-index": 0
 /******/ 		};
-/******/
+/******/ 		
 /******/ 		// no chunk on demand loading
-/******/
+/******/ 		
 /******/ 		// no prefetching
-/******/
+/******/ 		
 /******/ 		// no preloaded
-/******/
+/******/ 		
 /******/ 		// no HMR
-/******/
+/******/ 		
 /******/ 		// no HMR manifest
-/******/
+/******/ 		
 /******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
-/******/
+/******/ 		
 /******/ 		// install a JSONP callback for chunk loading
 /******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
 /******/ 			var chunkIds = data[0];
@@ -513,20 +512,20 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			}
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
-/******/
+/******/ 		
 /******/ 		var chunkLoadingGlobal = self["webpackChunkmai_rows"] = self["webpackChunkmai_rows"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();
-/******/
+/******/ 	
 /************************************************************************/
-/******/
+/******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["column/style-index"], () => (__webpack_require__("./src/column/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
-/******/
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

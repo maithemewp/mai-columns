@@ -1,15 +1,15 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "mai/row-item",
+  "name": "mai/column",
   "parent": [
     "mai/rows"
   ],
   "version": "0.1.0",
-  "title": "Mai Row Item",
+  "title": "Mai Column",
   "category": "widgets",
   "icon": "smiley",
-  "description": "Add a row item inside Mai Rows block",
+  "description": "An individual row item.",
   "attributes": {},
   "supports": {
     "anchor": false,

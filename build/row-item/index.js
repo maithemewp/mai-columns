@@ -192,7 +192,7 @@ function Edit({
    * Set props.
    */
   const props = {
-    className: 'mai-row-item',
+    className: 'mai-column',
     style: inlineStyles
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(props);
@@ -354,7 +354,7 @@ module.exports = window["wp"]["element"];
   \*********************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/row-item","parent":["mai/rows"],"version":"0.1.0","title":"Mai Row Item","category":"widgets","icon":"smiley","description":"Add a row item inside Mai Rows block","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/sizesXl","mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-rows","editorScript":"file:./index.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/rows"],"version":"0.1.0","title":"Mai Row Item","category":"widgets","icon":"smiley","description":"Add a row item inside Mai Rows block","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/sizesXl","mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-rows","editorScript":"file:./index.js"}');
 
 /***/ })
 

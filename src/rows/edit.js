@@ -100,11 +100,11 @@ export default function Edit({ attributes, setAttributes }) {
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
-			allowedBlocks: [ 'mai/row-item' ],
+			allowedBlocks: [ 'mai/column' ],
 			orientation: 'horizontal',
 			template: [
-				[ 'mai/row-item' ],
-				[ 'mai/row-item' ],
+				[ 'mai/column' ],
+				[ 'mai/column' ],
 			]
 		}
 	);
@@ -125,9 +125,9 @@ export default function Edit({ attributes, setAttributes }) {
 					}}
 				/>
 			</BlockControls>
-			<InspectorControls key="Columns">
+			<InspectorControls key="Sizes">
 				<PanelBody>
-					<h2>{ __( 'Item Size Arrangements' ) }</h2>
+					<h2>{ __( 'Column Arrangements' ) }</h2>
 					<BaseControl
 						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
 					></BaseControl>

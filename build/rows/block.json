@@ -6,7 +6,7 @@
   "title": "Mai Rows",
   "category": "widgets",
   "icon": "smiley",
-  "description": "Example block scaffolded with Create Block tool.",
+  "description": "Repeatable column arrangements.",
   "attributes": {
     "alignItems": {
       "type": "string"
@@ -63,7 +63,7 @@
     "mai/sizesMd": "sizesMd",
     "mai/sizesSm": "sizesSm"
   },
-  "textdomain": "mai-columns",
+  "textdomain": "mai-rows",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css"
 }

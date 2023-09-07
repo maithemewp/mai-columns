@@ -52,9 +52,9 @@ class Mai_Rows_Block {
 			]
 		);
 
-		register_block_type( __DIR__ . '/build/row-item',
+		register_block_type( __DIR__ . '/build/column',
 			[
-				'render_callback' => [ $this, 'get_row_item' ],
+				'render_callback' => [ $this, 'get_column' ],
 			]
 		);
 	}
@@ -101,7 +101,7 @@ class Mai_Rows_Block {
 		// Get column nodes.
 		$dom     = $this->get_dom_document( $content );
 		$xpath   = new DOMXPath( $dom );
-		$columns = $xpath->query( '/div[contains(concat(" ", normalize-space(@class), " "), " mai-row-item ")]' );
+		$columns = $xpath->query( '/div[contains(concat(" ", normalize-space(@class), " "), " mai-column ")]' );
 
 		// Bail if no columns.
 		if ( ! $columns->length ) {
@@ -176,15 +176,15 @@ class Mai_Rows_Block {
 	 *
 	 * @return string
 	 */
-	function get_row_item( $attributes, $content, $block ) {
+	function get_column( $attributes, $content, $block ) {
 		// Bail if in the editor.
 		if ( is_admin() ) {
 			return;
 		}
 
 		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
-		$attr = get_block_wrapper_attributes( [ 'class' => 'mai-row-item' ] );
-		$attr = str_replace( ' wp-block-mai-row-item', '', $attr );
+		$attr = get_block_wrapper_attributes( [ 'class' => 'mai-column' ] );
+		$attr = str_replace( ' wp-block-mai-column', '', $attr );
 
 		return sprintf( '<div %s>%s</div>', trim( $attr ), $content );
 	}

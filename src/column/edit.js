@@ -182,7 +182,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 * Set props.
 	 */
 	const props = {
-		className: 'mai-row-item',
+		className: 'mai-column',
 		style: inlineStyles
 	};
 

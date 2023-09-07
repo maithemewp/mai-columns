@@ -14,7 +14,7 @@
   gap: var(--row-gap) var(--column-gap) !important; /* is-layout-flex class overrides this so we're forcing for now */
 }
 
-.mai-row-item {
+.mai-column {
   --flex-basis: calc((100% * var(--size) - (var(--column-gap) * (1 - var(--size)))) - 0.025px);
   flex: var(--flex);
   flex-direction: column;
@@ -23,28 +23,28 @@
 
 /* SM */
 @media only screen and (max-width: 599px) {
-  .mai-row-item {
+  .mai-column {
     --size: var(--size-sm, 1);
     --flex: var(--flex-sm, 1);
   }
 }
 /* MD */
 @media only screen and (min-width: 600px) and (max-width: 799px) {
-  .mai-row-item {
+  .mai-column {
     --size: var(--size-md, 1);
     --flex: var(--flex-md, 1);
   }
 }
 /* LG */
 @media only screen and (min-width: 800px) and (max-width: 999px) {
-  .mai-row-item {
+  .mai-column {
     --size: var(--size-lg, 1);
     --flex: var(--flex-lg, 1);
   }
 }
 /* XL */
 @media only screen and (min-width: 1000px) {
-  .mai-row-item {
+  .mai-column {
     --size: var(--size-xl, 1);
     --flex: var(--flex-xl, 1);
   }
