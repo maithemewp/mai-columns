@@ -27,7 +27,6 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-// import { useEffect } from 'react';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -43,19 +42,16 @@ function Edit({
   context,
   clientId
 }) {
-  const getIndexOfArray = function (index, array, defaultVal = null) {
-    var _array;
-    if (undefined === array) {
-      return defaultVal;
-    }
-    if (undefined !== array[index]) {
-      return array[index];
-    }
-    if (1 === array.length) {
-      return array[0];
-    }
-    return (_array = array[index % array.length]) !== null && _array !== void 0 ? _array : defaultVal;
-  };
+  /**
+   * Gets flex value from column size.
+   *
+   * @since 0.1.0
+   *
+   * @param string $break Either xs, sm, md, etc.
+   * @param string $size
+   *
+   * @return string
+   */
   const getFlex = size => {
     if (!size) {
       return '1';
@@ -70,7 +66,39 @@ function Edit({
     }
     return '0 1 var(--flex-basis)';
   };
-  const isFraction = value => /^\d+\/\d+$/.test(value);
+
+  /**
+   * Gets the correct column value from the repeated arrangement array.
+   *
+   * @since 0.1.0
+   *
+   * @param int   $index   The current item index to get the value for.
+   * @param array $array   The array to get index value from.
+   * @param mixed $default The default value if there is no index.
+   *
+   * @return mixed
+   */
+  const getIndexValueFromArray = function (index, array, defaultVal = null) {
+    var _array;
+    if (undefined === array) {
+      return defaultVal;
+    }
+    if (undefined !== array[index]) {
+      return array[index];
+    }
+    if (1 === array.length) {
+      return array[0];
+    }
+    return (_array = array[index % array.length]) !== null && _array !== void 0 ? _array : defaultVal;
+  };
+
+  /**
+   * Gets the fraction value from a given value.
+   *
+   * @param string $value
+   *
+   * @return string
+   */
   const getFraction = value => {
     if (!value) {
       return false;
@@ -83,18 +111,58 @@ function Edit({
     }
     const percentage = parseFloat(value.replace('%', ''));
     const decimalValue = percentage / 100;
-    const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
     const numerator = Math.round(decimalValue * 100);
     const denominator = 100;
-    const divisor = gcd(numerator, denominator);
-    return `${numerator / divisor}/${denominator / divisor}`;
+    const gcd = getGcd(numerator, denominator);
+    return `${numerator / gcd}/${denominator / gcd}`;
   };
+
+  /**
+   * Gets the greatest common denominator.
+   *
+   * @since 0.1.0
+   *
+   * @param int $a
+   * @param int $b
+   *
+   * @return int
+   */
+  const getGcd = (a, b) => {
+    if (0 === b) {
+      return a;
+    } else {
+      return getGcd(b, a % b);
+    }
+  };
+
+  /**
+   * Checks if a value is a fraction.
+   *
+   * @since 0.1.0
+   *
+   * @param string $value
+   *
+   * @return bool
+   */
+  const isFraction = value => {
+    return /^\d+\/\d+$/.test(value);
+  };
+
+  /**
+   * Gets block index of parent.
+   *
+   * @return string
+   */
   const blockIndex = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     const {
       getBlockIndex
     } = select('core/block-editor');
     return getBlockIndex(clientId);
   }, [clientId]);
+
+  /**
+   * Build inline styles from arrangements.
+   */
   const inlineStyles = {};
   const arrangements = {};
   const data = [{
@@ -115,12 +183,18 @@ function Edit({
     default: ''
   }];
   data.forEach(item => {
-    arrangements[item.break] = getIndexOfArray(blockIndex, item.columns, item.default);
+    arrangements[item.break] = getIndexValueFromArray(blockIndex, item.columns, item.default);
+  });
+  Object.entries(arrangements).forEach(([key, value]) => {
+    inlineStyles[`--columns-${key}`] = getFraction(value) || 1;
   });
   Object.entries(arrangements).forEach(([key, value]) => {
     inlineStyles[`--flex-${key}`] = getFlex(value);
-    inlineStyles[`--columns-${key}`] = getFraction(value) || 1;
   });
+
+  /**
+   * Set props.
+   */
   const props = {
     className: 'jivedig-column',
     style: inlineStyles
@@ -221,46 +295,7 @@ __webpack_require__.r(__webpack_exports__);
  * @return {WPElement} Element to render.
  */
 function save() {
-  // const blockProps       = useBlockProps.save();
-  // const innerBlocksProps = useInnerBlocksProps.save();
-
-  // return (
-  // 	<div { ...blockProps }>
-  // 		<div {...innerBlocksProps} />
-  // 	</div>
-  // );
-
-  // const blockProps       = useBlockProps.save();
-  // const innerBlocksProps = useInnerBlocksProps.save( blockProps );
-
-  // return (
-  // 	<div {...innerBlocksProps} />
-  // );
-
-  // return <InnerBlocks.Content/>;
-
-  // const blockProps = useBlockProps.save();
-
-  // return (
-  // 	<div { ...blockProps }>
-  // 		<InnerBlocks.Content />
-  // 	</div>
-  // );
-
-  // const blockProps = useBlockProps.save();
-
-  // return (
-  // 	<div { ...blockProps }>
-  // 		<InnerBlocks.Content />
-  // 	</div>
-  // );
-
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null);
-
-  // const blockProps       = useBlockProps.save( { className: 'jivedig-column' } );
-  // const innerBlocksProps = useInnerBlocksProps.save( blockProps );
-
-  // return <div { ...innerBlocksProps } />;
 }
 
 /***/ }),
@@ -323,7 +358,7 @@ module.exports = window["wp"]["element"];
   \*******************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/columns"],"version":"0.1.0","title":"Mai Column","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/columnsXl","mai/columnsLg","mai/columnsMd","mai/columnsSm"],"textdomain":"mai-columns","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/columns"],"version":"0.1.0","title":"Mai Column","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/columnsXl","mai/columnsLg","mai/columnsMd","mai/columnsSm"],"textdomain":"mai-columns","editorScript":"file:./index.js"}');
 
 /***/ })
 

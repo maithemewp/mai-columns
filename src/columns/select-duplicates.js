@@ -5,12 +5,9 @@
  */
 import { __ } from '@wordpress/i18n';
 
-// import { useState } from "react";
 import { useState, useMemo } from '@wordpress/element';
-// import Select from "react-select";
 import CreatableSelect from 'react-select/creatable';
 // import { useDraggable } from "@dnd-kit/core";
-// import { SortableContainer, SortableElement, sortableHandle } from 'react-sortable-hoc';
 
 /**
  * Make sure a value is valid.
@@ -104,7 +101,6 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 
 	// Initialize the states.
 	const [ selectedOptions, setSelectOption ]    = useState( valueOptions );
-	// const [ styleAttributes, setStyleAttributes ] = useState( {} );
 
 	/**
 	 * This function handles the change event of the `CreatableSelect` component.

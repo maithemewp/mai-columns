@@ -2489,47 +2489,7 @@ __webpack_require__.r(__webpack_exports__);
  * @return {WPElement} Element to render.
  */
 function save() {
-  // const blockProps       = useBlockProps.save();
-  // const innerBlocksProps = useInnerBlocksProps.save();
-
-  // return (
-  // 	<div { ...blockProps }>
-  // 		<div {...innerBlocksProps} />
-  // 	</div>
-  // );
-
-  // const blockProps       = useBlockProps.save();
-  // const innerBlocksProps = useInnerBlocksProps.save( blockProps );
-
-  // return (
-  // 	<div {...innerBlocksProps} />
-  // );
-
-  // return <InnerBlocks.Content/>;
-
-  // 	const blockProps = useBlockProps.save();
-
-  // 	return (
-  // 		<div { ...blockProps }>
-  // 			<InnerBlocks.Content />
-  // 		</div>
-  // 	);
-
-  // const blockProps = useBlockProps.save();
-
-  // return (
-  // 	// <div { ...blockProps }>
-  // 	<div { ...innerBlocksProps }>
-  // 		<InnerBlocks.Content />
-  // 	</div>
-  // );
-
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null);
-
-  // const blockProps       = useBlockProps.save( { className: 'jivedig-columns' } );
-  // const innerBlocksProps = useInnerBlocksProps.save( blockProps );
-
-  // return <div { ...innerBlocksProps } />;
 }
 
 /***/ }),
@@ -2557,12 +2517,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-// import { useState } from "react";
-
-// import Select from "react-select";
 
 // import { useDraggable } from "@dnd-kit/core";
-// import { SortableContainer, SortableElement, sortableHandle } from 'react-sortable-hoc';
 
 /**
  * Make sure a value is valid.
@@ -2655,7 +2611,6 @@ const MaiMultiSelectDuplicate = ({
 
   // Initialize the states.
   const [selectedOptions, setSelectOption] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(valueOptions);
-  // const [ styleAttributes, setStyleAttributes ] = useState( {} );
 
   /**
    * This function handles the change event of the `CreatableSelect` component.
@@ -11266,7 +11221,7 @@ function combine (array, callback) {
   \********************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"columnsXl":{"type":"array","default":[]},"columnsLg":{"type":"array","default":[]},"columnsMd":{"type":"array","default":["1/1"]},"columnsSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":true}},"providesContext":{"mai/columnsXl":"columnsXl","mai/columnsLg":"columnsLg","mai/columnsMd":"columnsMd","mai/columnsSm":"columnsSm"},"textdomain":"mai-columns","editorScript":"file:./index.js","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"columnsXl":{"type":"array","default":[]},"columnsLg":{"type":"array","default":[]},"columnsMd":{"type":"array","default":["1/1"]},"columnsSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":true}},"providesContext":{"mai/columnsXl":"columnsXl","mai/columnsLg":"columnsLg","mai/columnsMd":"columnsMd","mai/columnsSm":"columnsSm"},"textdomain":"mai-columns","editorScript":"file:./index.js","style":"file:./style-index.css"}');
 
 /***/ })
 

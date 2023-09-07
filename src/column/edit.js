@@ -6,7 +6,6 @@
  */
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-// import { useEffect } from 'react';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -17,7 +16,45 @@ import { useSelect } from '@wordpress/data';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes, context, clientId }) {
-	const getIndexOfArray = function( index, array, defaultVal = null ) {
+	/**
+	 * Gets flex value from column size.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $break Either xs, sm, md, etc.
+	 * @param string $size
+	 *
+	 * @return string
+	 */
+	const getFlex = ( size ) => {
+		if ( ! size ) {
+			return '1';
+		}
+
+		switch ( size ) {
+			case 'auto':
+				return '0 1 0%';
+			case 'fit':
+				return '0 1 auto';
+			case 'fill':
+				return '1 0 0';
+		}
+
+		return '0 1 var(--flex-basis)';
+	};
+
+	/**
+	 * Gets the correct column value from the repeated arrangement array.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param int   $index   The current item index to get the value for.
+	 * @param array $array   The array to get index value from.
+	 * @param mixed $default The default value if there is no index.
+	 *
+	 * @return mixed
+	 */
+	const getIndexValueFromArray = function( index, array, defaultVal = null ) {
 		if ( undefined === array ) {
 			return defaultVal
 		}
@@ -33,25 +70,13 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		return array[ index % array.length ] ?? defaultVal;
 	};
 
-	const getFlex = ( size ) => {
-		if ( ! size ) {
-			return '1';
-		}
-
-		switch (size) {
-			case 'auto':
-				return '0 1 0%';
-			case 'fit':
-				return '0 1 auto';
-			case 'fill':
-				return '1 0 0';
-		}
-
-		return '0 1 var(--flex-basis)';
-	};
-
-	const isFraction = ( value ) => /^\d+\/\d+$/.test( value );
-
+	/**
+	 * Gets the fraction value from a given value.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
 	const getFraction = ( value ) => {
 		if ( ! value ) {
 			return false;
@@ -67,14 +92,49 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 		const percentage   = parseFloat( value.replace( '%', '' ) );
 		const decimalValue = percentage / 100;
-		const gcd          = (a, b) => (b === 0 ? a : gcd( b, a % b ));
 		const numerator    = Math.round( decimalValue * 100 );
 		const denominator  = 100;
-		const divisor      = gcd( numerator, denominator );
+		const gcd          = getGcd( numerator, denominator );
 
-		return `${numerator / divisor}/${denominator / divisor}`;
+		return `${numerator / gcd}/${denominator / gcd}`;
 	}
 
+	/**
+	 * Gets the greatest common denominator.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param int $a
+	 * @param int $b
+	 *
+	 * @return int
+	 */
+	const getGcd = ( a, b ) => {
+		if ( 0 === b ) {
+			return a;
+		} else {
+			return getGcd( b, a % b );
+		}
+	};
+
+	/**
+	 * Checks if a value is a fraction.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	const isFraction = ( value ) => {
+		return /^\d+\/\d+$/.test( value );
+	}
+
+	/**
+	 * Gets block index of parent.
+	 *
+	 * @return string
+	 */
 	const blockIndex = useSelect(
 		(select) => {
 			const { getBlockIndex } = select( 'core/block-editor' );
@@ -83,6 +143,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		[clientId]
 	);
 
+	/**
+	 * Build inline styles from arrangements.
+	 */
 	const inlineStyles = {};
 	const arrangements = {};
 	const data         = [
@@ -109,14 +172,20 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	];
 
 	data.forEach(item => {
-		arrangements[item.break] = getIndexOfArray( blockIndex, item.columns, item.default );
+		arrangements[item.break] = getIndexValueFromArray( blockIndex, item.columns, item.default );
+	});
+
+	Object.entries( arrangements ).forEach( ( [key, value] ) => {
+		inlineStyles[`--columns-${key}`] = getFraction( value ) || 1;
 	});
 
 	Object.entries( arrangements ).forEach( ( [key, value] ) => {
 		inlineStyles[`--flex-${key}`]    = getFlex( value );
-		inlineStyles[`--columns-${key}`] = getFraction( value ) || 1;
 	});
 
+	/**
+	 * Set props.
+	 */
 	const props = {
 		className: 'jivedig-column',
 		style: inlineStyles

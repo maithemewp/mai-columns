@@ -9,263 +9,329 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       mai-rows
- *
- * @package           create-block
  */
 
-add_action( 'init', 'jivedig_mai_columns_block_init' );
-/**
- * Registers the block using the metadata loaded from the `block.json` file.
- * Behind the scenes, it registers also all assets so they can be enqueued
- * through the block editor in the corresponding context.
- *
- * @see https://developer.wordpress.org/reference/functions/register_block_type/
- */
-function jivedig_mai_columns_block_init() {
-	register_block_type( __DIR__ . '/build/columns',
-		[
-			'render_callback' => 'jivedig_mai_do_columns_block',
-		]
-	);
+// Prevent direct file access.
+defined( 'ABSPATH' ) || die;
 
-	register_block_type( __DIR__ . '/build/column',
-		[
-			'render_callback' => 'jivedig_mai_do_column_block',
-		]
-	);
-}
+$block = new Mai_Rows_Block;
 
-function jivedig_mai_do_columns_block( $attributes, $content, $block ) {
-	if ( is_admin() ) {
-		return $content;
+class Mai_Rows_Block {
+
+	/**
+	 * Construct the class.
+	 */
+	function __construct() {
+		$this->hooks();
 	}
 
-	// Get arrangements.
-	$arrangements = [
-		'xl' => $attributes['columnsXl'],
-		'lg' => $attributes['columnsLg'],
-		'md' => $attributes['columnsMd'],
-		'sm' => $attributes['columnsSm'],
-	];
+	/**
+	 * Add hooks.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	function hooks() {
+		add_action( 'init', [ $this, 'block_init' ] );
+	}
 
-	// Set fallbacks.
-	foreach ( $arrangements as $key => $value ) {
-		if ( ! $value ) {
-			$keys                 = array_keys( $arrangements );
-			$shift                = array_shift( $keys );
-			$arrangements[ $key ] = $arrangements[ $shift ];
+	/**
+	 * Registers the block using the metadata loaded from the `block.json` file.
+	 * Behind the scenes, it registers also all assets so they can be enqueued
+	 * through the block editor in the corresponding context.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return void
+	 */
+	function block_init() {
+		register_block_type( __DIR__ . '/build/columns',
+			[
+				'render_callback' => [ $this, 'get_columns' ],
+			]
+		);
+
+		register_block_type( __DIR__ . '/build/column',
+			[
+				'render_callback' => [ $this, 'get_column' ],
+			]
+		);
+	}
+
+	/**
+	 * Get columns.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content    The block inner content.
+	 * @param WP_Block $block      The block object.
+	 *
+	 * @return string
+	 */
+	function get_columns( $attributes, $content, $block ) {
+		// Bail if in the editor.
+		if ( is_admin() ) {
+			return;
 		}
-	}
 
-	$i    = 0;
-	$tags = new WP_HTML_Tag_Processor( $content );
-
-	while ( $tags->next_tag( [ 'tag_name' => 'div', 'class_name' => 'jivedig-column' ] ) ) {
-		$columns = [];
-		$flexes  = [];
-		$styles  = (string) $tags->get_attribute( 'style' );
-		$styles  = explode( ';', $styles );
-		$styles  = array_map( 'trim', $styles );
-		$styles  = array_filter( $styles );
-
-		foreach ( $arrangements as $key => $values ) {
-			$size      = $values ? jivedig_get_index_value_from_array( $i, $values ) : '';
-			$columns[] = sprintf( '--columns-%s:%s', $key, jivedig_get_fraction( $size ) ?: 1 );
-			$flexes[]  = sprintf( '--flex-%s:%s', $key, jivedig_get_flex( $size ) );
+		// Bail if no content.
+		if ( ! $content ) {
+			return sprintf( '<div class="jivedig-columns">%s</div>', $content );
 		}
 
-		// Increment.
-		$i++;
+		// Get arrangements.
+		$arrangements = [
+			'xl' => $attributes['columnsXl'],
+			'lg' => $attributes['columnsLg'],
+			'md' => $attributes['columnsMd'],
+			'sm' => $attributes['columnsSm'],
+		];
 
-		// Merge.
-		$styles = array_merge( $styles, $columns, $flexes );
+		// Set fallbacks.
+		foreach ( $arrangements as $key => $value ) {
+			if ( ! $value ) {
+				$keys                 = array_keys( $arrangements );
+				$shift                = array_shift( $keys );
+				$arrangements[ $key ] = $arrangements[ $shift ];
+			}
+		}
 
-		// Set styles attribute.
-		$tags->set_attribute( 'style', implode( ';', $styles ) );
+		// Get column nodes.
+		$dom     = $this->get_dom_document( $content );
+		$xpath   = new DOMXPath( $dom );
+		$columns = $xpath->query( '/div[contains(concat(" ", normalize-space(@class), " "), " jivedig-column ")]' );
+
+		// Bail if no columns.
+		if ( ! $columns->length ) {
+			return sprintf( '<div class="jivedig-columns">%s</div>', $content );
+		}
+
+		// Start counter.
+		$i = 0;
+
+		// Loop through columns, adding styles.
+		foreach ( $columns as $column ) {
+			$columns = [];
+			$flexes  = [];
+			$styles  = (string) $column->getAttribute( 'style' );
+			$styles  = explode( ';', $styles );
+			$styles  = array_map( 'trim', $styles );
+			$styles  = array_filter( $styles );
+
+			// Loop through arrangements, setting custom properties by breakpoint.
+			foreach ( $arrangements as $key => $values ) {
+				$size      = $values ? $this->get_index_value_from_array( $i, $values ) : '';
+				$columns[] = sprintf( '--columns-%s:%s', $key, $this->get_fraction( $size ) ?: 1 );
+				$flexes[]  = sprintf( '--flex-%s:%s', $key, $this->get_flex( $size ) );
+			}
+
+			// Merge styles.
+			$styles = array_merge( $styles, $columns, $flexes );
+
+			// Handle styles attribute.
+			if ( $styles ) {
+				$column->setAttribute( 'style', implode( ';', $styles ) );
+			} else {
+				$column->removeAttribute( 'style' );
+			}
+
+			// Increment counter.
+			$i++;
+		}
+
+		// Save content.
+		$content = $dom->saveHTML();
+
+		return sprintf( '<div class="jivedig-columns">%s</div>', $content );
 	}
 
-	$content = $tags->get_updated_html();
+	/**
+	 * Get individual column.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content    The block inner content.
+	 * @param WP_Block $block      The block object.
+	 *
+	 * @return string
+	 */
+	function get_column( $attributes, $content, $block ) {
+		// Bail if in the editor.
+		if ( is_admin() ) {
+			return;
+		}
 
-	return sprintf( '<div class="jivedig-columns">%s</div>', $content );
-}
-
-function jivedig_mai_do_column_block( $attributes, $content, $block ) {
-	if ( is_admin() ) {
-		return $content;
+		return sprintf( '<div class="jivedig-column">%s</div>', $content );
 	}
 
-	return sprintf( '<div class="jivedig-column">%s</div>', $content );
-}
+	/**
+	 * Gets flex value from column size.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $break Either xs, sm, md, etc.
+	 * @param string $size
+	 *
+	 * @return string
+	 */
+	function get_flex( $size ) {
+		if ( ! $size ) {
+			return '1';
+		}
 
-/**
- * Gets flex value from column size.
- *
- * @param string $break Either xs, sm, md, etc.
- * @param string $size
- *
- * @return string
- */
-function jivedig_columns_get_flex( $break, $size ) {
-	$flex  = '';
-	$basis = jivedig_columns_get_flex_basis( $size );
-
-	switch ( $size ) {
-		case 'equal':
-			$flex .= sprintf( '--flex-%s:1 1 %s;', $break, $basis );
-		break;
-		case 'auto':
-			$flex .= sprintf( '--flex-%s:0 1 %s;', $break, $basis );
-		break;
-		case 'fill':
-			$flex .= sprintf( '--flex-%s:1 0 %s;', $break, $basis );
-		break;
-		case 'full':
-			$flex .= sprintf( '--flex-%s:0 0 %s;', $break, $basis );
-		break;
-		default:
-			$flex .= sprintf( '--flex-%s:0 0 %s;', $break, $basis );
-	}
-
-	return $flex;
-}
-
-/**
- * Gets flex basis value from column size.
- *
- * Uses: `flex-basis: calc(25% - (var(--column-gap) * 3/4));`
- * This also works: `flex-basis: calc((100% / var(--columns) - ((var(--columns) - 1) / var(--columns) * var(--column-gap))));`
- * but it was easier to use the same formula with fractions. The latter formula is still used for entry columns since we can't
- * change it because it would break backwards compatibility.
- *
- * @param string $size The size from column setting. Either 'auto', 'fill', 'full', a fraction `1/3`.
- *
- * @return string
- */
-function jivedig_columns_get_flex_basis( string $size ) {
-	static $all = [];
-
-	if ( isset( $all[ $size ] ) ) {
-		return $all[ $size ];
-	}
-
-	if ( in_array( $size, [ 'equal', 'auto', 'fill', 'full' ] ) ) {
 		switch ( $size ) {
-			case 'equal':
-				$all[ $size ] = '0%';
-			break;
 			case 'auto':
-				$all[ $size ] = 'auto';
-			break;
+				return '0 1 0%';
+			case 'fit':
+				return '0 1 auto';
 			case 'fill':
-				$all[ $size ] = '0';
-			break;
-			case 'full':
-				$all[ $size ] = '100%';
-			break;
+				return '1 0 0';
 		}
 
-		return $all[ $size ];
+		return '0 1 var(--flex-basis)';
 	}
 
-	// Set columns.
-	if ( jivedig_is_fraction( $size ) ) {
-		$all[ $size ] = sprintf( 'calc(100%% * %s)', $size );
-	}
-	// Use raw value
-	else {
-		$all[ $size ] =  $size;
-	}
+	/**
+	 * Gets the correct column value from the repeated arrangement array.
+	 * Alternate, but slower, versions below.
+	 *
+	 * // Slower.
+	 * $array = array_merge(...array_fill( 0, $index, $array ));
+	 * return $array[ $index ] ?? $default;
+	 *
+	 * // Slowest.
+	 * $array = [];
+	 * for ( $i = 0; $i < ( $index + 1) / count( $pattern ); $i++ ) {
+	 * 	$array = array_merge( $array, $pattern );
+	 * }
+	 * return $array[ $index ] ?? $default;
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param int   $index   The current item index to get the value for.
+	 * @param array $array   The array to get index value from.
+	 * @param mixed $default The default value if there is no index.
+	 *
+	 * @return mixed
+	 */
+	function get_index_value_from_array( $index, $array, $default = null ) {
+		// If index is already available, return it.
+		if ( isset( $array[ $index ] ) ) {
+			return $array[ $index ];
+		}
 
-	return $all[ $size ];
-}
+		// If only 1 item in array, return the first.
+		if ( 1 === count( $array ) ) {
+			return reset( $array );
+		}
 
-/**
- * Gets the correct column value from the repeated arrangement array.
- * Alternate, but slower, versions below.
- *
- * // Slow.
- * $array = array_merge(...array_fill( 0, $index, $array ));
- * return $array[ $index ] ?? $default;
- *
- * // Slowest.
- * $array = [];
- * for ( $i = 0; $i < ( $index + 1) / count( $pattern ); $i++ ) {
- * 	$array = array_merge( $array, $pattern );
- * }
- * return $array[ $index ] ?? $default;
- *
- * @access private
- *
- * @param int   $index   The current item index to get the value for.
- * @param array $array   The array to get index value from.
- * @param mixed $default The default value if there is no index.
- *
- * @return mixed
- */
-function jivedig_get_index_value_from_array( $index, $array, $default = null ) {
-	// If index is already available, return it.
-	if ( isset( $array[ $index ] ) ) {
-		return $array[ $index ];
+		return $array[ $index % count( $array ) ] ?? $default;
 	}
 
-	// If only 1 item in array, return the first.
-	if ( 1 === count( $array ) ) {
-		return reset( $array );
+	/**
+	 * Gets the fraction value from a given value.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	function get_fraction( $value ) {
+		if ( ! $value ) {
+			return false;
+		}
+
+		if ( in_array( $value, [ 'auto', 'fill', 'full'] ) ) {
+			return false;
+		}
+
+		if ( $this->is_fraction( $value ) ) {
+			return $value;
+		}
+
+		// If not a fraction, it's a percentage. Convert to fraction and reduce.
+		$percentage   = floatval( str_replace( '%', '', $value ) );
+		$decimalValue = $percentage / 100;
+		$numerator    = intval( round( $decimalValue * 100 ) );
+		$denominator  = 100;
+		$gcd          = $this->get_gcd( $numerator, $denominator );
+
+		return sprintf( '%s/%s', $numerator / $gcd, $denominator / $gcd);
 	}
 
-	return $array[ $index % count( $array ) ] ?? $default;
-}
+	/**
+	 * Gets the greatest common denominator.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param int $a
+	 * @param int $b
+	 *
+	 * @return int
+	 */
+	function get_gcd( $a, $b ) {
+		if ( 0 === $b ) {
+			return $a;
+		}
 
-function jivedig_get_fraction( $value ) {
-	if ( ! $value ) {
-		return false;
+		return $this->get_gcd( $b, $a % $b );
 	}
 
-	if ( in_array( $value, [ 'auto', 'fill', 'full'] ) ) {
-		return false;
+	/**
+	 * Checks if a value is a fraction.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	function is_fraction( $value ) {
+		return preg_match( '/^\\d+\\/\\d+$/', $value );
 	}
 
-	if ( jivedig_is_fraction( $value ) ) {
-		return $value;
+	/**
+	 * Gets DOMDocument object.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $html Any given HTML string.
+	 *
+	 * @return DOMDocument
+	 */
+	function get_dom_document( $html ) {
+		// Create the new document.
+		$dom = new DOMDocument();
+
+		// Modify state.
+		$libxml_previous_state = libxml_use_internal_errors( true );
+
+		// Encode.
+		$html = mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' );
+
+		// Load the content in the document HTML.
+		$dom->loadHTML( "<div>$html</div>" );
+
+		// Handle wraps.
+		$container = $dom->getElementsByTagName('div')->item(0);
+		$container = $container->parentNode->removeChild( $container );
+
+		while ( $dom->firstChild ) {
+			$dom->removeChild( $dom->firstChild );
+		}
+
+		while ( $container->firstChild ) {
+			$dom->appendChild( $container->firstChild );
+		}
+
+		// Handle errors.
+		libxml_clear_errors();
+
+		// Restore.
+		libxml_use_internal_errors( $libxml_previous_state );
+
+		return $dom;
 	}
-
-	// If not a fraction, it's a percentage. Convert to fraction and reduce.
-	$percentage   = floatval( str_replace( '%', '', $value ) );
-	$decimalValue = $percentage / 100;
-	$numerator    = intval( round( $decimalValue * 100 ) );
-	$denominator  = 100;
-	$gcd          = jivedig_get_gcd( $numerator, $denominator );
-	$numerator    = $numerator / $gcd;
-	$denominator  = $denominator / $gcd;
-
-	return "$numerator/$denominator";
-}
-
-function jivedig_is_fraction( $value ) {
-	return preg_match( '/^\\d+\\/\\d+$/', $value );
-}
-
-function jivedig_get_gcd( $a, $b ) {
-	if ( 0 === $b ) {
-		return $a;
-	}
-
-	return jivedig_get_gcd( $b, $a % $b );
-}
-
-function jivedig_get_flex( $size ) {
-	if ( ! $size ) {
-		return '1';
-	}
-
-	switch ( $size ) {
-		case 'auto':
-			return '0 1 0%';
-		case 'fit':
-			return '0 1 auto';
-		case 'fill':
-			return '1 0 0';
-	}
-
-	return '0 1 var(--flex-basis)';
 }

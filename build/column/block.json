@@ -33,6 +33,5 @@
     "mai/columnsSm"
   ],
   "textdomain": "mai-columns",
-  "editorScript": "file:./index.js",
-  "viewScript": "file:./view.js"
+  "editorScript": "file:./index.js"
 }

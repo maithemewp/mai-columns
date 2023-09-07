@@ -11,7 +11,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--row-gap) var(--column-gap);
-	padding: 40px;
+	padding: 10px;
 	background-color: plum;
 }
 
@@ -22,6 +22,7 @@
 	padding: 20px;
 	background-color: white;
 	border: 1px dashed blue;
+	word-break: break-all; /* for testing */
 }
 
 /* SM */

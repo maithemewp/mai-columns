@@ -16,44 +16,5 @@ import { InnerBlocks, useBlockProps, useInnerBlocksProps } from '@wordpress/bloc
  * @return {WPElement} Element to render.
  */
 export default function save() {
-	// const blockProps       = useBlockProps.save();
-	// const innerBlocksProps = useInnerBlocksProps.save();
-
-	// return (
-	// 	<div { ...blockProps }>
-	// 		<div {...innerBlocksProps} />
-	// 	</div>
-	// );
-
-	// const blockProps       = useBlockProps.save();
-	// const innerBlocksProps = useInnerBlocksProps.save( blockProps );
-
-	// return (
-	// 	<div {...innerBlocksProps} />
-	// );
-
-	// return <InnerBlocks.Content/>;
-
-	// const blockProps = useBlockProps.save();
-
-	// return (
-	// 	<div { ...blockProps }>
-	// 		<InnerBlocks.Content />
-	// 	</div>
-	// );
-
-	// const blockProps = useBlockProps.save();
-
-	// return (
-	// 	<div { ...blockProps }>
-	// 		<InnerBlocks.Content />
-	// 	</div>
-	// );
-
 	return <InnerBlocks.Content />
-
-	// const blockProps       = useBlockProps.save( { className: 'jivedig-column' } );
-	// const innerBlocksProps = useInnerBlocksProps.save( blockProps );
-
-	// return <div { ...innerBlocksProps } />;
 }
