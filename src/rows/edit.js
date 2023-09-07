@@ -13,7 +13,7 @@ import { __ } from '@wordpress/i18n';
  */
 import { InspectorControls, useBlockProps, useInnerBlocksProps, BlockControls, JustifyContentControl, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, BaseControl, TextControl, FormTokenField } from '@wordpress/components';
-import MaiMultiSelectDuplicate from './select-duplicates';
+import MaiMultiSelectDuplicate from './select-duplicate';
 // import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
 /**
@@ -33,27 +33,27 @@ export default function Edit({ attributes, setAttributes }) {
 	const options = [
 		{
 			value: '1/4',
-			label: __( '25%' ),
+			label: __( '25' ),
 		},
 		{
 			value: '1/3',
-			label: __( '33%' ),
+			label: __( '33' ),
 		},
 		{
 			value: '1/2',
-			label: __( '50%' ),
+			label: __( '50' ),
 		},
 		{
 			value: '2/3',
-			label: __( '66%' ),
+			label: __( '66' ),
 		},
 		{
 			value: '3/4',
-			label: __( '75%' ),
+			label: __( '75' ),
 		},
 		{
 			value: '1/1',
-			label: __( '100%' ),
+			label: __( '100' ),
 		},
 		{
 			value: 'fit',
@@ -97,15 +97,15 @@ export default function Edit({ attributes, setAttributes }) {
 	/**
 	 * Set block props.
 	 */
-	const blockProps       = useBlockProps( { className: 'mai-rows' } );
+	const blockProps       = useBlockProps( { className: 'mai-rows is-layout-flex' } );
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
-			allowedBlocks: [ 'mai/column' ],
+			allowedBlocks: [ 'mai/row-item' ],
 			orientation: 'horizontal',
 			template: [
-				[ 'mai/column' ],
-				[ 'mai/column' ],
+				[ 'mai/row-item' ],
+				[ 'mai/row-item' ],
 			]
 		}
 	);
@@ -128,7 +128,7 @@ export default function Edit({ attributes, setAttributes }) {
 			</BlockControls>
 			<InspectorControls key="Columns">
 				<PanelBody>
-					<h2>{ __( 'Size Arrangments)' ) }</h2>
+					<h2>{ __( 'Size Arrangements' ) }</h2>
 					<BaseControl
 						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
 					></BaseControl>

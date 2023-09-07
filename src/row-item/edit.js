@@ -21,8 +21,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param string $break Either xs, sm, md, etc.
-	 * @param string $size
+	 * @param string size The size value from settings.
 	 *
 	 * @return string
 	 */
@@ -48,9 +47,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param int   $index   The current item index to get the value for.
-	 * @param array $array   The array to get index value from.
-	 * @param mixed $default The default value if there is no index.
+	 * @param int   index   The current item index to get the value for.
+	 * @param array array   The array to get index value from.
+	 * @param mixed default The default value if there is no index.
 	 *
 	 * @return mixed
 	 */
@@ -69,7 +68,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	/**
 	 * Gets the fraction value from a given value.
 	 *
-	 * @param string $value
+	 * @param string value
 	 *
 	 * @return string
 	 */
@@ -100,8 +99,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param int $a
-	 * @param int $b
+	 * @param int a
+	 * @param int b
 	 *
 	 * @return int
 	 */
@@ -118,7 +117,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param string $value
+	 * @param string value
 	 *
 	 * @return bool
 	 */
