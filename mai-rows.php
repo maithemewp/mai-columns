@@ -78,7 +78,7 @@ class Mai_Rows_Block {
 
 		// Bail if no content.
 		if ( ! $content ) {
-			return sprintf( '<div class="mai-rows">%s</div>', $content );
+			return sprintf( '<div class="mai-rows is-layout-flex">%s</div>', $content );
 		}
 
 		// Get arrangements.
@@ -105,7 +105,7 @@ class Mai_Rows_Block {
 
 		// Bail if no columns.
 		if ( ! $columns->length ) {
-			return sprintf( '<div class="mai-rows">%s</div>', $content );
+			return sprintf( '<div class="mai-rows is-layout-flex">%s</div>', $content );
 		}
 
 		// Start counter.
@@ -144,8 +144,22 @@ class Mai_Rows_Block {
 		// Save content.
 		$content = $dom->saveHTML();
 
+		// Build default atts.
+		$atts = [
+			'class' => 'mai-rows is-layout-flex',
+		];
+
+		// Add block gap.
+		if ( isset( $attributes['style']['spacing']['blockGap'] ) ) {
+			$gap = $this->get_block_gap( $attributes['style']['spacing']['blockGap'] );
+
+			if ( $gap ) {
+				$atts['style'] = sprintf( '--gap:%s;', $gap );
+			}
+		}
+
 		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
-		$attr = get_block_wrapper_attributes( [ 'class' => 'mai-rows' ] );
+		$attr = get_block_wrapper_attributes( $atts );
 		$attr = str_replace( ' wp-block-mai-rows', '', $attr );
 
 		return sprintf( '<div %s>%s</div>', trim( $attr ), $content );
@@ -176,12 +190,30 @@ class Mai_Rows_Block {
 	}
 
 	/**
+	 * Converts blockGap value to CSS
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $gap The blockGap value.
+	 *
+	 * @return string
+	 */
+	function get_block_gap( $gap ) {
+		$pattern = '/var:([^|]+)\|([^|]+)\|([^|]+)/';
+		$result  = preg_replace_callback( $pattern, function( $matches ) {
+			$last = preg_replace("/(\d+)([a-zA-Z]?)/", "$1-$2", $matches[3] );
+			return "var(--wp--{$matches[1]}--{$matches[2]}--{$last})";
+		}, $gap );
+
+		return $result;
+	}
+
+	/**
 	 * Gets flex value from column size.
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param string $break Either xs, sm, md, etc.
-	 * @param string $size
+	 * @param string $size The size value from settings.
 	 *
 	 * @return string
 	 */

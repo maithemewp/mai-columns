@@ -8,16 +8,16 @@
  * Replace them with your own styles or remove the file completely.
  */
 .mai-rows {
-  --column-gap: 1em;
-  --row-gap: 1em;
-  display: flex;
+  --column-gap: var(--gap, 1em);
+  --row-gap: var(--gap, 1em);
   flex-wrap: wrap;
-  gap: var(--row-gap) var(--column-gap);
+  gap: var(--row-gap) var(--column-gap) !important; /* is-layout-flex class overrides this so we're forcing for now */
 }
 
 .mai-row-item {
   --flex-basis: calc((100% * var(--size) - (var(--column-gap) * (1 - var(--size)))) - 0.025px);
   flex: var(--flex);
+  flex-direction: column;
   margin: 0 !important;
 }
 

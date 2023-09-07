@@ -2201,7 +2201,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _select_duplicates__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select-duplicates */ "./src/rows/select-duplicates.js");
+/* harmony import */ var _select_duplicate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select-duplicate */ "./src/rows/select-duplicate.js");
 
 /**
  * Retrieves the translation of text.
@@ -2247,22 +2247,22 @@ function Edit({
    */
   const options = [{
     value: '1/4',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('25%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('25')
   }, {
     value: '1/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('33%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('33')
   }, {
     value: '1/2',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('50%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('50')
   }, {
     value: '2/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('66%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('66')
   }, {
     value: '3/4',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('75%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('75')
   }, {
     value: '1/1',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('100%')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('100')
   }, {
     value: 'fit',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fit Content')
@@ -2303,12 +2303,12 @@ function Edit({
    * Set block props.
    */
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
-    className: 'mai-rows'
+    className: 'mai-rows is-layout-flex'
   });
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
-    allowedBlocks: ['mai/column'],
+    allowedBlocks: ['mai/row-item'],
     orientation: 'horizontal',
-    template: [['mai/column'], ['mai/column']]
+    template: [['mai/row-item'], ['mai/row-item']]
   });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
@@ -2328,11 +2328,11 @@ function Edit({
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
     key: "Columns"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Size Arrangments)')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Size Arrangements')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.')
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Desktop')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: "sizesXl",
     options: options,
     value: mapValuesToLabels(sizesXl),
@@ -2348,7 +2348,7 @@ function Edit({
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Large Tablet')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: "sizesLg",
     options: options,
     value: mapValuesToLabels(sizesLg),
@@ -2364,7 +2364,7 @@ function Edit({
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Small Tablet')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: "sizesMd",
     options: options,
     value: mapValuesToLabels(sizesMd),
@@ -2380,7 +2380,7 @@ function Edit({
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Mobile')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicates__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: "sizesSm",
     options: options,
     value: mapValuesToLabels(sizesSm),
@@ -2493,10 +2493,10 @@ function save() {
 
 /***/ }),
 
-/***/ "./src/rows/select-duplicates.js":
-/*!***************************************!*\
-  !*** ./src/rows/select-duplicates.js ***!
-  \***************************************/
+/***/ "./src/rows/select-duplicate.js":
+/*!**************************************!*\
+  !*** ./src/rows/select-duplicate.js ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2522,9 +2522,11 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Make sure a value is valid.
  *
+ * @since 0.1.0
+ *
  * @param {string} value
  *
- * @returns bool
+ * @return bool
  */
 const isValid = value => {
   const validStrings = ['auto', 'fill', 'full'];
@@ -2534,8 +2536,8 @@ const isValid = value => {
     return true;
   }
 
-  // Check if it's a valid percent.
-  if (isPercent(value)) {
+  // Check if value is a valid number.
+  if (!isNaN(value)) {
     return true;
   }
 
@@ -2547,26 +2549,13 @@ const isValid = value => {
 };
 
 /**
- * If a value is a percentage.
- *
- * @param {string} value
- *
- * @returns bool
- */
-const isPercent = value => {
-  const regex = /^\d+(\.\d+)?%$/;
-  if (regex.test(value)) {
-    return parseFloat(value.replace('%', '')) <= 100;
-  }
-  return false;
-};
-
-/**
  * If a value is a fraction.
  *
+ * @since 0.1.0
+ *
  * @param {string} value
  *
- * @returns boolean
+ * @return boolean
  */
 const isFraction = value => {
   // Split the string into parts based on the '/' character.
@@ -2590,6 +2579,12 @@ const isFraction = value => {
   // Bail if numerator is larger than denominator.
   return numerator <= denominator;
 };
+
+/**
+ * Setup component.
+ *
+ * @since 0.1.0
+ */
 const MaiMultiSelectDuplicate = ({
   options = [],
   value = [],
@@ -2681,6 +2676,15 @@ const MaiMultiSelectDuplicate = ({
       onCreateOption(inputValue);
     }
   };
+
+  /**
+   * Format the label for a newly created sizes.
+   *
+   * @param {string} inputValue
+   */
+  const formatCreateLabel = inputValue => {
+    return `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${isFraction(inputValue) || isNaN(inputValue) ? inputValue : `${inputValue}%`}`;
+  };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_2__["default"], {
     isMulti: true,
     hideSelectedOptions: false,
@@ -2693,6 +2697,8 @@ const MaiMultiSelectDuplicate = ({
       actualValue: op.value,
       value: `${op.value}_${Date.now()}`
     })),
+    formatOptionLabel: option => isFraction(option.label) || isNaN(option.label) ? option.label : `${option.label}%`,
+    formatCreateLabel: formatCreateLabel,
     components: {
       DropdownIndicator: () => null,
       IndicatorSeparator: () => null
