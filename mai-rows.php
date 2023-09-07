@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       Mai Rows
- * Description:       Example block scaffolded with Create Block tool.
+ * Description:       Create simple and complex repeatable column arrangements quickly.
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0
- * Author:            The WordPress Contributors
+ * Author:            Bizbudding
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       mai-rows
@@ -46,21 +46,21 @@ class Mai_Rows_Block {
 	 * @return void
 	 */
 	function block_init() {
-		register_block_type( __DIR__ . '/build/columns',
+		register_block_type( __DIR__ . '/build/rows',
 			[
-				'render_callback' => [ $this, 'get_columns' ],
+				'render_callback' => [ $this, 'get_rows' ],
 			]
 		);
 
-		register_block_type( __DIR__ . '/build/column',
+		register_block_type( __DIR__ . '/build/row-item',
 			[
-				'render_callback' => [ $this, 'get_column' ],
+				'render_callback' => [ $this, 'get_row_item' ],
 			]
 		);
 	}
 
 	/**
-	 * Get columns.
+	 * Get rows.
 	 *
 	 * @since 0.1.0
 	 *
@@ -70,7 +70,7 @@ class Mai_Rows_Block {
 	 *
 	 * @return string
 	 */
-	function get_columns( $attributes, $content, $block ) {
+	function get_rows( $attributes, $content, $block ) {
 		// Bail if in the editor.
 		if ( is_admin() ) {
 			return;
@@ -78,15 +78,15 @@ class Mai_Rows_Block {
 
 		// Bail if no content.
 		if ( ! $content ) {
-			return sprintf( '<div class="jivedig-columns">%s</div>', $content );
+			return sprintf( '<div class="mai-rows">%s</div>', $content );
 		}
 
 		// Get arrangements.
 		$arrangements = [
-			'xl' => $attributes['columnsXl'],
-			'lg' => $attributes['columnsLg'],
-			'md' => $attributes['columnsMd'],
-			'sm' => $attributes['columnsSm'],
+			'xl' => $attributes['sizesXl'],
+			'lg' => $attributes['sizesLg'],
+			'md' => $attributes['sizesMd'],
+			'sm' => $attributes['sizesSm'],
 		];
 
 		// Set fallbacks.
@@ -101,11 +101,11 @@ class Mai_Rows_Block {
 		// Get column nodes.
 		$dom     = $this->get_dom_document( $content );
 		$xpath   = new DOMXPath( $dom );
-		$columns = $xpath->query( '/div[contains(concat(" ", normalize-space(@class), " "), " jivedig-column ")]' );
+		$columns = $xpath->query( '/div[contains(concat(" ", normalize-space(@class), " "), " mai-row-item ")]' );
 
 		// Bail if no columns.
 		if ( ! $columns->length ) {
-			return sprintf( '<div class="jivedig-columns">%s</div>', $content );
+			return sprintf( '<div class="mai-rows">%s</div>', $content );
 		}
 
 		// Start counter.
@@ -123,7 +123,7 @@ class Mai_Rows_Block {
 			// Loop through arrangements, setting custom properties by breakpoint.
 			foreach ( $arrangements as $key => $values ) {
 				$size      = $values ? $this->get_index_value_from_array( $i, $values ) : '';
-				$columns[] = sprintf( '--columns-%s:%s', $key, $this->get_fraction( $size ) ?: 1 );
+				$columns[] = sprintf( '--size-%s:%s', $key, $this->get_fraction( $size ) ?: 1 );
 				$flexes[]  = sprintf( '--flex-%s:%s', $key, $this->get_flex( $size ) );
 			}
 
@@ -144,11 +144,11 @@ class Mai_Rows_Block {
 		// Save content.
 		$content = $dom->saveHTML();
 
-		return sprintf( '<div class="jivedig-columns">%s</div>', $content );
+		return sprintf( '<div class="mai-rows">%s</div>', $content );
 	}
 
 	/**
-	 * Get individual column.
+	 * Get row items.
 	 *
 	 * @since 0.1.0
 	 *
@@ -158,13 +158,13 @@ class Mai_Rows_Block {
 	 *
 	 * @return string
 	 */
-	function get_column( $attributes, $content, $block ) {
+	function get_row_item( $attributes, $content, $block ) {
 		// Bail if in the editor.
 		if ( is_admin() ) {
 			return;
 		}
 
-		return sprintf( '<div class="jivedig-column">%s</div>', $content );
+		return sprintf( '<div class="mai-row-item">%s</div>', $content );
 	}
 
 	/**

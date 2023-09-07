@@ -5,7 +5,7 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.jivedig-columns {
+.mai-rows {
 	--column-gap: 1em;
 	--row-gap: 1em;
 	display: flex;
@@ -15,7 +15,7 @@
 	background-color: plum;
 }
 
-.jivedig-column {
+.mai-row-item {
 	--flex-basis: calc((100% * var(--columns) - (var(--column-gap) * (1 - var(--columns)))) - 0.025px);
 	flex: var(--flex);
 	margin: 0 !important;
@@ -28,8 +28,8 @@
 /* SM */
 @media only screen and (max-width: 599px) {
 
-	.jivedig-column {
-		--columns: var(--columns-sm, 1);
+	.mai-row-item {
+		--columns: var(--size-sm, 1);
 		--flex: var(--flex-sm, 1);
 	}
 }
@@ -37,8 +37,8 @@
 /* MD */
 @media only screen and (min-width: 600px) and (max-width: 799px) {
 
-	.jivedig-column {
-		--columns: var(--columns-md, 1);
+	.mai-row-item {
+		--columns: var(--size-md, 1);
 		--flex: var(--flex-md, 1);
 	}
 }
@@ -46,8 +46,8 @@
 /* LG */
 @media only screen and (min-width: 800px) and (max-width: 999px) {
 
-	.jivedig-column {
-		--columns: var(--columns-lg, 1);
+	.mai-row-item {
+		--columns: var(--size-lg, 1);
 		--flex: var(--flex-lg, 1);
 	}
 }
@@ -55,8 +55,8 @@
 /* XL */
 @media only screen and (min-width: 1000px) {
 
-	.jivedig-column {
-		--columns: var(--columns-xl, 1);
+	.mai-row-item {
+		--columns: var(--size-xl, 1);
 		--flex: var(--flex-xl, 1);
 	}
 }

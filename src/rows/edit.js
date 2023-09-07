@@ -35,7 +35,7 @@ import './editor.scss';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { justifyContent, alignItems, columnsXl, columnsLg, columnsMd, columnsSm } = attributes;
+	const { justifyContent, alignItems, sizesXl, sizesLg, sizesMd, sizesSm } = attributes;
 
 	const options = [
 		{
@@ -87,7 +87,7 @@ export default function Edit({ attributes, setAttributes }) {
 		});
 	}
 
-	const blockProps       = useBlockProps( { className: 'jivedig-columns' } );
+	const blockProps       = useBlockProps( { className: 'mai-rows' } );
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
@@ -124,53 +124,53 @@ export default function Edit({ attributes, setAttributes }) {
 					></BaseControl>
 					<BaseControl label={ __( 'Desktop' ) }>
 						<MaiMultiSelectDuplicate
-							key="columnsXl"
+							key="sizesXl"
 							options={ options }
-							value={ mapValuesToLabels( columnsXl ) }
+							value={ mapValuesToLabels( sizesXl ) }
 							onChange={ ( values ) => {
-								setAttributes( { columnsXl: mapLabelsToValues( values ) } );
+								setAttributes( { sizesXl: mapLabelsToValues( values ) } );
 							}}
 							onCreateOption={ ( value ) => {
-								setAttributes( { columnsXl: [ ...columnsXl, value ] } );
+								setAttributes( { sizesXl: [ ...sizesXl, value ] } );
 							}}
 						/>
 					</BaseControl>
 					<BaseControl label={ __( 'Large Tablet' ) }>
 						<MaiMultiSelectDuplicate
-							key="columnsLg"
+							key="sizesLg"
 							options={ options }
-							value={ mapValuesToLabels( columnsLg ) }
+							value={ mapValuesToLabels( sizesLg ) }
 							onChange={ ( values ) => {
-								setAttributes( { columnsLg: mapLabelsToValues( values ) } );
+								setAttributes( { sizesLg: mapLabelsToValues( values ) } );
 							}}
 							onCreateOption={ ( value ) => {
-								setAttributes( { columnsLg: [ ...columnsLg, value ] } );
+								setAttributes( { sizesLg: [ ...sizesLg, value ] } );
 							}}
 						/>
 					</BaseControl>
 					<BaseControl label={ __( 'Small Tablet' ) }>
 						<MaiMultiSelectDuplicate
-							key="columnsMd"
+							key="sizesMd"
 							options={ options }
-							value={ mapValuesToLabels( columnsMd ) }
+							value={ mapValuesToLabels( sizesMd ) }
 							onChange={ ( values ) => {
-								setAttributes( { columnsMd: mapLabelsToValues( values ) } );
+								setAttributes( { sizesMd: mapLabelsToValues( values ) } );
 							}}
 							onCreateOption={ ( value ) => {
-								setAttributes( { columnsMd: [ ...columnsMd, value ] } );
+								setAttributes( { sizesMd: [ ...sizesMd, value ] } );
 							}}
 						/>
 					</BaseControl>
 					<BaseControl label={ __( 'Mobile' ) }>
 						<MaiMultiSelectDuplicate
-							key="columnsSm"
+							key="sizesSm"
 							options={ options }
-							value={ mapValuesToLabels( columnsSm ) }
+							value={ mapValuesToLabels( sizesSm ) }
 							onChange={ ( values ) => {
-								setAttributes( { columnsSm: mapLabelsToValues( values ) } );
+								setAttributes( { sizesSm: mapLabelsToValues( values ) } );
 							}}
 							onCreateOption={ ( value ) => {
-								setAttributes( { columnsSm: [ ...columnsSm, value ] } );
+								setAttributes( { sizesSm: [ ...sizesSm, value ] } );
 							}}
 						/>
 					</BaseControl>

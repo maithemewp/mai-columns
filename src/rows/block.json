@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "mai/columns",
+	"name": "mai/rows",
 	"version": "0.1.0",
-	"title": "Mai Columns",
+	"title": "Mai Rows",
 	"category": "widgets",
 	"icon": "smiley",
 	"description": "Example block scaffolded with Create Block tool.",
@@ -14,19 +14,19 @@
 		"justifyContent": {
 			"type": "string"
 		},
-		"columnsXl": {
+		"sizesXl": {
 			"type": "array",
 			"default": []
 		},
-		"columnsLg": {
+		"sizesLg": {
 			"type": "array",
 			"default": []
 		},
-		"columnsMd": {
+		"sizesMd": {
 			"type": "array",
 			"default": [ "1/1" ]
 		},
-		"columnsSm": {
+		"sizesSm": {
 			"type": "array",
 			"default": [ "1/1" ]
 		},
@@ -51,10 +51,10 @@
 		}
 	},
 	"providesContext": {
-		"mai/columnsXl": "columnsXl",
-		"mai/columnsLg": "columnsLg",
-		"mai/columnsMd": "columnsMd",
-		"mai/columnsSm": "columnsSm"
+		"mai/sizesXl": "sizesXl",
+		"mai/sizesLg": "sizesLg",
+		"mai/sizesMd": "sizesMd",
+		"mai/sizesSm": "sizesSm"
 	},
 	"textdomain": "mai-columns",
 	"editorScript": "file:./index.js",

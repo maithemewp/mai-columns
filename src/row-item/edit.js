@@ -55,10 +55,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 * @return mixed
 	 */
 	const getIndexValueFromArray = function( index, array, defaultVal = null ) {
-		if ( undefined === array ) {
-			return defaultVal
-		}
-
 		if ( undefined !== array[index] ) {
 			return array[index];
 		}
@@ -151,43 +147,43 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const data         = [
 		{
 			break: 'xl',
-			columns: context['mai/columnsXl'],
+			columns: context['mai/sizesXl'],
 			default: '',
 		},
 		{
 			break: 'lg',
-			columns: context['mai/columnsLg'],
+			columns: context['mai/sizesLg'],
 			default: '',
 		},
 		{
 			break: 'md',
-			columns: context['mai/columnsMd'],
+			columns: context['mai/sizesMd'],
 			default: '',
 		},
 		{
 			break: 'sm',
-			columns: context['mai/columnsSm'],
+			columns: context['mai/sizesSm'],
 			default: '',
 		}
 	];
 
 	data.forEach(item => {
-		arrangements[item.break] = getIndexValueFromArray( blockIndex, item.columns, item.default );
+		arrangements[ item.break ] = getIndexValueFromArray( blockIndex, item.columns, item.default );
 	});
 
-	Object.entries( arrangements ).forEach( ( [key, value] ) => {
-		inlineStyles[`--columns-${key}`] = getFraction( value ) || 1;
+	Object.entries( arrangements ).forEach( ( [ key, value ] ) => {
+		inlineStyles[`--size-${key}`] = getFraction( value ) || 1;
 	});
 
-	Object.entries( arrangements ).forEach( ( [key, value] ) => {
-		inlineStyles[`--flex-${key}`]    = getFlex( value );
+	Object.entries( arrangements ).forEach( ( [ key, value ] ) => {
+		inlineStyles[`--flex-${key}`] = getFlex( value );
 	});
 
 	/**
 	 * Set props.
 	 */
 	const props = {
-		className: 'jivedig-column',
+		className: 'mai-row-item',
 		style: inlineStyles
 	};
 
