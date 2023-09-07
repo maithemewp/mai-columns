@@ -26,13 +26,13 @@ const isValid = ( value ) => {
 		return true;
 	}
 
-	// Check if value is a valid number.
-	if ( ! isNaN( value ) ) {
+	// Check if value is a valid number larger then  0 and less than or equal to 100.
+	if ( value && ! isNaN( value ) && value > 0 && value <= 100 ) {
 		return true;
 	}
 
 	// Check if it's a valid fraction.
-	if ( isFraction( value ) ) {
+	if ( value && isFraction( value ) ) {
 		return true;
 	}
 
@@ -168,7 +168,7 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 	 * @param {string} inputValue
 	 */
 	const formatCreateLabel = ( inputValue ) => {
-		return `${__( 'Add' )} ${isFraction( inputValue ) || isNaN( inputValue ) ? inputValue : `${inputValue}%`}`;
+		return inputValue ? `${__( 'Add' )} ${isFraction( inputValue ) || isNaN( inputValue ) ? inputValue : `${inputValue}%`}` : '';
 	}
 
 	return (
@@ -180,10 +180,18 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 			onChange={ handleChange }
 			onCreateOption={ handleCreate }
 			options={ options.map( op => ( { ...op, actualValue: op.value, value: `${op.value}_${Date.now()}` } ) ) }
-			formatOptionLabel={ option => isFraction( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%` }
+			formatOptionLabel={ option => ! option.label || isFraction( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%` }
 			formatCreateLabel={ formatCreateLabel }
 			components={ { DropdownIndicator:() => null, IndicatorSeparator:() => null } }
 			isValidNewOption={ isValid }
+			// styles={{
+			// 	input: (providedStyles, props) => ({
+			// 		...providedStyles,
+			// 		boxShadow: 0,
+			// 		maxHeight: 'unset',
+			// 		border: '1px dashed red',
+			// 	}),
+			// }}
 		/>
 	);
 };

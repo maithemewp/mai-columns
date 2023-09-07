@@ -2328,7 +2328,7 @@ function Edit({
     }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
     key: "Columns"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Size Arrangements')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Item Size Arrangements')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.')
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Desktop')
@@ -2536,13 +2536,13 @@ const isValid = value => {
     return true;
   }
 
-  // Check if value is a valid number.
-  if (!isNaN(value)) {
+  // Check if value is a valid number larger then  0 and less than or equal to 100.
+  if (value && !isNaN(value) && value > 0 && value <= 100) {
     return true;
   }
 
   // Check if it's a valid fraction.
-  if (isFraction(value)) {
+  if (value && isFraction(value)) {
     return true;
   }
   return false;
@@ -2683,7 +2683,7 @@ const MaiMultiSelectDuplicate = ({
    * @param {string} inputValue
    */
   const formatCreateLabel = inputValue => {
-    return `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${isFraction(inputValue) || isNaN(inputValue) ? inputValue : `${inputValue}%`}`;
+    return inputValue ? `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${isFraction(inputValue) || isNaN(inputValue) ? inputValue : `${inputValue}%`}` : '';
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_2__["default"], {
     isMulti: true,
@@ -2697,15 +2697,24 @@ const MaiMultiSelectDuplicate = ({
       actualValue: op.value,
       value: `${op.value}_${Date.now()}`
     })),
-    formatOptionLabel: option => isFraction(option.label) || isNaN(option.label) ? option.label : `${option.label}%`,
+    formatOptionLabel: option => !option.label || isFraction(option.label) || isNaN(option.label) ? option.label : `${option.label}%`,
     formatCreateLabel: formatCreateLabel,
     components: {
       DropdownIndicator: () => null,
       IndicatorSeparator: () => null
     },
     isValidNewOption: isValid
+    // styles={{
+    // 	input: (providedStyles, props) => ({
+    // 		...providedStyles,
+    // 		boxShadow: 0,
+    // 		maxHeight: 'unset',
+    // 		border: '1px dashed red',
+    // 	}),
+    // }}
   });
 };
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MaiMultiSelectDuplicate);
 
 /***/ }),
