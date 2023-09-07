@@ -2685,7 +2685,13 @@ const MaiMultiSelectDuplicate = ({
   const formatCreateLabel = inputValue => {
     return inputValue ? `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${isFraction(inputValue) || isNaN(inputValue) ? inputValue : `${inputValue}%`}` : '';
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", null, `
+					div[class*="-multiValue"] + div[class*="-Input"] > input[id*="react-select"],
+					div[class*="-multiValue"] + div[class*="-Input"] > input[id*="react-select"]:focus {
+						min-height: unset !important;
+						box-shadow: none !important;
+					}
+				`), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_2__["default"], {
     isMulti: true,
     hideSelectedOptions: false,
     isClearable: true,
@@ -2712,7 +2718,7 @@ const MaiMultiSelectDuplicate = ({
     // 		border: '1px dashed red',
     // 	}),
     // }}
-  });
+  }));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MaiMultiSelectDuplicate);

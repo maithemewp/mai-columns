@@ -172,27 +172,38 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 	}
 
 	return (
-		<CreatableSelect
-			isMulti
-			hideSelectedOptions={ false }
-			isClearable={ true }
-			value={ selectedOptions }
-			onChange={ handleChange }
-			onCreateOption={ handleCreate }
-			options={ options.map( op => ( { ...op, actualValue: op.value, value: `${op.value}_${Date.now()}` } ) ) }
-			formatOptionLabel={ option => ! option.label || isFraction( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%` }
-			formatCreateLabel={ formatCreateLabel }
-			components={ { DropdownIndicator:() => null, IndicatorSeparator:() => null } }
-			isValidNewOption={ isValid }
-			// styles={{
-			// 	input: (providedStyles, props) => ({
-			// 		...providedStyles,
-			// 		boxShadow: 0,
-			// 		maxHeight: 'unset',
-			// 		border: '1px dashed red',
-			// 	}),
-			// }}
-		/>
+		<>
+			<style>
+				{`
+					div[class*="-multiValue"] + div[class*="-Input"] > input[id*="react-select"],
+					div[class*="-multiValue"] + div[class*="-Input"] > input[id*="react-select"]:focus {
+						min-height: unset !important;
+						box-shadow: none !important;
+					}
+				`}
+			</style>
+			<CreatableSelect
+				isMulti
+				hideSelectedOptions={ false }
+				isClearable={ true }
+				value={ selectedOptions }
+				onChange={ handleChange }
+				onCreateOption={ handleCreate }
+				options={ options.map( op => ( { ...op, actualValue: op.value, value: `${op.value}_${Date.now()}` } ) ) }
+				formatOptionLabel={ option => ! option.label || isFraction( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%` }
+				formatCreateLabel={ formatCreateLabel }
+				components={ { DropdownIndicator:() => null, IndicatorSeparator:() => null } }
+				isValidNewOption={ isValid }
+				// styles={{
+				// 	input: (providedStyles, props) => ({
+				// 		...providedStyles,
+				// 		boxShadow: 0,
+				// 		maxHeight: 'unset',
+				// 		border: '1px dashed red',
+				// 	}),
+				// }}
+			/>
+		</>
 	);
 };
 
