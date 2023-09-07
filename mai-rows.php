@@ -144,7 +144,11 @@ class Mai_Rows_Block {
 		// Save content.
 		$content = $dom->saveHTML();
 
-		return sprintf( '<div class="mai-rows">%s</div>', $content );
+		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
+		$attr = get_block_wrapper_attributes( [ 'class' => 'mai-rows' ] );
+		$attr = str_replace( ' wp-block-mai-rows', '', $attr );
+
+		return sprintf( '<div %s>%s</div>', trim( $attr ), $content );
 	}
 
 	/**
@@ -164,7 +168,11 @@ class Mai_Rows_Block {
 			return;
 		}
 
-		return sprintf( '<div class="mai-row-item">%s</div>', $content );
+		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
+		$attr = get_block_wrapper_attributes( [ 'class' => 'mai-row-item' ] );
+		$attr = str_replace( ' wp-block-mai-row-item', '', $attr );
+
+		return sprintf( '<div %s>%s</div>', trim( $attr ), $content );
 	}
 
 	/**
