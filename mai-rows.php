@@ -190,7 +190,7 @@ class Mai_Rows_Block {
 	}
 
 	/**
-	 * Converts blockGap value to CSS
+	 * Converts blockGap values to CSS value.
 	 *
 	 * @since 0.1.0
 	 *
@@ -199,13 +199,10 @@ class Mai_Rows_Block {
 	 * @return string
 	 */
 	function get_block_gap( $gap ) {
-		$pattern = '/var:([^|]+)\|([^|]+)\|([^|]+)/';
-		$result  = preg_replace_callback( $pattern, function( $matches ) {
-			$last = preg_replace("/(\d+)([a-zA-Z]?)/", "$1-$2", $matches[3] );
+		return preg_replace_callback( '/var:([^|]+)\|([^|]+)\|([^|]+)/', function( $matches ) {
+			$last = preg_replace( "/(\d+)([a-zA-Z]?)/", "$1-$2", $matches[3] );
 			return "var(--wp--{$matches[1]}--{$matches[2]}--{$last})";
 		}, $gap );
-
-		return $result;
 	}
 
 	/**
