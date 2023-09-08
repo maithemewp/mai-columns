@@ -4,7 +4,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, BlockControls, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -16,6 +16,8 @@ import { useSelect } from '@wordpress/data';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes, context, clientId }) {
+	const { style, alignItems } = attributes;
+
 	/**
 	 * Gets flex value from column size.
 	 *
@@ -126,7 +128,35 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	}
 
 	/**
+	 * Get the flex CSS value.
+	 * TODO: This is duplicated in edit.js of the other block.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return {string}
+	 */
+	const getFlexCSSValue = ( value ) => {
+		switch ( value ) {
+			case 'top':
+			case 'left':
+				return 'flex-start';
+			case 'middle':
+			case 'center':
+				return 'center';
+			case 'bottom':
+			case 'right':
+				return 'flex-end';
+			case 'space-between':
+				return 'space-between';
+			default:
+				return 'initial';
+		}
+	};
+
+	/**
 	 * Gets block index of parent.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @return string
 	 */
@@ -141,14 +171,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	/**
 	 * Build inline styles from arrangements.
 	 */
-	const inlineStyles = {};
+	const inlineStyles = useBlockProps().style || {};
 	const arrangements = {};
 	const data         = [
-		{
-			break: 'xl',
-			columns: context['mai/sizesXl'],
-			default: '',
-		},
 		{
 			break: 'lg',
 			columns: context['mai/sizesLg'],
@@ -192,6 +217,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		inlineStyles[`--flex-${key}`] = getFlex( value );
 	});
 
+	// Justify content is align items value since flex-direction is column.
+	inlineStyles['--justify-content'] = getFlexCSSValue( alignItems );
+
 	/**
 	 * Set props.
 	 */
@@ -204,6 +232,16 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const innerBlocksProps = useInnerBlocksProps( blockProps );
 
 	return (
-		<div {...innerBlocksProps} />
+		<>
+			<BlockControls group="block">
+				<BlockVerticalAlignmentToolbar
+					value={ alignItems }
+					onChange={ ( value ) => {
+						setAttributes( { alignItems: value } );
+					}}
+				/>
+			</BlockControls>
+			<div {...innerBlocksProps} />
+		</>
 	);
 }

@@ -2237,7 +2237,6 @@ function Edit({
     style,
     justifyContent,
     alignItems,
-    sizesXl,
     sizesLg,
     sizesMd,
     sizesSm
@@ -2302,6 +2301,7 @@ function Edit({
 
   /**
    * Get the flex CSS value.
+   * TODO: This is duplicated in edit.js of the other block.
    *
    * @since 0.1.0
    *
@@ -2413,22 +2413,6 @@ function Edit({
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Arrangements')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.')
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Desktop')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    key: "sizesXl",
-    options: options,
-    value: mapValuesToLabels(sizesXl),
-    onChange: values => {
-      setAttributes({
-        sizesXl: mapLabelsToValues(values)
-      });
-    },
-    onCreateOption: value => {
-      setAttributes({
-        sizesXl: [...sizesXl, value]
-      });
-    }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Large Tablet')
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
     key: "sizesLg",
@@ -11301,7 +11285,7 @@ function combine (array, callback) {
   \*****************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesXl":{"type":"array","default":[]},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":["1/1"]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"__experimentalDefault":"sm","sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesXl":"sizesXl","mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
 
 /***/ })
 

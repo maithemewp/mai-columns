@@ -83,7 +83,6 @@ class Mai_Rows_Block {
 
 		// Get arrangements.
 		$arrangements = [
-			'xl' => $attributes['sizesXl'],
 			'lg' => $attributes['sizesLg'],
 			'md' => $attributes['sizesMd'],
 			'sm' => $attributes['sizesSm'],
@@ -200,8 +199,24 @@ class Mai_Rows_Block {
 			return;
 		}
 
+		// Build default atts.
+		$style = [];
+		$atts  = [
+			'class' => 'mai-column',
+		];
+
+		// Justify content is align items value since flex-direction is column.
+		if ( isset( $attributes['alignItems'] ) ) {
+			$style[] = isset( $attributes['alignItems'] ) ? sprintf( '--justify-content:%s;', $this->get_flex_css_value( $attributes['alignItems'] ) ) : 'initial';
+		}
+
+		// Add inline styles.
+		if ( $style ) {
+			$atts['style'] = implode( '', $style );
+		}
+
 		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
-		$attr = get_block_wrapper_attributes( [ 'class' => 'mai-column' ] );
+		$attr = get_block_wrapper_attributes( $atts );
 		$attr = str_replace( ' wp-block-mai-column', '', $attr );
 
 		return sprintf( '<div %s>%s</div>', trim( $attr ), $content );

@@ -10,7 +10,11 @@
   "category": "widgets",
   "icon": "smiley",
   "description": "An individual row item.",
-  "attributes": {},
+  "attributes": {
+    "alignItems": {
+      "type": "string"
+    }
+  },
   "supports": {
     "anchor": false,
     "align": false,
@@ -27,7 +31,6 @@
     }
   },
   "usesContext": [
-    "mai/sizesXl",
     "mai/sizesLg",
     "mai/sizesMd",
     "mai/sizesSm"

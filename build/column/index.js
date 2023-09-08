@@ -42,6 +42,11 @@ function Edit({
   context,
   clientId
 }) {
+  const {
+    style,
+    alignItems
+  } = attributes;
+
   /**
    * Gets flex value from column size.
    *
@@ -145,7 +150,35 @@ function Edit({
   };
 
   /**
+   * Get the flex CSS value.
+   * TODO: This is duplicated in edit.js of the other block.
+   *
+   * @since 0.1.0
+   *
+   * @return {string}
+   */
+  const getFlexCSSValue = value => {
+    switch (value) {
+      case 'top':
+      case 'left':
+        return 'flex-start';
+      case 'middle':
+      case 'center':
+        return 'center';
+      case 'bottom':
+      case 'right':
+        return 'flex-end';
+      case 'space-between':
+        return 'space-between';
+      default:
+        return 'initial';
+    }
+  };
+
+  /**
    * Gets block index of parent.
+   *
+   * @since 0.1.0
    *
    * @return string
    */
@@ -159,13 +192,9 @@ function Edit({
   /**
    * Build inline styles from arrangements.
    */
-  const inlineStyles = {};
+  const inlineStyles = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)().style || {};
   const arrangements = {};
   const data = [{
-    break: 'xl',
-    columns: context['mai/sizesXl'],
-    default: ''
-  }, {
     break: 'lg',
     columns: context['mai/sizesLg'],
     default: ''
@@ -203,6 +232,9 @@ function Edit({
     inlineStyles[`--flex-${key}`] = getFlex(value);
   });
 
+  // Justify content is align items value since flex-direction is column.
+  inlineStyles['--justify-content'] = getFlexCSSValue(alignItems);
+
   /**
    * Set props.
    */
@@ -212,9 +244,18 @@ function Edit({
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(props);
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)(blockProps);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
+    group: "block"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockVerticalAlignmentToolbar, {
+    value: alignItems,
+    onChange: value => {
+      setAttributes({
+        alignItems: value
+      });
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...innerBlocksProps
-  });
+  }));
 }
 
 /***/ }),
@@ -369,7 +410,7 @@ module.exports = window["wp"]["element"];
   \*******************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/rows"],"version":"0.1.0","title":"Mai Column","category":"widgets","icon":"smiley","description":"An individual row item.","attributes":{},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/sizesXl","mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-rows","editorScript":"file:./index.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/rows"],"version":"0.1.0","title":"Mai Column","category":"widgets","icon":"smiley","description":"An individual row item.","attributes":{"alignItems":{"type":"string"}},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-rows","editorScript":"file:./index.js"}');
 
 /***/ })
 

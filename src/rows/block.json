@@ -14,17 +14,13 @@
 		"justifyContent": {
 			"type": "string"
 		},
-		"sizesXl": {
-			"type": "array",
-			"default": []
-		},
 		"sizesLg": {
 			"type": "array",
 			"default": []
 		},
 		"sizesMd": {
 			"type": "array",
-			"default": [ "1/1" ]
+			"default": []
 		},
 		"sizesSm": {
 			"type": "array",
@@ -48,13 +44,11 @@
 			"margin": true,
 			"padding": true,
 			"blockGap": {
-				"__experimentalDefault": "sm",
 				"sides": [ "horizontal", "vertical" ]
 			}
 		}
 	},
 	"providesContext": {
-		"mai/sizesXl": "sizesXl",
 		"mai/sizesLg": "sizesLg",
 		"mai/sizesMd": "sizesMd",
 		"mai/sizesSm": "sizesSm"

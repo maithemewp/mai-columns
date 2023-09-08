@@ -25,7 +25,7 @@ import MaiMultiSelectDuplicate from './select-duplicate';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { style, justifyContent, alignItems, sizesXl, sizesLg, sizesMd, sizesSm } = attributes;
+	const { style, justifyContent, alignItems, sizesLg, sizesMd, sizesSm } = attributes;
 
 	/**
 	 * Set default options for the select field.
@@ -95,6 +95,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	/**
 	 * Get the flex CSS value.
+	 * TODO: This is duplicated in edit.js of the other block.
 	 *
 	 * @since 0.1.0
 	 *
@@ -147,7 +148,6 @@ export default function Edit({ attributes, setAttributes }) {
 
 		return returnObj;
 	};
-
 
 	/**
 	 * Gets the CSS value from the blockGap value.
@@ -223,19 +223,6 @@ export default function Edit({ attributes, setAttributes }) {
 					<BaseControl
 						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
 					></BaseControl>
-					<BaseControl label={ __( 'Desktop' ) }>
-						<MaiMultiSelectDuplicate
-							key="sizesXl"
-							options={ options }
-							value={ mapValuesToLabels( sizesXl ) }
-							onChange={ ( values ) => {
-								setAttributes( { sizesXl: mapLabelsToValues( values ) } );
-							}}
-							onCreateOption={ ( value ) => {
-								setAttributes( { sizesXl: [ ...sizesXl, value ] } );
-							}}
-						/>
-					</BaseControl>
 					<BaseControl label={ __( 'Large Tablet' ) }>
 						<MaiMultiSelectDuplicate
 							key="sizesLg"

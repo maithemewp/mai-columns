@@ -8,7 +8,11 @@
 	"category": "widgets",
 	"icon": "smiley",
 	"description": "An individual row item.",
-	"attributes": {},
+	"attributes": {
+		"alignItems": {
+			"type": "string"
+		}
+	},
 	"supports": {
 		"anchor": false,
 		"align": false,
@@ -24,7 +28,7 @@
 			"blockGap": false
 		}
 	},
-	"usesContext": [ "mai/sizesXl", "mai/sizesLg", "mai/sizesMd", "mai/sizesSm" ],
+	"usesContext": [ "mai/sizesLg", "mai/sizesMd", "mai/sizesSm" ],
 	"textdomain": "mai-rows",
 	"editorScript": "file:./index.js"
 }
