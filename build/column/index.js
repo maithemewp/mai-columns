@@ -178,9 +178,24 @@ function Edit({
     columns: context['mai/sizesSm'],
     default: ''
   }];
+
+  // Get arrangements.
   data.forEach(item => {
     arrangements[item.break] = getIndexValueFromArray(blockIndex, item.columns, item.default);
   });
+
+  // Set fallbacks.
+  for (const key in arrangements) {
+    if (!arrangements[key]) {
+      const keys = Object.keys(arrangements);
+      const shift = keys.shift();
+      arrangements[key] = arrangements[shift];
+    }
+  }
+
+  /**
+   * Set inline styles.
+   */
   Object.entries(arrangements).forEach(([key, value]) => {
     inlineStyles[`--size-${key}`] = getFraction(value) || 1;
   });

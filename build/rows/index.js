@@ -2218,8 +2218,6 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-// import { appendSelectors, getBlockGapCSS } from './utils';
-// import { getGapCSSValue } from '../hooks/gap';
 
 // import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
