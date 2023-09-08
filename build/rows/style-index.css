@@ -8,9 +8,12 @@
  * Replace them with your own styles or remove the file completely.
  */
 .mai-rows {
-  --column-gap: var(--gap, 1em);
-  --row-gap: var(--gap, 1em);
+  --column-gap: 0.5em;
+  --row-gap: 0.5em;
+  display: flex;
   flex-wrap: wrap;
+  align-items: var(--align-items, initial);
+  justify-content: var(--justify-content, initial);
   gap: var(--row-gap) var(--column-gap) !important; /* is-layout-flex class overrides this so we're forcing for now */
 }
 

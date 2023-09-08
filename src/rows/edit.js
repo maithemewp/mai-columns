@@ -13,6 +13,8 @@ import { __ } from '@wordpress/i18n';
  */
 import { InspectorControls, useBlockProps, useInnerBlocksProps, BlockControls, JustifyContentControl, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, BaseControl, TextControl, FormTokenField } from '@wordpress/components';
+// import { appendSelectors, getBlockGapCSS } from './utils';
+// import { getGapCSSValue } from '../hooks/gap';
 import MaiMultiSelectDuplicate from './select-duplicate';
 // import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
@@ -96,7 +98,7 @@ export default function Edit({ attributes, setAttributes }) {
 	/**
 	 * Set block props.
 	 */
-	const blockProps       = useBlockProps( { className: 'mai-rows is-layout-flex' } );
+	const blockProps       = useBlockProps( { className: 'mai-rows' } );
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{

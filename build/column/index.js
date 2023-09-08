@@ -99,7 +99,7 @@ function Edit({
     if (!value) {
       return false;
     }
-    if (['auto', 'fill', 'full'].includes(value)) {
+    if (['auto', 'fit', 'fill'].includes(value)) {
       return false;
     }
     if (isFraction(value)) {

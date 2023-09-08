@@ -16,16 +16,9 @@ import CreatableSelect from 'react-select/creatable';
  *
  * @param {string} value
  *
- * @return bool
+ * @return {bool}
  */
 const isValid = ( value ) => {
-	const validStrings = [ 'auto', 'fill', 'full' ];
-
-	// It's an allowed predefined value.
-	if ( validStrings.includes( value ) ) {
-		return true;
-	}
-
 	// Check if value is a valid number larger then  0 and less than or equal to 100.
 	if ( value && ! isNaN( value ) && value > 0 && value <= 100 ) {
 		return true;
@@ -46,9 +39,14 @@ const isValid = ( value ) => {
  *
  * @param {string} value
  *
- * @return boolean
+ * @return {bool}
  */
 const isFraction = ( value ) => {
+	// It's an allowed predefined value.
+	if ( [ 'auto', 'fit', 'fill' ].includes( value )) {
+		return false;
+	}
+
 	// Split the string into parts based on the '/' character.
 	const parts = value.split( '/' );
 

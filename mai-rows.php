@@ -145,17 +145,48 @@ class Mai_Rows_Block {
 		$content = $dom->saveHTML();
 
 		// Build default atts.
-		$atts = [
-			'class' => 'mai-rows is-layout-flex',
+		$style = [];
+		$atts  = [
+			'class' => 'mai-rows',
 		];
+
+		// Add align-items.
+		if ( isset( $attributes['alignItems'] ) ) {
+			$style[] = isset( $attributes['alignItems'] ) ? sprintf( '--align-items:%s;', $attributes['alignItems'] ) : 'initial';
+		}
+
+		// Add justify-content.
+		if ( isset( $attributes['justifyContent'] ) ) {
+			$style[] = isset( $attributes['justifyContent'] ) ? sprintf( '--justify-content:%s;', $attributes['justifyContent'] ) : 'initial';
+		}
 
 		// Add block gap.
 		if ( isset( $attributes['style']['spacing']['blockGap'] ) ) {
 			$gap = $this->get_block_gap( $attributes['style']['spacing']['blockGap'] );
 
 			if ( $gap ) {
-				$atts['style'] = sprintf( '--gap:%s;', $gap );
+				if ( is_array( $gap ) ) {
+					foreach ( $gap as $position => $value ) {
+						switch ( $position ) {
+							case 'top':
+							case 'bottom':
+								$style[] = sprintf( '--row-gap:%s;', $value );
+								break;
+							case 'left':
+							case 'right':
+								$style[] = sprintf( '--column-gap:%s;', $value );
+								break;
+						}
+					}
+				} else {
+					$style[] = sprintf( '--row-gap:%s;--column-gap', $gap, $gap );
+				}
 			}
+		}
+
+		// Add inline styles.
+		if ( $style ) {
+			$atts['style'] = implode( '', $style );
 		}
 
 		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
@@ -220,8 +251,9 @@ class Mai_Rows_Block {
 		}
 
 		switch ( $size ) {
-			case 'auto':
-				return '0 1 0%';
+			// No longer using 'auto', as this is the "empty" default, same as '1'.
+			// case 'auto':
+			// 	return '0 1 0%';
 			case 'fit':
 				return '0 1 auto';
 			case 'fill':
@@ -280,7 +312,7 @@ class Mai_Rows_Block {
 			return false;
 		}
 
-		if ( in_array( $value, [ 'auto', 'fill', 'full'] ) ) {
+		if ( in_array( $value, [ 'auto', 'fit', 'fill' ] ) ) {
 			return false;
 		}
 

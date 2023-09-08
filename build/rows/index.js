@@ -2218,6 +2218,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+// import { appendSelectors, getBlockGapCSS } from './utils';
+// import { getGapCSSValue } from '../hooks/gap';
 
 // import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
@@ -2303,7 +2305,7 @@ function Edit({
    * Set block props.
    */
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
-    className: 'mai-rows is-layout-flex'
+    className: 'mai-rows'
   });
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
     allowedBlocks: ['mai/column'],
@@ -2526,16 +2528,9 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @param {string} value
  *
- * @return bool
+ * @return {bool}
  */
 const isValid = value => {
-  const validStrings = ['auto', 'fill', 'full'];
-
-  // It's an allowed predefined value.
-  if (validStrings.includes(value)) {
-    return true;
-  }
-
   // Check if value is a valid number larger then  0 and less than or equal to 100.
   if (value && !isNaN(value) && value > 0 && value <= 100) {
     return true;
@@ -2555,9 +2550,14 @@ const isValid = value => {
  *
  * @param {string} value
  *
- * @return boolean
+ * @return {bool}
  */
 const isFraction = value => {
+  // It's an allowed predefined value.
+  if (['auto', 'fit', 'fill'].includes(value)) {
+    return false;
+  }
+
   // Split the string into parts based on the '/' character.
   const parts = value.split('/');
 
@@ -11220,7 +11220,7 @@ function combine (array, callback) {
   \*****************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesXl":{"type":"array","default":[]},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":["1/1"]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":true}},"providesContext":{"mai/sizesXl":"sizesXl","mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesXl":{"type":"array","default":[]},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":["1/1"]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"__experimentalDefault":"sm","sides":["horizontal","vertical"]},"__experimentalDefaultControls":{"blockGap":true}}},"providesContext":{"mai/sizesXl":"sizesXl","mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
 
 /***/ })
 

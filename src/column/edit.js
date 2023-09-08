@@ -77,7 +77,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			return false;
 		}
 
-		if ( [ 'auto', 'fill', 'full' ].includes( value )) {
+		if ( [ 'auto', 'fit', 'fill' ].includes( value )) {
 			return false;
 		}
 

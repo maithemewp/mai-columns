@@ -47,7 +47,13 @@
 		"spacing": {
 			"margin": true,
 			"padding": true,
-			"blockGap": true
+			"blockGap": {
+				"__experimentalDefault": "sm",
+				"sides": [ "horizontal", "vertical" ]
+			},
+			"__experimentalDefaultControls": {
+				"blockGap": true
+			}
 		}
 	},
 	"providesContext": {
