@@ -2522,7 +2522,8 @@ __webpack_require__.r(__webpack_exports__);
 // import { useDraggable } from "@dnd-kit/core";
 
 /**
- * Make sure a value is valid.
+ * Make sure a value is valid new option.
+ * No need to check for auto, fit, fill because those are predefined.
  *
  * @since 0.1.0
  *
@@ -2530,7 +2531,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {bool}
  */
-const isValid = value => {
+const isValidNew = value => {
   // Check if value is a valid number larger then  0 and less than or equal to 100.
   if (value && !isNaN(value) && value > 0 && value <= 100) {
     return true;
@@ -2709,7 +2710,7 @@ const MaiMultiSelectDuplicate = ({
       DropdownIndicator: () => null,
       IndicatorSeparator: () => null
     },
-    isValidNewOption: isValid
+    isValidNewOption: isValidNew
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MaiMultiSelectDuplicate);

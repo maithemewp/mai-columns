@@ -10,7 +10,8 @@ import CreatableSelect from 'react-select/creatable';
 // import { useDraggable } from "@dnd-kit/core";
 
 /**
- * Make sure a value is valid.
+ * Make sure a value is valid new option.
+ * No need to check for auto, fit, fill because those are predefined.
  *
  * @since 0.1.0
  *
@@ -18,7 +19,7 @@ import CreatableSelect from 'react-select/creatable';
  *
  * @return {bool}
  */
-const isValid = ( value ) => {
+const isValidNew = ( value ) => {
 	// Check if value is a valid number larger then  0 and less than or equal to 100.
 	if ( value && ! isNaN( value ) && value > 0 && value <= 100 ) {
 		return true;
@@ -191,7 +192,7 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 				formatOptionLabel={ option => ! option.label || isFraction( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%` }
 				formatCreateLabel={ formatCreateLabel }
 				components={ { DropdownIndicator:() => null, IndicatorSeparator:() => null } }
-				isValidNewOption={ isValid }
+				isValidNewOption={ isValidNew }
 			/>
 		</>
 	);
