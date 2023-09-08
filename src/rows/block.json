@@ -50,9 +50,6 @@
 			"blockGap": {
 				"__experimentalDefault": "sm",
 				"sides": [ "horizontal", "vertical" ]
-			},
-			"__experimentalDefaultControls": {
-				"blockGap": true
 			}
 		}
 	},

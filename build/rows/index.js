@@ -2373,7 +2373,7 @@ function Edit({
   const inlineStyles = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)().style || {};
   inlineStyles['--justify-content'] = getFlexCSSValue(justifyContent);
   inlineStyles['--align-items'] = getFlexCSSValue(alignItems);
-  if (style.spacing.blockGap) {
+  if (style && style.spacing.blockGap) {
     const gaps = getBlockGap(style.spacing.blockGap);
     inlineStyles['--row-gap'] = gaps.row;
     inlineStyles['--column-gap'] = gaps.column;
@@ -11301,7 +11301,7 @@ function combine (array, callback) {
   \*****************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesXl":{"type":"array","default":[]},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":["1/1"]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"__experimentalDefault":"sm","sides":["horizontal","vertical"]},"__experimentalDefaultControls":{"blockGap":true}}},"providesContext":{"mai/sizesXl":"sizesXl","mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","icon":"smiley","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesXl":{"type":"array","default":[]},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":["1/1"]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"__experimentalDefault":"sm","sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesXl":"sizesXl","mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
 
 /***/ })
 

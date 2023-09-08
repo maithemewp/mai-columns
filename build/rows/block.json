@@ -60,9 +60,6 @@
           "horizontal",
           "vertical"
         ]
-      },
-      "__experimentalDefaultControls": {
-        "blockGap": true
       }
     }
   },

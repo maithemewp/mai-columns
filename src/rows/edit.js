@@ -173,7 +173,7 @@ export default function Edit({ attributes, setAttributes }) {
 	inlineStyles['--justify-content'] = getFlexCSSValue( justifyContent );
 	inlineStyles['--align-items']     = getFlexCSSValue( alignItems );
 
-	if ( style.spacing.blockGap ) {
+	if ( style && style.spacing.blockGap ) {
 		const gaps = getBlockGap( style.spacing.blockGap );
 
 		inlineStyles['--row-gap']    = gaps.row;
