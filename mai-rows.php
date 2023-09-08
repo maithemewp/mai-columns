@@ -160,26 +160,13 @@ class Mai_Rows_Block {
 			$style[] = isset( $attributes['justifyContent'] ) ? sprintf( '--justify-content:%s;', $this->get_flex_css_value( $attributes['justifyContent'] ) ) : 'initial';
 		}
 
-		// Add block gap.
+		// Add block gaps.
 		if ( isset( $attributes['style']['spacing']['blockGap'] ) ) {
 			$gap = $this->get_block_gap( $attributes['style']['spacing']['blockGap'] );
 
 			if ( $gap ) {
-				if ( is_array( $gap ) ) {
-					foreach ( $gap as $position => $value ) {
-						switch ( $position ) {
-							case 'top':
-							case 'bottom':
-								$style[] = sprintf( '--row-gap:%s;', $value );
-								break;
-							case 'left':
-							case 'right':
-								$style[] = sprintf( '--column-gap:%s;', $value );
-								break;
-						}
-					}
-				} else {
-					$style[] = sprintf( '--row-gap:%s;--column-gap', $gap, $gap );
+				foreach ( $gap as $position => $value ) {
+					$style[] = sprintf( '--%s-gap:%s;', $position, $value );
 				}
 			}
 		}
@@ -250,15 +237,56 @@ class Mai_Rows_Block {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param string $gap The blockGap value.
+	 * @param string|array $gap The blockGap value.
 	 *
 	 * @return string
 	 */
 	function get_block_gap( $gap ) {
-		return preg_replace_callback( '/var:([^|]+)\|([^|]+)\|([^|]+)/', function( $matches ) {
-			$last = preg_replace( "/(\d+)([a-zA-Z]?)/", "$1-$2", $matches[3] );
-			return "var(--wp--{$matches[1]}--{$matches[2]}--{$last})";
-		}, $gap );
+		$return = [
+			'row'    => 'initial',
+			'column' => 'initial',
+		];
+
+		if ( is_array( $gap ) ) {
+			foreach ( $gap as $position => $value ) {
+				switch ( $position ) {
+					case 'top':
+					case 'bottom':
+						$return['row'] = $this->get_block_gap_value( $value );
+						break;
+					case 'left':
+					case 'right':
+						$return['column'] = $this->get_block_gap_value( $value );
+						break;
+				}
+
+			}
+		} else {
+			$value = $this->get_block_gap_value( $value );
+
+			if ( $value ) {
+				$return['row']    = $value;
+				$return['column'] = $value;
+			}
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Gets the CSS value from the blockGap value.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $gap The blockGap value.
+	 *
+	 * @return string
+	 */
+	function get_block_gap_value( $gap ) {
+		$array = explode( '|', $gap );
+		$last  = array_pop( $array );
+
+		return count( $array ) > 1 ? sprintf( 'var(--wp--preset--spacing--%s)', $last ) : $last;
 	}
 
 	/**

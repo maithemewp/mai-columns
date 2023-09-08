@@ -25,7 +25,7 @@ import MaiMultiSelectDuplicate from './select-duplicate';
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { justifyContent, alignItems, sizesXl, sizesLg, sizesMd, sizesSm } = attributes;
+	const { style, justifyContent, alignItems, sizesXl, sizesLg, sizesMd, sizesSm } = attributes;
 
 	/**
 	 * Set default options for the select field.
@@ -119,12 +119,66 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	/**
+	 * Converts blockGap values to CSS value.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param {string|array} gap The blockGap value.
+	 *
+	 * @return {string}
+	 */
+	const getBlockGap = ( gap ) => {
+		const returnObj = {
+			row: "initial",
+			column: "initial",
+		};
+
+		if ( typeof gap === 'object' ) {
+			if ( gap.top ) {
+				returnObj.row = getBlockGapValue( gap.top );
+			}
+
+			if ( gap.left ) {
+				returnObj.column = getBlockGapValue( gap.left );
+			}
+		} else {
+			returnObj.row = returnObj.column = getBlockGapValue( gap );
+		}
+
+		return returnObj;
+	};
+
+
+	/**
+	 * Gets the CSS value from the blockGap value.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param {string} gap The blockGap value.
+	 *
+	 * @return {string}
+	 */
+	const getBlockGapValue = ( gap ) => {
+		const array = gap.split( '|' );
+		const last  = array.pop();
+
+		return array.length > 1 ? `var(--wp--preset--spacing--${last})` : last;
+	};
+
+	/**
 	 * Build inline styles.
 	 */
 	const inlineStyles = useBlockProps().style || {};
 
 	inlineStyles['--justify-content'] = getFlexCSSValue( justifyContent );
 	inlineStyles['--align-items']     = getFlexCSSValue( alignItems );
+
+	if ( style.spacing.blockGap ) {
+		const gaps = getBlockGap( style.spacing.blockGap );
+
+		inlineStyles['--row-gap']    = gaps.row;
+		inlineStyles['--column-gap'] = gaps.column;
+	}
 
 	/**
 	 * Set block props.

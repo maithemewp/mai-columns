@@ -179,8 +179,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 			arrangements[ key ] = arrangements[ shift ];
 		}
-
-
 	}
 
 	/**
