@@ -152,12 +152,12 @@ class Mai_Rows_Block {
 
 		// Add align-items.
 		if ( isset( $attributes['alignItems'] ) ) {
-			$style[] = isset( $attributes['alignItems'] ) ? sprintf( '--align-items:%s;', $attributes['alignItems'] ) : 'initial';
+			$style[] = isset( $attributes['alignItems'] ) ? sprintf( '--align-items:%s;', $this->get_flex_css_value( $attributes['alignItems'] ) ) : 'initial';
 		}
 
 		// Add justify-content.
 		if ( isset( $attributes['justifyContent'] ) ) {
-			$style[] = isset( $attributes['justifyContent'] ) ? sprintf( '--justify-content:%s;', $attributes['justifyContent'] ) : 'initial';
+			$style[] = isset( $attributes['justifyContent'] ) ? sprintf( '--justify-content:%s;', $this->get_flex_css_value( $attributes['justifyContent'] ) ) : 'initial';
 		}
 
 		// Add block gap.
@@ -218,6 +218,31 @@ class Mai_Rows_Block {
 		$attr = str_replace( ' wp-block-mai-column', '', $attr );
 
 		return sprintf( '<div %s>%s</div>', trim( $attr ), $content );
+	}
+
+	/**
+	 * Get the flex CSS value.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return string
+	 */
+	function get_flex_css_value( $value ) {
+		switch ( $value ) {
+			case 'top':
+			case 'left':
+				return 'flex-start';
+			case 'middle':
+			case 'center':
+				return 'center';
+			case 'bottom':
+			case 'right':
+				return 'flex-end';
+			case 'space-between':
+				return 'space-between';
+			default:
+				return 'initial';
+		}
 	}
 
 	/**

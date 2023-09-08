@@ -72,7 +72,7 @@ export default function Edit({ attributes, setAttributes }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @return string
+	 * @return {string}
 	 */
 	const mapValuesToLabels = ( values ) => {
 		return values.map( value => {
@@ -86,7 +86,7 @@ export default function Edit({ attributes, setAttributes }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @return string
+	 * @return {string}
 	 */
 	const mapLabelsToValues = ( values ) => {
 		return values.map( value => {
@@ -96,9 +96,47 @@ export default function Edit({ attributes, setAttributes }) {
 	}
 
 	/**
+	 * Get the flex CSS value.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return {string}
+	 */
+	const getFlexCSSValue = ( value ) => {
+		switch ( value ) {
+			case 'top':
+			case 'left':
+				return 'flex-start';
+			case 'middle':
+			case 'center':
+				return 'center';
+			case 'bottom':
+			case 'right':
+				return 'flex-end';
+			case 'space-between':
+				return 'space-between';
+			default:
+				return 'initial';
+		}
+	};
+
+	/**
+	 * Build inline styles.
+	 */
+	const inlineStyles = useBlockProps().style || {};
+
+	inlineStyles['--justify-content'] = getFlexCSSValue( justifyContent );
+	inlineStyles['--align-items']     = getFlexCSSValue( alignItems );
+
+	/**
 	 * Set block props.
 	 */
-	const blockProps       = useBlockProps( { className: 'mai-rows' } );
+	const props = {
+		className: 'mai-rows',
+		style: inlineStyles
+	};
+
+	const blockProps       = useBlockProps( props );
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
