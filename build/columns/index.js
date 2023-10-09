@@ -2183,10 +2183,10 @@ var weakMemoize = function weakMemoize(func) {
 
 /***/ }),
 
-/***/ "./src/rows/edit.js":
-/*!**************************!*\
-  !*** ./src/rows/edit.js ***!
-  \**************************/
+/***/ "./src/columns/edit.js":
+/*!*****************************!*\
+  !*** ./src/columns/edit.js ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2201,7 +2201,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _select_duplicate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select-duplicate */ "./src/rows/select-duplicate.js");
+/* harmony import */ var _select_duplicate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select-duplicate */ "./src/columns/select-duplicate.js");
 
 /**
  * Retrieves the translation of text.
@@ -2383,7 +2383,7 @@ function Edit({
    * Set block props.
    */
   const props = {
-    className: 'mai-rows',
+    className: 'mai-columns',
     style: inlineStyles
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(props);
@@ -2467,10 +2467,10 @@ function Edit({
 
 /***/ }),
 
-/***/ "./src/rows/index.js":
-/*!***************************!*\
-  !*** ./src/rows/index.js ***!
-  \***************************/
+/***/ "./src/columns/index.js":
+/*!******************************!*\
+  !*** ./src/columns/index.js ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2478,10 +2478,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/rows/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit */ "./src/rows/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./save */ "./src/rows/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./block.json */ "./src/rows/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/columns/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit */ "./src/columns/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./save */ "./src/columns/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./block.json */ "./src/columns/block.json");
 
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
@@ -2537,10 +2537,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/rows/save.js":
-/*!**************************!*\
-  !*** ./src/rows/save.js ***!
-  \**************************/
+/***/ "./src/columns/save.js":
+/*!*****************************!*\
+  !*** ./src/columns/save.js ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2575,10 +2575,10 @@ function save() {
 
 /***/ }),
 
-/***/ "./src/rows/select-duplicate.js":
-/*!**************************************!*\
-  !*** ./src/rows/select-duplicate.js ***!
-  \**************************************/
+/***/ "./src/columns/select-duplicate.js":
+/*!*****************************************!*\
+  !*** ./src/columns/select-duplicate.js ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2975,10 +2975,10 @@ function memoizeOne(resultFn, isEqual) {
 
 /***/ }),
 
-/***/ "./src/rows/style.scss":
-/*!*****************************!*\
-  !*** ./src/rows/style.scss ***!
-  \*****************************/
+/***/ "./src/columns/style.scss":
+/*!********************************!*\
+  !*** ./src/columns/style.scss ***!
+  \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -11295,13 +11295,13 @@ function combine (array, callback) {
 
 /***/ }),
 
-/***/ "./src/rows/block.json":
-/*!*****************************!*\
-  !*** ./src/rows/block.json ***!
-  \*****************************/
+/***/ "./src/columns/block.json":
+/*!********************************!*\
+  !*** ./src/columns/block.json ***!
+  \********************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/rows","version":"0.1.0","title":"Mai Rows","category":"widgets","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Rows","category":"widgets","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
 
 /***/ })
 
@@ -11429,8 +11429,8 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"rows/index": 0,
-/******/ 			"rows/style-index": 0
+/******/ 			"columns/index": 0,
+/******/ 			"columns/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -11482,7 +11482,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["rows/style-index"], () => (__webpack_require__("./src/rows/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["columns/style-index"], () => (__webpack_require__("./src/columns/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

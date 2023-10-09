@@ -184,7 +184,7 @@ export default function Edit({ attributes, setAttributes }) {
 	 * Set block props.
 	 */
 	const props = {
-		className: 'mai-rows',
+		className: 'mai-columns',
 		style: inlineStyles
 	};
 
