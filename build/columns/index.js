@@ -2219,7 +2219,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
 /**
  * The edit function describes the structure of your block in the context of the
