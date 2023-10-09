@@ -1,0 +1,52 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.mai-columns {
+	--column-gap: 0.5em;
+	--row-gap: 0.5em;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: var(--align-items, initial);
+	justify-content: var(--justify-content, initial);
+	gap: var(--row-gap) var(--column-gap) !important; /* is-layout-flex class overrides this so we're forcing for now */
+}
+
+.mai-column {
+	--flex-basis: calc((100% * var(--size) - (var(--column-gap) * (1 - var(--size)))) - 0.025px);
+	flex: var(--flex);
+	display: flex;
+	flex-direction: column;
+	justify-content: var(--justify-content, initial);
+	margin: 0 !important;
+}
+
+/* SM */
+@media only screen and (max-width: 599px) {
+
+	.mai-column {
+		--size: var(--size-sm, 1);
+		--flex: var(--flex-sm, 1);
+	}
+}
+
+/* MD */
+@media only screen and (min-width: 600px) and (max-width: 1023px) {
+
+	.mai-column {
+		--size: var(--size-md, 1);
+		--flex: var(--flex-md, 1);
+	}
+}
+
+/* LG */
+@media only screen and (min-width: 1024px) {
+
+	.mai-column {
+		--size: var(--size-lg, 1);
+		--flex: var(--flex-lg, 1);
+	}
+}
