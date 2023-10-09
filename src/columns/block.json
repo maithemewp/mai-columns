@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "mai/columns",
 	"version": "0.1.0",
-	"title": "Mai Rows",
+	"title": "Mai Columns",
 	"category": "widgets",
 	"description": "Repeatable column arrangements.",
 	"attributes": {

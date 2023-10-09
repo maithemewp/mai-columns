@@ -2219,7 +2219,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import { close, plus, settings, justifyCenter, justifyLeft, justifyRight } from "@wordpress/icons";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -11301,7 +11300,7 @@ function combine (array, callback) {
   \********************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Rows","category":"widgets","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"widgets","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
 
 /***/ })
 
