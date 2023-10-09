@@ -2389,7 +2389,7 @@ function Edit({
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
     allowedBlocks: ['mai/column'],
     orientation: 'horizontal',
-    template: [['mai/column'], ['mai/column']]
+    template: [['mai/column', {}, []], ['mai/column', {}, []]]
   });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
@@ -2478,9 +2478,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/columns/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit */ "./src/columns/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./save */ "./src/columns/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./block.json */ "./src/columns/block.json");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.scss */ "./src/columns/index.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./edit */ "./src/columns/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./save */ "./src/columns/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/columns/block.json");
 
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
@@ -2499,6 +2500,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -2511,7 +2513,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_5__.name, {
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_6__.name, {
   icon: {
     src: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
       viewBox: "0 0 24 24",
@@ -2527,11 +2529,11 @@ __webpack_require__.r(__webpack_exports__);
   /**
    * @see ./edit.js
    */
-  edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
+  edit: _edit__WEBPACK_IMPORTED_MODULE_4__["default"],
   /**
    * @see ./save.js
    */
-  save: _save__WEBPACK_IMPORTED_MODULE_4__["default"]
+  save: _save__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
 
 /***/ }),
@@ -2970,6 +2972,18 @@ function memoizeOne(resultFn, isEqual) {
 }
 
 
+
+
+/***/ }),
+
+/***/ "./src/columns/index.scss":
+/*!********************************!*\
+  !*** ./src/columns/index.scss ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
 
 
 /***/ }),
@@ -11300,7 +11314,7 @@ function combine (array, callback) {
   \********************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"widgets","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-rows","editorScript":"file:./index.js","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"design","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-columns","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 

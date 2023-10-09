@@ -236,6 +236,27 @@ function Edit({
   inlineStyles['--justify-content'] = getFlexCSSValue(alignItems);
 
   /**
+   * Gets the inner block count.
+   *
+   * @since 0.1.0
+   *
+   * @return int
+   */
+  const blockCount = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
+    return select('core/block-editor').getBlockCount(clientId);
+  });
+
+  // Define the appender to use.
+  const appenderToUse = () => {
+    return !blockCount ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.ButtonBlockAppender, {
+      rootClientId: clientId,
+      style: {
+        alignSelf: 'auto'
+      }
+    }) : false;
+  };
+
+  /**
    * Set props.
    */
   const props = {
@@ -243,7 +264,9 @@ function Edit({
     style: inlineStyles
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(props);
-  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)(blockProps);
+  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)(blockProps, {
+    renderAppender: appenderToUse
+  });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
     group: "block"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockVerticalAlignmentToolbar, {
@@ -425,7 +448,7 @@ module.exports = window["wp"]["element"];
   \*******************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/columns"],"version":"0.1.0","title":"Mai Column","category":"widgets","description":"An individual row item.","attributes":{"alignItems":{"type":"string"}},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":false}},"usesContext":["mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-rows","editorScript":"file:./index.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/columns"],"version":"0.1.0","title":"Mai Column","category":"design","description":"An individual row item.","attributes":{"alignItems":{"type":"string"}},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":true}},"usesContext":["mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-columns","editorScript":"file:./index.js"}');
 
 /***/ })
 

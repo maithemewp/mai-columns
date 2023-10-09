@@ -14,6 +14,7 @@ import { columns as icon } from '@wordpress/icons';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './style.scss';
+import './index.scss';
 
 /**
  * Internal dependencies

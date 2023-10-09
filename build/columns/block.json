@@ -4,7 +4,7 @@
   "name": "mai/columns",
   "version": "0.1.0",
   "title": "Mai Columns",
-  "category": "widgets",
+  "category": "design",
   "description": "Repeatable column arrangements.",
   "attributes": {
     "alignItems": {
@@ -60,7 +60,8 @@
     "mai/sizesMd": "sizesMd",
     "mai/sizesSm": "sizesSm"
   },
-  "textdomain": "mai-rows",
+  "textdomain": "mai-columns",
   "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"
 }

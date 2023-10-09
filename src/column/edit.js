@@ -4,7 +4,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, useInnerBlocksProps, BlockControls, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, BlockControls, BlockVerticalAlignmentToolbar, InnerBlocks } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -221,6 +221,22 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	inlineStyles['--justify-content'] = getFlexCSSValue( alignItems );
 
 	/**
+	 * Gets the inner block count.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @return int
+	 */
+	const blockCount = useSelect(
+		(select) => {
+			return select( 'core/block-editor').getBlockCount( clientId );
+		}
+	);
+
+	// Define the appender to use.
+	const appenderToUse = () => { return ! blockCount ? <InnerBlocks.ButtonBlockAppender rootClientId={ clientId } style={{ alignSelf: 'auto' }}/> : false };
+
+	/**
 	 * Set props.
 	 */
 	const props = {
@@ -229,7 +245,12 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	};
 
 	const blockProps       = useBlockProps( props );
-	const innerBlocksProps = useInnerBlocksProps( blockProps );
+	const innerBlocksProps = useInnerBlocksProps(
+		blockProps,
+		{
+			renderAppender: appenderToUse,
+		}
+	);
 
 	return (
 		<>
