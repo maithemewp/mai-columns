@@ -194,8 +194,16 @@ export default function Edit({ attributes, setAttributes }) {
 			allowedBlocks: [ 'mai/column' ],
 			orientation: 'horizontal',
 			template: [
-				[ 'mai/column' ],
-				[ 'mai/column' ],
+				[
+					'mai/column',
+					{},
+					[]
+				],
+				[
+					'mai/column',
+					{},
+					[]
+				],
 			]
 		}
 	);

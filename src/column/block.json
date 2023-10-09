@@ -5,7 +5,7 @@
 	"parent": [ "mai/columns" ],
 	"version": "0.1.0",
 	"title": "Mai Column",
-	"category": "widgets",
+	"category": "design",
 	"description": "An individual row item.",
 	"attributes": {
 		"alignItems": {
@@ -24,10 +24,9 @@
 		"spacing": {
 			"margin": false,
 			"padding": true,
-			"blockGap": false
+			"blockGap": true
 		}
 	},
 	"usesContext": [ "mai/sizesLg", "mai/sizesMd", "mai/sizesSm" ],
-	"textdomain": "mai-rows",
-	"editorScript": "file:./index.js"
-}
+	"textdomain": "mai-columns",
+	"editorScript": "file:./index.js"}
