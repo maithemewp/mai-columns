@@ -6,7 +6,6 @@
 	"version": "0.1.0",
 	"title": "Mai Column",
 	"category": "widgets",
-	"icon": "smiley",
 	"description": "An individual row item.",
 	"attributes": {
 		"alignItems": {

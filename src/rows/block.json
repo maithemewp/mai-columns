@@ -5,7 +5,6 @@
 	"version": "0.1.0",
 	"title": "Mai Rows",
 	"category": "widgets",
-	"icon": "smiley",
 	"description": "Repeatable column arrangements.",
 	"attributes": {
 		"alignItems": {
