@@ -14,9 +14,9 @@
 // Prevent direct file access.
 defined( 'ABSPATH' ) || die;
 
-$block = new Mai_Rows_Block;
+$block = new Mai_Columns_Block;
 
-class Mai_Rows_Block {
+class Mai_Columns_Block {
 
 	/**
 	 * Construct the class.
