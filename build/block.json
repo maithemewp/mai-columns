@@ -9,16 +9,16 @@
   "description": "Example block scaffolded with Create Block tool.",
   "attributes": {
     "columnsLg": {
-      "type": "string"
+      "type": "integer"
     },
     "columnsMd": {
-      "type": "string"
+      "type": "integer"
     },
     "columnsSm": {
-      "type": "string"
+      "type": "integer"
     },
     "columnsXs": {
-      "type": "string"
+      "type": "integer"
     }
   },
   "supports": {
