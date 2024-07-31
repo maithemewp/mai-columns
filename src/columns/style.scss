@@ -24,12 +24,21 @@
 	margin: 0 !important;
 }
 
+.mai-column__break {
+	display: none;
+	flex-basis: 100%;
+}
+
 /* SM */
 @media only screen and (max-width: 599px) {
 
 	.mai-column {
 		--size: var(--size-sm, 1);
 		--flex: var(--flex-sm, 1);
+	}
+
+	.mai-column__break-sm {
+		display: block;
 	}
 }
 
@@ -40,6 +49,10 @@
 		--size: var(--size-md, 1);
 		--flex: var(--flex-md, 1);
 	}
+
+	.mai-column__break-md {
+		display: block;
+	}
 }
 
 /* LG */
@@ -48,5 +61,9 @@
 	.mai-column {
 		--size: var(--size-lg, 1);
 		--flex: var(--flex-lg, 1);
+	}
+
+	.mai-column__break-lg {
+		display: block;
 	}
 }

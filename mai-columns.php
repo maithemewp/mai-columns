@@ -17,6 +17,9 @@ defined( 'ABSPATH' ) || die;
 $block = new Mai_Columns_Block;
 
 class Mai_Columns_Block {
+	static $arrangements = [];
+	static $no_breaks    = [];
+	static $indexes      = [];
 
 	/**
 	 * Construct the class.
@@ -71,77 +74,129 @@ class Mai_Columns_Block {
 	 * @return string
 	 */
 	function get_columns( $attributes, $content, $block ) {
+		// return '<h2>Columns</h2>';
+
 		// Bail if in the editor.
-		if ( is_admin() ) {
-			return;
-		}
+		// if ( is_admin() ) {
+		// 	return;
+		// }
 
-		// Bail if no content.
-		if ( ! $content ) {
-			return sprintf( '<div class="mai-columns">%s</div>', $content );
-		}
+		// // Bail if no content.
+		// if ( ! $content ) {
+		// 	return sprintf( '<div class="mai-columns">%s</div>', $content );
+		// }
 
-		// Get arrangements.
-		$arrangements = [
-			'lg' => $attributes['sizesLg'],
-			'md' => $attributes['sizesMd'],
-			'sm' => $attributes['sizesSm'],
-		];
+		// // Maybe arrangements.
+		// if ( ! isset( $this->arrangements[ $attributes['id'] ] ) ) {
+		// 	$this->arrangements[ $attributes['id'] ] = [
+		// 		'lg' => $attributes['sizesLg'],
+		// 		'md' => $attributes['sizesMd'],
+		// 		'sm' => $attributes['sizesSm'],
+		// 	];
 
-		// Set fallbacks.
-		foreach ( $arrangements as $key => $value ) {
-			if ( ! $value ) {
-				$keys                 = array_keys( $arrangements );
-				$shift                = array_shift( $keys );
-				$arrangements[ $key ] = $arrangements[ $shift ];
-			}
-		}
+		// 	// Get arrangement.
+		// 	$arrangement = $this->arrangements[ $attributes['id'] ];
 
-		// Get column nodes.
-		$dom     = $this->get_dom_document( $content );
-		$xpath   = new DOMXPath( $dom );
-		$columns = $xpath->query( '/div[contains(concat(" ", normalize-space(@class), " "), " mai-column ")]' );
+		// 	// Set fallbacks large to small.
+		// 	foreach ( $this->arrangements[ $attributes['id'] ] as $key => $value ) {
+		// 		if ( ! $value ) {
+		// 			$keys                = array_keys( $this->arrangements[ $attributes['id'] ] );
+		// 			$shift               = array_shift( $keys );
+		// 			$this->arrangements[ $attributes['id'] ][ $key ] = $this->arrangements[ $attributes['id'] ][ $shift ];
+		// 		}
+		// 	}
 
-		// Bail if no columns.
-		if ( ! $columns->length ) {
-			return sprintf( '<div class="mai-columns">%s</div>', $content );
-		}
+		// 	// Set fallbacks in reverse.
+		// 	$this->arrangements[ $attributes['id'] ] = array_reverse( $this->arrangements[ $attributes['id'] ] );
 
-		// Start counter.
-		$i = 0;
+		// 	// Set fallbacks small to large, if any empty.
+		// 	foreach ( $this->arrangements[ $attributes['id'] ] as $key => $value ) {
+		// 		if ( ! $value ) {
+		// 			$keys                = array_keys( $this->arrangements[ $attributes['id'] ] );
+		// 			$shift               = array_shift( $keys );
+		// 			$this->arrangements[ $attributes['id'] ][ $key ] = $this->arrangements[ $attributes['id'] ][ $shift ];
+		// 		}
+		// 	}
 
-		// Loop through columns, adding styles.
-		foreach ( $columns as $column ) {
-			$columns = [];
-			$flexes  = [];
-			$styles  = (string) $column->getAttribute( 'style' );
-			$styles  = explode( ';', $styles );
-			$styles  = array_map( 'trim', $styles );
-			$styles  = array_filter( $styles );
+		// 	// Reverse back arrangement.
+		// 	$this->arrangements[ $attributes['id'] ] = array_reverse( $this->arrangements[ $attributes['id'] ] );
+		// }
 
-			// Loop through arrangements, setting custom properties by breakpoint.
-			foreach ( $arrangements as $key => $values ) {
-				$size      = $values ? $this->get_index_value_from_array( $i, $values ) : '';
-				$columns[] = sprintf( '--size-%s:%s', $key, $this->get_fraction( $size ) ?: 1 );
-				$flexes[]  = sprintf( '--flex-%s:%s', $key, $this->get_flex( $size ) );
-			}
+		// ray( $block );
 
-			// Merge styles.
-			$styles = array_merge( $styles, $columns, $flexes );
+		// // Set up tag processor.
+		// $tags = new WP_HTML_Tag_Processor( $content);
 
-			// Handle styles attribute.
-			if ( $styles ) {
-				$column->setAttribute( 'style', implode( ';', $styles ) );
-			} else {
-				$column->removeAttribute( 'style' );
-			}
+		// // Loop through tags.
+		// while ( $tags->next_tag( [ 'tag_name' => 'div', 'class_name' => 'some-class' ] ) ) {
+		// 	$class = $tags->get_attribute( 'class' );
+		// 	$tags->remove_attribute( 'href' );
+		// 	$tags->set_attribute( 'data-something', 'nice value' );
+		// }
 
-			// Increment counter.
-			$i++;
-		}
+		// return $tags->get_updated_html();
 
-		// Save content.
-		$content = $this->get_dom_html( $dom );
+		// // Get arrangements.
+		// $arrangements = [
+		// 	'lg' => $attributes['sizesLg'],
+		// 	'md' => $attributes['sizesMd'],
+		// 	'sm' => $attributes['sizesSm'],
+		// ];
+
+		// // Set fallbacks.
+		// foreach ( $arrangements as $key => $value ) {
+		// 	if ( ! $value ) {
+		// 		$keys                 = array_keys( $arrangements );
+		// 		$shift                = array_shift( $keys );
+		// 		$arrangements[ $key ] = $arrangements[ $shift ];
+		// 	}
+		// }
+
+		// // Get column nodes.
+		// $dom     = $this->get_dom_document( $content );
+		// $xpath   = new DOMXPath( $dom );
+		// $columns = $xpath->query( '/div[contains(concat(" ", normalize-space(@class), " "), " mai-column ")]' );
+
+		// // Bail if no columns.
+		// if ( ! $columns->length ) {
+		// 	return sprintf( '<div class="mai-columns">%s</div>', $content );
+		// }
+
+		// // Start counter.
+		// $i = 0;
+
+		// // Loop through columns, adding styles.
+		// foreach ( $columns as $column ) {
+		// 	$columns = [];
+		// 	$flexes  = [];
+		// 	$styles  = (string) $column->getAttribute( 'style' );
+		// 	$styles  = explode( ';', $styles );
+		// 	$styles  = array_map( 'trim', $styles );
+		// 	$styles  = array_filter( $styles );
+
+		// 	// Loop through arrangements, setting custom properties by breakpoint.
+		// 	foreach ( $arrangements as $key => $values ) {
+		// 		$size      = $values ? $this->get_index_value_from_array( $i, $values ) : '';
+		// 		$columns[] = sprintf( '--size-%s:%s', $key, $this->get_fraction( $size ) ?: 1 );
+		// 		$flexes[]  = sprintf( '--flex-%s:%s', $key, $this->get_flex( $size ) );
+		// 	}
+
+		// 	// Merge styles.
+		// 	$styles = array_merge( $styles, $columns, $flexes );
+
+		// 	// Handle styles attribute.
+		// 	if ( $styles ) {
+		// 		$column->setAttribute( 'style', implode( ';', $styles ) );
+		// 	} else {
+		// 		$column->removeAttribute( 'style' );
+		// 	}
+
+		// 	// Increment counter.
+		// 	$i++;
+		// }
+
+		// // Save content.
+		// $content = $this->get_dom_html( $dom );
 
 		// Build default atts.
 		$style = [];
@@ -178,8 +233,9 @@ class Mai_Columns_Block {
 		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
 		$attr = get_block_wrapper_attributes( $atts );
 		$attr = str_replace( ' wp-block-mai-columns', '', $attr );
+		$html = sprintf( '<div %s>%s</div>', trim( $attr ), $content );
 
-		return sprintf( '<div %s>%s</div>', trim( $attr ), $content );
+		return $html;
 	}
 
 	/**
@@ -194,16 +250,102 @@ class Mai_Columns_Block {
 	 * @return string
 	 */
 	function get_column( $attributes, $content, $block ) {
+		// return '<h2>Column</h2>';
+
 		// Bail if in the editor.
-		if ( is_admin() ) {
-			return;
-		}
+		// if ( is_admin() ) {
+		// 	return;
+		// }
+
+		// // // Maybe set first instance.
+		// if ( ! isset( $this->instances[ $block->context['mai/id'] ] ) ) {
+		// 	$this->instances[ $block->context['mai/id'] ] = 0;
+		// }
+
+		// ray( $this->arrangements );
+
+		// // Start HTML.
+		// $html = '';
 
 		// Build default atts.
 		$style = [];
 		$atts  = [
-			'class' => 'mai-column',
+			'class'           => 'mai-column',
+			// 'data-columns-id' => $block->context['mai/id'],
 		];
+
+		// Start static variables.
+		// static $arrangements = [];
+		// static $no_breaks    = [];
+
+		// Maybe arrangements.
+		if ( ! isset( $this->arrangements[ $block->context['mai/id'] ] ) ) {
+			$this->arrangements[ $block->context['mai/id'] ] = [
+				'lg' => $block->context['mai/sizesLg'],
+				'md' => $block->context['mai/sizesMd'],
+				'sm' => $block->context['mai/sizesSm'],
+			];
+
+			// Get arrangement.
+			$arrangement = $this->arrangements[ $block->context['mai/id'] ];
+
+			// Set fallbacks large to small.
+			foreach ( $this->arrangements[ $block->context['mai/id'] ] as $key => $value ) {
+				if ( ! $value ) {
+					$keys                = array_keys( $this->arrangements[ $block->context['mai/id'] ] );
+					$shift               = array_shift( $keys );
+					$this->arrangements[ $block->context['mai/id'] ][ $key ] = $this->arrangements[ $block->context['mai/id'] ][ $shift ];
+				}
+			}
+
+			// Set fallbacks in reverse.
+			$this->arrangements[ $block->context['mai/id'] ] = array_reverse( $this->arrangements[ $block->context['mai/id'] ] );
+
+			// Set fallbacks small to large, if any empty.
+			foreach ( $this->arrangements[ $block->context['mai/id'] ] as $key => $value ) {
+				if ( ! $value ) {
+					$keys                = array_keys( $this->arrangements[ $block->context['mai/id'] ] );
+					$shift               = array_shift( $keys );
+					$this->arrangements[ $block->context['mai/id'] ][ $key ] = $this->arrangements[ $block->context['mai/id'] ][ $shift ];
+				}
+			}
+
+			// Reverse back arrangement.
+			$this->arrangements[ $block->context['mai/id'] ] = array_reverse( $this->arrangements[ $block->context['mai/id'] ] );
+		}
+
+		// If no nobreaks, filter them out.
+		if ( ! isset( $this->no_breaks[ $block->context['mai/id'] ] ) ) {
+			$this->no_breaks[ $block->context['mai/id'] ] = array_filter( $this->arrangements[ $block->context['mai/id'] ], function( $value ) {
+				return 'break' !== $value;
+			});
+
+			// If any empty breaks, use '1/1';
+			foreach ( $this->no_breaks[ $block->context['mai/id'] ] as $key => $value ) {
+				if ( ! $value ) {
+					$this->no_breaks[ $block->context['mai/id'] ][ $key ] = '1/1';
+				}
+			}
+		}
+
+		// If no index, set it.
+		if ( ! isset( $this->indexes[ $block->context['mai/id'] ] ) ) {
+			$this->indexes[ $block->context['mai/id'] ] = 0;
+		}
+
+		// Start columns and flexes.
+		$columns = [];
+		$flexes  = [];
+
+		// Loop through no_breaks, setting custom properties by breakpoint.
+		foreach ( $this->no_breaks[ $block->context['mai/id'] ] as $break => $values ) {
+			$size      = $this->get_index_value_from_array( $this->indexes[ $block->context['mai/id'] ], $values );
+			$columns[] = sprintf( '--size-%s:%s;', $break, $this->get_fraction( $size ) ?: 1 );
+			$flexes[]  = sprintf( '--flex-%s:%s;', $break, $this->get_flex( $size ) );
+		}
+
+		// Merge styles.
+		$style = array_merge( $columns, $flexes );
 
 		// Justify content is align items value since flex-direction is column.
 		if ( isset( $attributes['alignItems'] ) ) {
@@ -215,11 +357,47 @@ class Mai_Columns_Block {
 			$atts['style'] = implode( '', $style );
 		}
 
-		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
-		$attr = get_block_wrapper_attributes( $atts );
-		$attr = str_replace( ' wp-block-mai-column', '', $attr );
+		// ray( $atts );
 
-		return sprintf( '<div %s>%s</div>', trim( $attr ), $content );
+		// Get attributes with custom class first, and replace `wp-block-` with an emtpy string.
+		$attr = is_admin() ? $this->get_attributes( $atts ) : get_block_wrapper_attributes( $atts );
+		// $attr = get_block_wrapper_attributes( $atts );
+		// ray( $attr );
+		$attr = str_replace( ' wp-block-mai-column', '', $attr );
+		$html = sprintf( '<div %s>%s</div>', trim( $attr ), $content );
+
+		// Loop through arrangements and add the breaks.
+		foreach ( $this->arrangements[ $block->context['mai/id'] ] as $break => $values ) {
+			$size = $this->get_index_value_from_array( $this->indexes[ $block->context['mai/id'] ], $values );
+
+			if ( 'break' === $size ) {
+				$html = sprintf( '<span class="mai-column__break mai-column__break-%s"></span>', $break ) . $html;
+			}
+		}
+
+		// Increment index.
+		$this->indexes[ $block->context['mai/id'] ]++;
+
+		return $html;
+	}
+
+	/**
+	 * Get attributes string.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param array $atts The attributes array.
+	 *
+	 * @return string
+	 */
+	function get_attributes( $atts ) {
+		$string = '';
+
+		foreach ( $atts as $key => $value ) {
+			$string .= sprintf( ' %s="%s"', $key, $value );
+		}
+
+		return $string;
 	}
 
 	/**
@@ -319,9 +497,6 @@ class Mai_Columns_Block {
 		}
 
 		switch ( $size ) {
-			// No longer using 'auto', as this is the "empty" default, same as '1'.
-			// case 'auto':
-			// 	return '0 1 0%';
 			case 'fit':
 				return '0 1 auto';
 			case 'fill':
@@ -380,7 +555,7 @@ class Mai_Columns_Block {
 			return false;
 		}
 
-		if ( in_array( $value, [ 'auto', 'fit', 'fill' ] ) ) {
+		if ( in_array( $value, [ 'fit', 'fill', 'break' ] ) ) {
 			return false;
 		}
 

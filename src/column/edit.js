@@ -23,9 +23,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param string size The size value from settings.
+	 * @param {string} size The size value from settings.
 	 *
-	 * @return string
+	 * @return {string}
 	 */
 	const getFlex = ( size ) => {
 		if ( ! size ) {
@@ -33,8 +33,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		}
 
 		switch ( size ) {
-			case 'auto':
-				return '0 1 0%';
 			case 'fit':
 				return '0 1 auto';
 			case 'fill':
@@ -49,11 +47,11 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param int   index   The current item index to get the value for.
-	 * @param array array   The array to get index value from.
-	 * @param mixed default The default value if there is no index.
+	 * @param {int}   index   The current item index to get the value for.
+	 * @param {array} array   The array to get index value from.
+	 * @param {mixed} default The default value if there is no index.
 	 *
-	 * @return mixed
+	 * @return {mixed}
 	 */
 	const getIndexValueFromArray = function( index, array, defaultVal = null ) {
 		if ( undefined !== array[index] ) {
@@ -70,16 +68,16 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	/**
 	 * Gets the fraction value from a given value.
 	 *
-	 * @param string value
+	 * @param {string} value
 	 *
-	 * @return string
+	 * @return {string}
 	 */
-	const getFraction = ( value ) => {
+	const getSize = ( value ) => {
 		if ( ! value ) {
 			return false;
 		}
 
-		if ( [ 'auto', 'fit', 'fill' ].includes( value )) {
+		if ( [ 'fit', 'fill', 'break' ].includes( value )) {
 			return false;
 		}
 
@@ -87,13 +85,22 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			return value;
 		}
 
-		const percentage   = parseFloat( value.replace( '%', '' ) );
-		const decimalValue = percentage / 100;
-		const numerator    = Math.round( decimalValue * 100 );
-		const denominator  = 100;
-		const gcd          = getGcd( numerator, denominator );
+		if ( isPercentage( value ) ) {
+			const percentage   = parseFloat( value.replace( '%', '' ) );
+			const decimalValue = percentage / 100;
+			const numerator    = Math.round( decimalValue * 100 );
+			const denominator  = 100;
+			const gcd          = getGcd( numerator, denominator );
 
-		return `${numerator / gcd}/${denominator / gcd}`;
+			return `${numerator / gcd}/${denominator / gcd}`;
+		}
+
+		// TODO: Check if valid CSS value?
+		if ( isValidCSSValue( value ) ) {
+			return value;
+		}
+
+		return false;
 	}
 
 	/**
@@ -101,10 +108,10 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param int a
-	 * @param int b
+	 * @param {int} a
+	 * @param {int} b
 	 *
-	 * @return int
+	 * @return {int}
 	 */
 	const getGcd = ( a, b ) => {
 		if ( 0 === b ) {
@@ -119,12 +126,31 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @param string value
+	 * @param {string} value
 	 *
-	 * @return bool
+	 * @return {bool}
 	 */
 	const isFraction = ( value ) => {
 		return /^\d+\/\d+$/.test( value );
+	}
+
+	/**
+	 * Checks if a value is a percentage.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param {string} value
+	 *
+	 * @return {bool}
+	 */
+	const isPercentage = ( value ) => {
+		return /^\d+%$/.test( value );
+	}
+
+	function isValidCSSValue( value, property = 'flex-basis' ) {
+		const style = document.createElement('div').style;
+		style[property] = value;
+		return value === style[property];
 	}
 
 	/**
@@ -154,11 +180,46 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	};
 
 	/**
+	 * Adds arrangements to the object.
+	 *
+	 * @param {object} arrangement
+	 *
+	 * @returns {object}
+	 */
+	const setFallbacks = ( arrangement ) => {
+		// Set fallbacks.
+		for ( const key in arrangements ) {
+			if ( ! arrangements[ key ] ) {
+				const keys  = Object.keys( arrangements );
+				const shift = keys.shift();
+
+				arrangements[ key ] = arrangements[ shift ];
+			}
+		}
+
+		return arrangements;
+	}
+
+	/**
+	 * Reverses an object.
+	 * Convert the object to an array of [key, value] pairs.
+	 * Reverses the array.
+	 * Convert the reversed array back to an object.
+	 *
+	 * @param {object} obj The object to reverse.
+	 *
+	 * @returns {object}
+	 */
+	const reverseObject = ( obj ) => {
+		return Object.fromEntries( Object.entries( obj ).reverse() );
+	}
+
+	/**
 	 * Gets block index of parent.
 	 *
 	 * @since 0.1.0
 	 *
-	 * @return string
+	 * @return {string}
 	 */
 	const blockIndex = useSelect(
 		(select) => {
@@ -171,8 +232,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	/**
 	 * Build inline styles from arrangements.
 	 */
+	let   arrangements = {};
 	const inlineStyles = useBlockProps().style || {};
-	const arrangements = {};
 	const data         = [
 		{
 			break: 'lg',
@@ -196,23 +257,21 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		arrangements[ item.break ] = getIndexValueFromArray( blockIndex, item.columns, item.default );
 	});
 
-	// Set fallbacks.
-	for ( const key in arrangements ) {
-		if ( ! arrangements[ key ] ) {
-			const keys  = Object.keys( arrangements );
-			const shift = keys.shift();
+	// Set standard fallbacks.
+	arrangements = setFallbacks( arrangements );
 
-			arrangements[ key ] = arrangements[ shift ];
-		}
-	}
+	// Set reversed fallbacks.
+	arrangements = setFallbacks( reverseObject( arrangements ) );
 
-	/**
-	 * Set inline styles.
-	 */
+	// Reverse back.
+	arrangements = reverseObject( arrangements );
+
+	// Set sizes inline styles.
 	Object.entries( arrangements ).forEach( ( [ key, value ] ) => {
-		inlineStyles[`--size-${key}`] = getFraction( value ) || 1;
+		inlineStyles[`--size-${key}`] = getSize( value ) || 1;
 	});
 
+	// Set flex inline styles.
 	Object.entries( arrangements ).forEach( ( [ key, value ] ) => {
 		inlineStyles[`--flex-${key}`] = getFlex( value );
 	});
@@ -225,7 +284,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @since 0.1.0
 	 *
-	 * @return int
+	 * @return {int}
 	 */
 	const blockCount = useSelect(
 		(select) => {
@@ -233,7 +292,9 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		}
 	);
 
-	// Define the appender to use.
+	/**
+	 * Define the appender to use.
+	 */
 	const appenderToUse = () => { return ! blockCount ? <InnerBlocks.ButtonBlockAppender rootClientId={ clientId } style={{ alignSelf: 'auto' }}/> : false };
 
 	/**

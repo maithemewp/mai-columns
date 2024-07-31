@@ -2203,32 +2203,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _select_duplicate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select-duplicate */ "./src/columns/select-duplicate.js");
 
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
 
 
 
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
+
 function Edit({
+  clientId,
   attributes,
   setAttributes
 }) {
@@ -2240,10 +2221,6 @@ function Edit({
     sizesMd,
     sizesSm
   } = attributes;
-
-  /**
-   * Set default options for the select field.
-   */
   const options = [{
     value: '1/4',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('25')
@@ -2268,60 +2245,21 @@ function Edit({
   }, {
     value: 'fill',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fill Space')
+  }, {
+    value: 'break',
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Row Break')
   }];
-
-  /**
-   * Map values to labels.
-   *
-   * @since 0.1.0
-   *
-   * @return {string}
-   */
   const mapValuesToLabels = values => {
     return values.map(value => {
       const option = options.find(opt => opt.value === value);
       return option ? option.label : value;
     });
   };
-
-  /**
-   * Map labels to values.
-   *
-   * @since 0.1.0
-   *
-   * @return {string}
-   */
   const mapLabelsToValues = values => {
     return values.map(value => {
       const option = options.find(opt => opt.label === value);
       return option ? option.value : value;
     });
-  };
-
-  /**
-   * Get the flex CSS value.
-   * TODO: This is duplicated in edit.js of the other block.
-   *
-   * @since 0.1.0
-   *
-   * @return {string}
-   */
-  const getFlexCSSValue = value => {
-    switch (value) {
-      case 'top':
-      case 'left':
-        return 'flex-start';
-      case 'middle':
-      case 'center':
-        return 'center';
-      case 'bottom':
-      case 'right':
-        return 'flex-end';
-      case 'space-between':
-        return 'space-between';
-      default:
-        return 'initial';
-    }
   };
 
   /**
@@ -2367,6 +2305,41 @@ function Edit({
   };
 
   /**
+   * Get the flex CSS value.
+   * TODO: This is duplicated in edit.js of the other block.
+   *
+   * @since 0.1.0
+   *
+   * @return {string}
+   */
+  const getFlexCSSValue = value => {
+    switch (value) {
+      case 'top':
+      case 'left':
+        return 'flex-start';
+      case 'middle':
+      case 'center':
+        return 'center';
+      case 'bottom':
+      case 'right':
+        return 'flex-end';
+      case 'space-between':
+        return 'space-between';
+      default:
+        return 'initial';
+    }
+  };
+
+  /**
+   * Sets client ID as block ID.
+   */
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setAttributes({
+      id: clientId
+    });
+  }, [clientId]);
+
+  /**
    * Build inline styles.
    */
   const inlineStyles = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)().style || {};
@@ -2387,9 +2360,7 @@ function Edit({
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(props);
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
-    allowedBlocks: ['mai/column'],
-    orientation: 'horizontal',
-    template: [['mai/column', {}, []], ['mai/column', {}, []]]
+    allowedBlocks: ['mai/column']
   });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
@@ -2613,13 +2584,22 @@ __webpack_require__.r(__webpack_exports__);
  * @return {bool}
  */
 const isValidNew = value => {
+  if (!value) {
+    return false;
+  }
+
   // Check if value is a valid number larger then  0 and less than or equal to 100.
-  if (value && !isNaN(value) && value > 0 && value <= 100) {
+  if (!isNaN(value) && value > 0 && value <= 100) {
     return true;
   }
 
   // Check if it's a valid fraction.
-  if (value && isFraction(value)) {
+  if (isFraction(value)) {
+    return true;
+  }
+
+  // If it's a valid CSS value.
+  if (isValidCSSValue(value)) {
     return true;
   }
   return false;
@@ -2636,7 +2616,7 @@ const isValidNew = value => {
  */
 const isFraction = value => {
   // It's an allowed predefined value.
-  if (['auto', 'fit', 'fill'].includes(value)) {
+  if (['fit', 'fill', 'break'].includes(value)) {
     return false;
   }
 
@@ -2661,6 +2641,11 @@ const isFraction = value => {
   // Bail if numerator is larger than denominator.
   return numerator <= denominator;
 };
+function isValidCSSValue(value, property = 'flex-basis') {
+  const style = document.createElement('div').style;
+  style[property] = value;
+  return value === style[property];
+}
 
 /**
  * Setup component.
@@ -2785,7 +2770,7 @@ const MaiMultiSelectDuplicate = ({
       actualValue: op.value,
       value: `${op.value}_${Date.now()}`
     })),
-    formatOptionLabel: option => !option.label || isFraction(option.label) || isNaN(option.label) ? option.label : `${option.label}%`,
+    formatOptionLabel: option => !option.label || isFraction(option.label) || isValidCSSValue(option.label) || isNaN(option.label) ? option.label : `${option.label}%`,
     formatCreateLabel: formatCreateLabel,
     components: {
       DropdownIndicator: () => null,
@@ -11314,7 +11299,7 @@ function combine (array, callback) {
   \********************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"design","description":"Repeatable column arrangements.","attributes":{"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-columns","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/columns","version":"0.1.0","title":"Mai Columns","category":"design","description":"Repeatable column arrangements.","attributes":{"id":{"type":"string"},"alignItems":{"type":"string"},"justifyContent":{"type":"string"},"sizesLg":{"type":"array","default":[]},"sizesMd":{"type":"array","default":[]},"sizesSm":{"type":"array","default":["1/1"]},"innerBlocks":{"type":"array","default":[]}},"supports":{"anchor":true,"align":["wide","full"],"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":true,"padding":true,"blockGap":{"sides":["horizontal","vertical"]}}},"providesContext":{"mai/id":"id","mai/sizesLg":"sizesLg","mai/sizesMd":"sizesMd","mai/sizesSm":"sizesSm"},"textdomain":"mai-columns","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css"}');
 
 /***/ })
 
@@ -11485,7 +11470,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkmai_rows"] = self["webpackChunkmai_rows"] || [];
+/******/ 		var chunkLoadingGlobal = self["webpackChunkmai_columns"] = self["webpackChunkmai_columns"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();

@@ -52,17 +52,15 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @param string size The size value from settings.
+   * @param {string} size The size value from settings.
    *
-   * @return string
+   * @return {string}
    */
   const getFlex = size => {
     if (!size) {
       return '1';
     }
     switch (size) {
-      case 'auto':
-        return '0 1 0%';
       case 'fit':
         return '0 1 auto';
       case 'fill':
@@ -76,11 +74,11 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @param int   index   The current item index to get the value for.
-   * @param array array   The array to get index value from.
-   * @param mixed default The default value if there is no index.
+   * @param {int}   index   The current item index to get the value for.
+   * @param {array} array   The array to get index value from.
+   * @param {mixed} default The default value if there is no index.
    *
-   * @return mixed
+   * @return {mixed}
    */
   const getIndexValueFromArray = function (index, array, defaultVal = null) {
     var _array;
@@ -96,26 +94,34 @@ function Edit({
   /**
    * Gets the fraction value from a given value.
    *
-   * @param string value
+   * @param {string} value
    *
-   * @return string
+   * @return {string}
    */
-  const getFraction = value => {
+  const getSize = value => {
     if (!value) {
       return false;
     }
-    if (['auto', 'fit', 'fill'].includes(value)) {
+    if (['fit', 'fill', 'break'].includes(value)) {
       return false;
     }
     if (isFraction(value)) {
       return value;
     }
-    const percentage = parseFloat(value.replace('%', ''));
-    const decimalValue = percentage / 100;
-    const numerator = Math.round(decimalValue * 100);
-    const denominator = 100;
-    const gcd = getGcd(numerator, denominator);
-    return `${numerator / gcd}/${denominator / gcd}`;
+    if (isPercentage(value)) {
+      const percentage = parseFloat(value.replace('%', ''));
+      const decimalValue = percentage / 100;
+      const numerator = Math.round(decimalValue * 100);
+      const denominator = 100;
+      const gcd = getGcd(numerator, denominator);
+      return `${numerator / gcd}/${denominator / gcd}`;
+    }
+
+    // TODO: Check if valid CSS value?
+    if (isValidCSSValue(value)) {
+      return value;
+    }
+    return false;
   };
 
   /**
@@ -123,10 +129,10 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @param int a
-   * @param int b
+   * @param {int} a
+   * @param {int} b
    *
-   * @return int
+   * @return {int}
    */
   const getGcd = (a, b) => {
     if (0 === b) {
@@ -141,13 +147,31 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @param string value
+   * @param {string} value
    *
-   * @return bool
+   * @return {bool}
    */
   const isFraction = value => {
     return /^\d+\/\d+$/.test(value);
   };
+
+  /**
+   * Checks if a value is a percentage.
+   *
+   * @since 0.1.0
+   *
+   * @param {string} value
+   *
+   * @return {bool}
+   */
+  const isPercentage = value => {
+    return /^\d+%$/.test(value);
+  };
+  function isValidCSSValue(value, property = 'flex-basis') {
+    const style = document.createElement('div').style;
+    style[property] = value;
+    return value === style[property];
+  }
 
   /**
    * Get the flex CSS value.
@@ -176,11 +200,44 @@ function Edit({
   };
 
   /**
+   * Adds arrangements to the object.
+   *
+   * @param {object} arrangement
+   *
+   * @returns {object}
+   */
+  const setFallbacks = arrangement => {
+    // Set fallbacks.
+    for (const key in arrangements) {
+      if (!arrangements[key]) {
+        const keys = Object.keys(arrangements);
+        const shift = keys.shift();
+        arrangements[key] = arrangements[shift];
+      }
+    }
+    return arrangements;
+  };
+
+  /**
+   * Reverses an object.
+   * Convert the object to an array of [key, value] pairs.
+   * Reverses the array.
+   * Convert the reversed array back to an object.
+   *
+   * @param {object} obj The object to reverse.
+   *
+   * @returns {object}
+   */
+  const reverseObject = obj => {
+    return Object.fromEntries(Object.entries(obj).reverse());
+  };
+
+  /**
    * Gets block index of parent.
    *
    * @since 0.1.0
    *
-   * @return string
+   * @return {string}
    */
   const blockIndex = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     const {
@@ -192,8 +249,8 @@ function Edit({
   /**
    * Build inline styles from arrangements.
    */
+  let arrangements = {};
   const inlineStyles = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)().style || {};
-  const arrangements = {};
   const data = [{
     break: 'lg',
     columns: context['mai/sizesLg'],
@@ -213,21 +270,21 @@ function Edit({
     arrangements[item.break] = getIndexValueFromArray(blockIndex, item.columns, item.default);
   });
 
-  // Set fallbacks.
-  for (const key in arrangements) {
-    if (!arrangements[key]) {
-      const keys = Object.keys(arrangements);
-      const shift = keys.shift();
-      arrangements[key] = arrangements[shift];
-    }
-  }
+  // Set standard fallbacks.
+  arrangements = setFallbacks(arrangements);
 
-  /**
-   * Set inline styles.
-   */
+  // Set reversed fallbacks.
+  arrangements = setFallbacks(reverseObject(arrangements));
+
+  // Reverse back.
+  arrangements = reverseObject(arrangements);
+
+  // Set sizes inline styles.
   Object.entries(arrangements).forEach(([key, value]) => {
-    inlineStyles[`--size-${key}`] = getFraction(value) || 1;
+    inlineStyles[`--size-${key}`] = getSize(value) || 1;
   });
+
+  // Set flex inline styles.
   Object.entries(arrangements).forEach(([key, value]) => {
     inlineStyles[`--flex-${key}`] = getFlex(value);
   });
@@ -240,13 +297,15 @@ function Edit({
    *
    * @since 0.1.0
    *
-   * @return int
+   * @return {int}
    */
   const blockCount = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     return select('core/block-editor').getBlockCount(clientId);
   });
 
-  // Define the appender to use.
+  /**
+   * Define the appender to use.
+   */
   const appenderToUse = () => {
     return !blockCount ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.ButtonBlockAppender, {
       rootClientId: clientId,
@@ -448,7 +507,7 @@ module.exports = window["wp"]["element"];
   \*******************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/columns"],"version":"0.1.0","title":"Mai Column","category":"design","description":"An individual row item.","attributes":{"alignItems":{"type":"string"}},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":true}},"usesContext":["mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-columns","editorScript":"file:./index.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"mai/column","parent":["mai/columns"],"version":"0.1.0","title":"Mai Column","category":"design","description":"An individual row item.","attributes":{"alignItems":{"type":"string"}},"supports":{"anchor":false,"align":false,"color":{"text":true,"background":true,"link":true},"html":false,"spacing":{"margin":false,"padding":true,"blockGap":true}},"usesContext":["mai/id","mai/sizesLg","mai/sizesMd","mai/sizesSm"],"textdomain":"mai-columns","editorScript":"file:./index.js"}');
 
 /***/ })
 
@@ -607,7 +666,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkmai_rows"] = self["webpackChunkmai_rows"] || [];
+/******/ 		var chunkLoadingGlobal = self["webpackChunkmai_columns"] = self["webpackChunkmai_columns"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();

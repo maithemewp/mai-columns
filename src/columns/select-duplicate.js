@@ -20,13 +20,22 @@ import CreatableSelect from 'react-select/creatable';
  * @return {bool}
  */
 const isValidNew = ( value ) => {
+	if ( ! value ) {
+		return false;
+	}
+
 	// Check if value is a valid number larger then  0 and less than or equal to 100.
-	if ( value && ! isNaN( value ) && value > 0 && value <= 100 ) {
+	if ( ! isNaN( value ) && value > 0 && value <= 100 ) {
 		return true;
 	}
 
 	// Check if it's a valid fraction.
-	if ( value && isFraction( value ) ) {
+	if ( isFraction( value ) ) {
+		return true;
+	}
+
+	// If it's a valid CSS value.
+	if ( isValidCSSValue( value ) ) {
 		return true;
 	}
 
@@ -44,7 +53,7 @@ const isValidNew = ( value ) => {
  */
 const isFraction = ( value ) => {
 	// It's an allowed predefined value.
-	if ( [ 'auto', 'fit', 'fill' ].includes( value )) {
+	if ( [ 'fit', 'fill', 'break' ].includes( value )) {
 		return false;
 	}
 
@@ -68,6 +77,12 @@ const isFraction = ( value ) => {
 
 	// Bail if numerator is larger than denominator.
 	return numerator <= denominator;
+}
+
+function isValidCSSValue( value, property = 'flex-basis' ) {
+	const style = document.createElement('div').style;
+	style[property] = value;
+	return value === style[property];
 }
 
 /**
@@ -189,7 +204,7 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 				onChange={ handleChange }
 				onCreateOption={ handleCreate }
 				options={ options.map( op => ( { ...op, actualValue: op.value, value: `${op.value}_${Date.now()}` } ) ) }
-				formatOptionLabel={ option => ! option.label || isFraction( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%` }
+				formatOptionLabel={ option => ! option.label || isFraction( option.label ) || isValidCSSValue( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%` }
 				formatCreateLabel={ formatCreateLabel }
 				components={ { DropdownIndicator:() => null, IndicatorSeparator:() => null } }
 				isValidNewOption={ isValidNew }

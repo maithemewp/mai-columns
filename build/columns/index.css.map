@@ -1,1 +1,1 @@
-{"version":3,"file":"columns/index.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://mai-rows/./src/columns/index.scss"],"sourcesContent":[".mai-columns .block-editor-block-list__block .block-list-appender:only-child {\n\talign-self: auto;\n}"],"names":[],"sourceRoot":""}
+{"version":3,"file":"columns/index.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://mai-columns/./src/columns/index.scss"],"sourcesContent":[".mai-columns .block-editor-block-list__block .block-list-appender:only-child {\n\talign-self: auto;\n}"],"names":[],"sourceRoot":""}
