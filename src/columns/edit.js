@@ -138,6 +138,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	const blockProps       = useBlockProps( props );
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ['mai/column'],
+		template: [['mai/column'], ['mai/column']],
 	});
 
 	return (

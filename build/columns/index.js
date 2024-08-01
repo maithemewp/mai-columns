@@ -2193,15 +2193,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Edit)
 /* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _select_duplicate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select-duplicate */ "./src/columns/select-duplicate.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _select_duplicate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./select-duplicate */ "./src/columns/select-duplicate.js");
 
 
 
@@ -2333,7 +2335,7 @@ function Edit({
   /**
    * Sets client ID as block ID.
    */
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
     setAttributes({
       id: clientId
     });
@@ -2360,31 +2362,32 @@ function Edit({
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(props);
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
-    allowedBlocks: ['mai/column']
+    allowedBlocks: ['mai/column'],
+    template: [['mai/column'], ['mai/column']]
   });
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.JustifyContentControl, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.JustifyContentControl, {
     value: justifyContent,
     onChange: value => {
       setAttributes({
         justifyContent: value
       });
     }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockVerticalAlignmentToolbar, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockVerticalAlignmentToolbar, {
     value: alignItems,
     onChange: value => {
       setAttributes({
         alignItems: value
       });
     }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
     key: "Sizes"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Arrangements')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Arrangements')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.')
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Large Tablet')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "sizesLg",
     options: options,
     value: mapValuesToLabels(sizesLg),
@@ -2398,9 +2401,9 @@ function Edit({
         sizesLg: [...sizesLg, value]
       });
     }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Small Tablet')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "sizesMd",
     options: options,
     value: mapValuesToLabels(sizesMd),
@@ -2414,9 +2417,9 @@ function Edit({
         sizesMd: [...sizesMd, value]
       });
     }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.BaseControl, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Mobile')
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_select_duplicate__WEBPACK_IMPORTED_MODULE_5__["default"], {
     key: "sizesSm",
     options: options,
     value: mapValuesToLabels(sizesSm),
@@ -2430,7 +2433,7 @@ function Edit({
         sizesSm: [...sizesSm, value]
       });
     }
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...innerBlocksProps
   }));
 }
@@ -3200,14 +3203,14 @@ if (false) {} else {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CreatableSelect$1),
-/* harmony export */   useCreatable: () => (/* reexport safe */ _dist_useCreatable_4a2d7323_esm_js__WEBPACK_IMPORTED_MODULE_2__.u)
+/* harmony export */   useCreatable: () => (/* reexport safe */ _dist_useCreatable_d97ef2c9_esm_js__WEBPACK_IMPORTED_MODULE_2__.u)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _dist_Select_aecb2a80_esm_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../dist/Select-aecb2a80.esm.js */ "./node_modules/react-select/dist/Select-aecb2a80.esm.js");
+/* harmony import */ var _dist_Select_49a62830_esm_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../dist/Select-49a62830.esm.js */ "./node_modules/react-select/dist/Select-49a62830.esm.js");
 /* harmony import */ var _dist_useStateManager_7e1e8489_esm_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../dist/useStateManager-7e1e8489.esm.js */ "./node_modules/react-select/dist/useStateManager-7e1e8489.esm.js");
-/* harmony import */ var _dist_useCreatable_4a2d7323_esm_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../dist/useCreatable-4a2d7323.esm.js */ "./node_modules/react-select/dist/useCreatable-4a2d7323.esm.js");
+/* harmony import */ var _dist_useCreatable_d97ef2c9_esm_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../dist/useCreatable-d97ef2c9.esm.js */ "./node_modules/react-select/dist/useCreatable-d97ef2c9.esm.js");
 /* harmony import */ var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/objectSpread2 */ "./node_modules/@babel/runtime/helpers/esm/objectSpread2.js");
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
@@ -3249,8 +3252,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var CreatableSelect = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_1__.forwardRef)(function (props, ref) {
   var creatableProps = (0,_dist_useStateManager_7e1e8489_esm_js__WEBPACK_IMPORTED_MODULE_16__.u)(props);
-  var selectProps = (0,_dist_useCreatable_4a2d7323_esm_js__WEBPACK_IMPORTED_MODULE_2__.u)(creatableProps);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_dist_Select_aecb2a80_esm_js__WEBPACK_IMPORTED_MODULE_17__.S, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  var selectProps = (0,_dist_useCreatable_d97ef2c9_esm_js__WEBPACK_IMPORTED_MODULE_2__.u)(creatableProps);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_dist_Select_49a62830_esm_js__WEBPACK_IMPORTED_MODULE_17__.S, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     ref: ref
   }, selectProps));
 });
@@ -3261,9 +3264,9 @@ var CreatableSelect$1 = CreatableSelect;
 
 /***/ }),
 
-/***/ "./node_modules/react-select/dist/Select-aecb2a80.esm.js":
+/***/ "./node_modules/react-select/dist/Select-49a62830.esm.js":
 /*!***************************************************************!*\
-  !*** ./node_modules/react-select/dist/Select-aecb2a80.esm.js ***!
+  !*** ./node_modules/react-select/dist/Select-49a62830.esm.js ***!
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -3286,7 +3289,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./index-baa8dc4f.esm.js */ "./node_modules/react-select/dist/index-baa8dc4f.esm.js");
+/* harmony import */ var _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./index-a301f526.esm.js */ "./node_modules/react-select/dist/index-a301f526.esm.js");
 /* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.browser.esm.js");
 /* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! memoize-one */ "./node_modules/memoize-one/dist/memoize-one.esm.js");
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
@@ -3324,14 +3327,14 @@ var defaultAriaLiveMessages = {
   guidance: function guidance(props) {
     var isSearchable = props.isSearchable,
       isMulti = props.isMulti,
-      isDisabled = props.isDisabled,
       tabSelectsValue = props.tabSelectsValue,
-      context = props.context;
+      context = props.context,
+      isInitialFocus = props.isInitialFocus;
     switch (context) {
       case 'menu':
-        return "Use Up and Down to choose options".concat(isDisabled ? '' : ', press Enter to select the currently focused option', ", press Escape to exit the menu").concat(tabSelectsValue ? ', press Tab to select the option and exit the menu' : '', ".");
+        return "Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu".concat(tabSelectsValue ? ', press Tab to select the option and exit the menu' : '', ".");
       case 'input':
-        return "".concat(props['aria-label'] || 'Select', " is focused ").concat(isSearchable ? ',type to refine list' : '', ", press Down to open the menu, ").concat(isMulti ? ' press left to focus selected values' : '');
+        return isInitialFocus ? "".concat(props['aria-label'] || 'Select', " is focused ").concat(isSearchable ? ',type to refine list' : '', ", press Down to open the menu, ").concat(isMulti ? ' press left to focus selected values' : '') : '';
       case 'value':
         return 'Use left and right to toggle between focused values, press Backspace to remove the currently focused value';
       default:
@@ -3367,17 +3370,18 @@ var defaultAriaLiveMessages = {
       label = _props$label2 === void 0 ? '' : _props$label2,
       selectValue = props.selectValue,
       isDisabled = props.isDisabled,
-      isSelected = props.isSelected;
+      isSelected = props.isSelected,
+      isAppleDevice = props.isAppleDevice;
     var getArrayIndex = function getArrayIndex(arr, item) {
       return arr && arr.length ? "".concat(arr.indexOf(item) + 1, " of ").concat(arr.length) : '';
     };
     if (context === 'value' && selectValue) {
       return "value ".concat(label, " focused, ").concat(getArrayIndex(selectValue, focused), ".");
     }
-    if (context === 'menu') {
+    if (context === 'menu' && isAppleDevice) {
       var disabled = isDisabled ? ' disabled' : '';
-      var status = "".concat(isSelected ? 'selected' : 'focused').concat(disabled);
-      return "option ".concat(label, " ").concat(status, ", ").concat(getArrayIndex(options, focused), ".");
+      var status = "".concat(isSelected ? ' selected' : '').concat(disabled);
+      return "".concat(label).concat(status, ", ").concat(getArrayIndex(options, focused), ".");
     }
     return '';
   },
@@ -3396,7 +3400,8 @@ var LiveRegion = function LiveRegion(props) {
     isFocused = props.isFocused,
     selectValue = props.selectValue,
     selectProps = props.selectProps,
-    id = props.id;
+    id = props.id,
+    isAppleDevice = props.isAppleDevice;
   var ariaLiveMessages = selectProps.ariaLiveMessages,
     getOptionLabel = selectProps.getOptionLabel,
     inputValue = selectProps.inputValue,
@@ -3406,7 +3411,8 @@ var LiveRegion = function LiveRegion(props) {
     menuIsOpen = selectProps.menuIsOpen,
     options = selectProps.options,
     screenReaderStatus = selectProps.screenReaderStatus,
-    tabSelectsValue = selectProps.tabSelectsValue;
+    tabSelectsValue = selectProps.tabSelectsValue,
+    isLoading = selectProps.isLoading;
   var ariaLabel = selectProps['aria-label'];
   var ariaLive = selectProps['aria-live'];
 
@@ -3459,15 +3465,16 @@ var LiveRegion = function LiveRegion(props) {
         isSelected: isSelected,
         options: focusableOptions,
         context: focused === focusedOption ? 'menu' : 'value',
-        selectValue: selectValue
+        selectValue: selectValue,
+        isAppleDevice: isAppleDevice
       };
       focusMsg = messages.onFocus(onFocusProps);
     }
     return focusMsg;
-  }, [focusedOption, focusedValue, getOptionLabel, isOptionDisabled, messages, focusableOptions, selectValue]);
+  }, [focusedOption, focusedValue, getOptionLabel, isOptionDisabled, messages, focusableOptions, selectValue, isAppleDevice]);
   var ariaResults = (0,react__WEBPACK_IMPORTED_MODULE_7__.useMemo)(function () {
     var resultsMsg = '';
-    if (menuIsOpen && options.length && messages.onFilter) {
+    if (menuIsOpen && options.length && !isLoading && messages.onFilter) {
       var resultsMessage = screenReaderStatus({
         count: focusableOptions.length
       });
@@ -3477,7 +3484,8 @@ var LiveRegion = function LiveRegion(props) {
       });
     }
     return resultsMsg;
-  }, [focusableOptions, inputValue, menuIsOpen, messages, options, screenReaderStatus]);
+  }, [focusableOptions, inputValue, menuIsOpen, messages, options, screenReaderStatus, isLoading]);
+  var isInitialFocus = (ariaSelection === null || ariaSelection === void 0 ? void 0 : ariaSelection.action) === 'initial-input-focus';
   var ariaGuidance = (0,react__WEBPACK_IMPORTED_MODULE_7__.useMemo)(function () {
     var guidanceMsg = '';
     if (messages.guidance) {
@@ -3488,24 +3496,28 @@ var LiveRegion = function LiveRegion(props) {
         isDisabled: focusedOption && isOptionDisabled(focusedOption, selectValue),
         isMulti: isMulti,
         isSearchable: isSearchable,
-        tabSelectsValue: tabSelectsValue
+        tabSelectsValue: tabSelectsValue,
+        isInitialFocus: isInitialFocus
       });
     }
     return guidanceMsg;
-  }, [ariaLabel, focusedOption, focusedValue, isMulti, isOptionDisabled, isSearchable, menuIsOpen, messages, selectValue, tabSelectsValue]);
-  var ariaContext = "".concat(ariaFocused, " ").concat(ariaResults, " ").concat(ariaGuidance);
+  }, [ariaLabel, focusedOption, focusedValue, isMulti, isOptionDisabled, isSearchable, menuIsOpen, messages, selectValue, tabSelectsValue, isInitialFocus]);
   var ScreenReaderText = (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)(react__WEBPACK_IMPORTED_MODULE_7__.Fragment, null, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
     id: "aria-selection"
   }, ariaSelected), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-    id: "aria-context"
-  }, ariaContext));
-  var isInitialFocus = (ariaSelection === null || ariaSelection === void 0 ? void 0 : ariaSelection.action) === 'initial-input-focus';
+    id: "aria-focused"
+  }, ariaFocused), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+    id: "aria-results"
+  }, ariaResults), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+    id: "aria-guidance"
+  }, ariaGuidance));
   return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)(react__WEBPACK_IMPORTED_MODULE_7__.Fragment, null, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)(A11yText$1, {
     id: id
   }, isInitialFocus && ScreenReaderText), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)(A11yText$1, {
     "aria-live": ariaLive,
     "aria-atomic": "false",
-    "aria-relevant": "additions text"
+    "aria-relevant": "additions text",
+    role: "log"
   }, isFocused && !isInitialFocus && ScreenReaderText));
 };
 var LiveRegion$1 = LiveRegion;
@@ -3821,7 +3833,7 @@ function DummyInput(_ref) {
   var innerRef = _ref.innerRef,
     props = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_8__["default"])(_ref, _excluded);
   // Remove animation props not meant for HTML elements
-  var filteredProps = (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.r)(props, 'onExited', 'in', 'enter', 'exit', 'appear');
+  var filteredProps = (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.r)(props, 'onExited', 'in', 'enter', 'exit', 'appear');
   return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     ref: innerRef
   }, filteredProps, {
@@ -3850,7 +3862,7 @@ function DummyInput(_ref) {
 }
 
 var cancelScroll = function cancelScroll(event) {
-  event.preventDefault();
+  if (event.cancelable) event.preventDefault();
   event.stopPropagation();
 };
 function useScrollCapture(_ref) {
@@ -3922,7 +3934,7 @@ function useScrollCapture(_ref) {
   var startListening = (0,react__WEBPACK_IMPORTED_MODULE_7__.useCallback)(function (el) {
     // bail early if no element is available to attach to
     if (!el) return;
-    var notPassive = _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.s ? {
+    var notPassive = _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.s ? {
       passive: false
     } : false;
     el.addEventListener('wheel', onWheel, notPassive);
@@ -4075,13 +4087,14 @@ function useScrollLock(_ref) {
 }
 
 function _EMOTION_STRINGIFIED_CSS_ERROR__$1() { return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."; }
-var blurSelectInput = function blurSelectInput() {
-  return document.activeElement && document.activeElement.blur();
+var blurSelectInput = function blurSelectInput(event) {
+  var element = event.target;
+  return element.ownerDocument.activeElement && element.ownerDocument.activeElement.blur();
 };
 var _ref2$1 =  false ? 0 : {
   name: "bp8cua-ScrollManager",
   styles: "position:fixed;left:0;bottom:0;right:0;top:0;label:ScrollManager;",
-  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlNjcm9sbE1hbmFnZXIudHN4Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQStDVSIsImZpbGUiOiJTY3JvbGxNYW5hZ2VyLnRzeCIsInNvdXJjZXNDb250ZW50IjpbIi8qKiBAanN4IGpzeCAqL1xuaW1wb3J0IHsganN4IH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuaW1wb3J0IHsgRnJhZ21lbnQsIFJlYWN0RWxlbWVudCwgUmVmQ2FsbGJhY2sgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgdXNlU2Nyb2xsQ2FwdHVyZSBmcm9tICcuL3VzZVNjcm9sbENhcHR1cmUnO1xuaW1wb3J0IHVzZVNjcm9sbExvY2sgZnJvbSAnLi91c2VTY3JvbGxMb2NrJztcblxuaW50ZXJmYWNlIFByb3BzIHtcbiAgcmVhZG9ubHkgY2hpbGRyZW46IChyZWY6IFJlZkNhbGxiYWNrPEhUTUxFbGVtZW50PikgPT4gUmVhY3RFbGVtZW50O1xuICByZWFkb25seSBsb2NrRW5hYmxlZDogYm9vbGVhbjtcbiAgcmVhZG9ubHkgY2FwdHVyZUVuYWJsZWQ6IGJvb2xlYW47XG4gIHJlYWRvbmx5IG9uQm90dG9tQXJyaXZlPzogKGV2ZW50OiBXaGVlbEV2ZW50IHwgVG91Y2hFdmVudCkgPT4gdm9pZDtcbiAgcmVhZG9ubHkgb25Cb3R0b21MZWF2ZT86IChldmVudDogV2hlZWxFdmVudCB8IFRvdWNoRXZlbnQpID0+IHZvaWQ7XG4gIHJlYWRvbmx5IG9uVG9wQXJyaXZlPzogKGV2ZW50OiBXaGVlbEV2ZW50IHwgVG91Y2hFdmVudCkgPT4gdm9pZDtcbiAgcmVhZG9ubHkgb25Ub3BMZWF2ZT86IChldmVudDogV2hlZWxFdmVudCB8IFRvdWNoRXZlbnQpID0+IHZvaWQ7XG59XG5cbmNvbnN0IGJsdXJTZWxlY3RJbnB1dCA9ICgpID0+XG4gIGRvY3VtZW50LmFjdGl2ZUVsZW1lbnQgJiYgKGRvY3VtZW50LmFjdGl2ZUVsZW1lbnQgYXMgSFRNTEVsZW1lbnQpLmJsdXIoKTtcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gU2Nyb2xsTWFuYWdlcih7XG4gIGNoaWxkcmVuLFxuICBsb2NrRW5hYmxlZCxcbiAgY2FwdHVyZUVuYWJsZWQgPSB0cnVlLFxuICBvbkJvdHRvbUFycml2ZSxcbiAgb25Cb3R0b21MZWF2ZSxcbiAgb25Ub3BBcnJpdmUsXG4gIG9uVG9wTGVhdmUsXG59OiBQcm9wcykge1xuICBjb25zdCBzZXRTY3JvbGxDYXB0dXJlVGFyZ2V0ID0gdXNlU2Nyb2xsQ2FwdHVyZSh7XG4gICAgaXNFbmFibGVkOiBjYXB0dXJlRW5hYmxlZCxcbiAgICBvbkJvdHRvbUFycml2ZSxcbiAgICBvbkJvdHRvbUxlYXZlLFxuICAgIG9uVG9wQXJyaXZlLFxuICAgIG9uVG9wTGVhdmUsXG4gIH0pO1xuICBjb25zdCBzZXRTY3JvbGxMb2NrVGFyZ2V0ID0gdXNlU2Nyb2xsTG9jayh7IGlzRW5hYmxlZDogbG9ja0VuYWJsZWQgfSk7XG5cbiAgY29uc3QgdGFyZ2V0UmVmOiBSZWZDYWxsYmFjazxIVE1MRWxlbWVudD4gPSAoZWxlbWVudCkgPT4ge1xuICAgIHNldFNjcm9sbENhcHR1cmVUYXJnZXQoZWxlbWVudCk7XG4gICAgc2V0U2Nyb2xsTG9ja1RhcmdldChlbGVtZW50KTtcbiAgfTtcblxuICByZXR1cm4gKFxuICAgIDxGcmFnbWVudD5cbiAgICAgIHtsb2NrRW5hYmxlZCAmJiAoXG4gICAgICAgIDxkaXZcbiAgICAgICAgICBvbkNsaWNrPXtibHVyU2VsZWN0SW5wdXR9XG4gICAgICAgICAgY3NzPXt7IHBvc2l0aW9uOiAnZml4ZWQnLCBsZWZ0OiAwLCBib3R0b206IDAsIHJpZ2h0OiAwLCB0b3A6IDAgfX1cbiAgICAgICAgLz5cbiAgICAgICl9XG4gICAgICB7Y2hpbGRyZW4odGFyZ2V0UmVmKX1cbiAgICA8L0ZyYWdtZW50PlxuICApO1xufVxuIl19 */",
+  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIlNjcm9sbE1hbmFnZXIudHN4Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQW9EVSIsImZpbGUiOiJTY3JvbGxNYW5hZ2VyLnRzeCIsInNvdXJjZXNDb250ZW50IjpbIi8qKiBAanN4IGpzeCAqL1xuaW1wb3J0IHsganN4IH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnO1xuaW1wb3J0IHsgRnJhZ21lbnQsIFJlYWN0RWxlbWVudCwgUmVmQ2FsbGJhY2ssIE1vdXNlRXZlbnQgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgdXNlU2Nyb2xsQ2FwdHVyZSBmcm9tICcuL3VzZVNjcm9sbENhcHR1cmUnO1xuaW1wb3J0IHVzZVNjcm9sbExvY2sgZnJvbSAnLi91c2VTY3JvbGxMb2NrJztcblxuaW50ZXJmYWNlIFByb3BzIHtcbiAgcmVhZG9ubHkgY2hpbGRyZW46IChyZWY6IFJlZkNhbGxiYWNrPEhUTUxFbGVtZW50PikgPT4gUmVhY3RFbGVtZW50O1xuICByZWFkb25seSBsb2NrRW5hYmxlZDogYm9vbGVhbjtcbiAgcmVhZG9ubHkgY2FwdHVyZUVuYWJsZWQ6IGJvb2xlYW47XG4gIHJlYWRvbmx5IG9uQm90dG9tQXJyaXZlPzogKGV2ZW50OiBXaGVlbEV2ZW50IHwgVG91Y2hFdmVudCkgPT4gdm9pZDtcbiAgcmVhZG9ubHkgb25Cb3R0b21MZWF2ZT86IChldmVudDogV2hlZWxFdmVudCB8IFRvdWNoRXZlbnQpID0+IHZvaWQ7XG4gIHJlYWRvbmx5IG9uVG9wQXJyaXZlPzogKGV2ZW50OiBXaGVlbEV2ZW50IHwgVG91Y2hFdmVudCkgPT4gdm9pZDtcbiAgcmVhZG9ubHkgb25Ub3BMZWF2ZT86IChldmVudDogV2hlZWxFdmVudCB8IFRvdWNoRXZlbnQpID0+IHZvaWQ7XG59XG5cbmNvbnN0IGJsdXJTZWxlY3RJbnB1dCA9IChldmVudDogTW91c2VFdmVudDxIVE1MRGl2RWxlbWVudD4pID0+IHtcbiAgY29uc3QgZWxlbWVudCA9IGV2ZW50LnRhcmdldCBhcyBIVE1MRGl2RWxlbWVudDtcbiAgcmV0dXJuIChcbiAgICBlbGVtZW50Lm93bmVyRG9jdW1lbnQuYWN0aXZlRWxlbWVudCAmJlxuICAgIChlbGVtZW50Lm93bmVyRG9jdW1lbnQuYWN0aXZlRWxlbWVudCBhcyBIVE1MRWxlbWVudCkuYmx1cigpXG4gICk7XG59O1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBTY3JvbGxNYW5hZ2VyKHtcbiAgY2hpbGRyZW4sXG4gIGxvY2tFbmFibGVkLFxuICBjYXB0dXJlRW5hYmxlZCA9IHRydWUsXG4gIG9uQm90dG9tQXJyaXZlLFxuICBvbkJvdHRvbUxlYXZlLFxuICBvblRvcEFycml2ZSxcbiAgb25Ub3BMZWF2ZSxcbn06IFByb3BzKSB7XG4gIGNvbnN0IHNldFNjcm9sbENhcHR1cmVUYXJnZXQgPSB1c2VTY3JvbGxDYXB0dXJlKHtcbiAgICBpc0VuYWJsZWQ6IGNhcHR1cmVFbmFibGVkLFxuICAgIG9uQm90dG9tQXJyaXZlLFxuICAgIG9uQm90dG9tTGVhdmUsXG4gICAgb25Ub3BBcnJpdmUsXG4gICAgb25Ub3BMZWF2ZSxcbiAgfSk7XG4gIGNvbnN0IHNldFNjcm9sbExvY2tUYXJnZXQgPSB1c2VTY3JvbGxMb2NrKHsgaXNFbmFibGVkOiBsb2NrRW5hYmxlZCB9KTtcblxuICBjb25zdCB0YXJnZXRSZWY6IFJlZkNhbGxiYWNrPEhUTUxFbGVtZW50PiA9IChlbGVtZW50KSA9PiB7XG4gICAgc2V0U2Nyb2xsQ2FwdHVyZVRhcmdldChlbGVtZW50KTtcbiAgICBzZXRTY3JvbGxMb2NrVGFyZ2V0KGVsZW1lbnQpO1xuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPEZyYWdtZW50PlxuICAgICAge2xvY2tFbmFibGVkICYmIChcbiAgICAgICAgPGRpdlxuICAgICAgICAgIG9uQ2xpY2s9e2JsdXJTZWxlY3RJbnB1dH1cbiAgICAgICAgICBjc3M9e3sgcG9zaXRpb246ICdmaXhlZCcsIGxlZnQ6IDAsIGJvdHRvbTogMCwgcmlnaHQ6IDAsIHRvcDogMCB9fVxuICAgICAgICAvPlxuICAgICAgKX1cbiAgICAgIHtjaGlsZHJlbih0YXJnZXRSZWYpfVxuICAgIDwvRnJhZ21lbnQ+XG4gICk7XG59XG4iXX0= */",
   toString: _EMOTION_STRINGIFIED_CSS_ERROR__$1
 };
 function ScrollManager(_ref) {
@@ -4138,6 +4151,30 @@ var RequiredInput = function RequiredInput(_ref) {
 };
 var RequiredInput$1 = RequiredInput;
 
+/// <reference types="user-agent-data-types" />
+
+function testPlatform(re) {
+  var _window$navigator$use;
+  return typeof window !== 'undefined' && window.navigator != null ? re.test(((_window$navigator$use = window.navigator['userAgentData']) === null || _window$navigator$use === void 0 ? void 0 : _window$navigator$use.platform) || window.navigator.platform) : false;
+}
+function isIPhone() {
+  return testPlatform(/^iPhone/i);
+}
+function isMac() {
+  return testPlatform(/^Mac/i);
+}
+function isIPad() {
+  return testPlatform(/^iPad/i) ||
+  // iPadOS 13 lies and says it's a Mac, but we can distinguish by detecting touch support.
+  isMac() && navigator.maxTouchPoints > 1;
+}
+function isIOS() {
+  return isIPhone() || isIPad();
+}
+function isAppleDevice() {
+  return isMac() || isIOS();
+}
+
 var formatGroupLabel = function formatGroupLabel(group) {
   return group.label;
 };
@@ -4152,28 +4189,28 @@ var isOptionDisabled = function isOptionDisabled(option) {
 };
 
 var defaultStyles = {
-  clearIndicator: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.a,
-  container: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.b,
-  control: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.d,
-  dropdownIndicator: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.e,
-  group: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.g,
-  groupHeading: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.f,
-  indicatorsContainer: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.i,
-  indicatorSeparator: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.h,
-  input: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.j,
-  loadingIndicator: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.l,
-  loadingMessage: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.k,
-  menu: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.m,
-  menuList: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.n,
-  menuPortal: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.o,
-  multiValue: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.p,
-  multiValueLabel: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.q,
-  multiValueRemove: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.t,
-  noOptionsMessage: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.u,
-  option: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.v,
-  placeholder: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.w,
-  singleValue: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.x,
-  valueContainer: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.y
+  clearIndicator: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.a,
+  container: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.b,
+  control: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.d,
+  dropdownIndicator: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.e,
+  group: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.g,
+  groupHeading: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.f,
+  indicatorsContainer: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.i,
+  indicatorSeparator: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.h,
+  input: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.j,
+  loadingIndicator: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.l,
+  loadingMessage: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.k,
+  menu: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.m,
+  menuList: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.n,
+  menuPortal: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.o,
+  multiValue: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.p,
+  multiValueLabel: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.q,
+  multiValueRemove: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.t,
+  noOptionsMessage: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.u,
+  option: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.v,
+  placeholder: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.w,
+  singleValue: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.x,
+  valueContainer: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.y
 };
 // Merge Utility
 // Allows consumers to extend a base Select with additional styles
@@ -4237,8 +4274,8 @@ var defaultTheme = {
 var defaultProps = {
   'aria-live': 'polite',
   backspaceRemovesValue: true,
-  blurInputOnSelect: (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.z)(),
-  captureMenuScroll: !(0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.z)(),
+  blurInputOnSelect: (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.z)(),
+  captureMenuScroll: !(0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.z)(),
   classNames: {},
   closeMenuOnSelect: true,
   closeMenuOnScroll: false,
@@ -4264,7 +4301,7 @@ var defaultProps = {
   menuPlacement: 'bottom',
   menuPosition: 'absolute',
   menuShouldBlockScroll: false,
-  menuShouldScrollIntoView: !(0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.A)(),
+  menuShouldScrollIntoView: !(0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.A)(),
   noOptionsMessage: function noOptionsMessage() {
     return 'No options';
   },
@@ -4314,7 +4351,7 @@ function buildCategorizedOptions(props, selectValue) {
     }
     var categorizedOption = toCategorizedOption(props, groupOrOption, selectValue, groupOrOptionIndex);
     return isFocusable(props, categorizedOption) ? categorizedOption : undefined;
-  }).filter(_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.K);
+  }).filter(_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.K);
 }
 function buildFocusableOptionsFromCategorizedOptions(categorizedOptions) {
   return categorizedOptions.reduce(function (optionsAccumulator, categorizedOption) {
@@ -4324,6 +4361,24 @@ function buildFocusableOptionsFromCategorizedOptions(categorizedOptions) {
       })));
     } else {
       optionsAccumulator.push(categorizedOption.data);
+    }
+    return optionsAccumulator;
+  }, []);
+}
+function buildFocusableOptionsWithIds(categorizedOptions, optionId) {
+  return categorizedOptions.reduce(function (optionsAccumulator, categorizedOption) {
+    if (categorizedOption.type === 'group') {
+      optionsAccumulator.push.apply(optionsAccumulator, (0,_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_6__["default"])(categorizedOption.options.map(function (option) {
+        return {
+          data: option.data,
+          id: "".concat(optionId, "-").concat(categorizedOption.index, "-").concat(option.index)
+        };
+      })));
+    } else {
+      optionsAccumulator.push({
+        data: categorizedOption.data,
+        id: "".concat(optionId, "-").concat(categorizedOption.index)
+      });
     }
     return optionsAccumulator;
   }, []);
@@ -4365,6 +4420,13 @@ function getNextFocusedOption(state, options) {
   var lastFocusedOption = state.focusedOption;
   return lastFocusedOption && options.indexOf(lastFocusedOption) > -1 ? lastFocusedOption : options[0];
 }
+var getFocusedOptionId = function getFocusedOptionId(focusableOptionsWithIds, focusedOption) {
+  var _focusableOptionsWith;
+  var focusedOptionId = (_focusableOptionsWith = focusableOptionsWithIds.find(function (option) {
+    return option.data === focusedOption;
+  })) === null || _focusableOptionsWith === void 0 ? void 0 : _focusableOptionsWith.id;
+  return focusedOptionId || null;
+};
 var getOptionLabel = function getOptionLabel(props, data) {
   return props.getOptionLabel(data);
 };
@@ -4415,6 +4477,8 @@ var Select = /*#__PURE__*/function (_Component) {
     _this.state = {
       ariaSelection: null,
       focusedOption: null,
+      focusedOptionId: null,
+      focusableOptionsWithIds: [],
       focusedValue: null,
       inputIsHidden: false,
       isFocused: false,
@@ -4422,17 +4486,18 @@ var Select = /*#__PURE__*/function (_Component) {
       clearFocusValueOnUpdate: false,
       prevWasFocused: false,
       inputIsHiddenAfterUpdate: undefined,
-      prevProps: undefined
+      prevProps: undefined,
+      instancePrefix: ''
     };
     _this.blockOptionHover = false;
     _this.isComposing = false;
     _this.commonProps = void 0;
     _this.initialTouchX = 0;
     _this.initialTouchY = 0;
-    _this.instancePrefix = '';
     _this.openAfterFocus = false;
     _this.scrollToFocusedOptionOnUpdate = false;
     _this.userIsDragging = void 0;
+    _this.isAppleDevice = isAppleDevice();
     _this.controlRef = null;
     _this.getControlRef = function (ref) {
       _this.controlRef = ref;
@@ -4493,18 +4558,18 @@ var Select = /*#__PURE__*/function (_Component) {
       var isDisabled = _this.isOptionDisabled(newValue, selectValue);
       if (deselected) {
         var candidate = _this.getOptionValue(newValue);
-        _this.setValue((0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.B)(selectValue.filter(function (i) {
+        _this.setValue((0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.B)(selectValue.filter(function (i) {
           return _this.getOptionValue(i) !== candidate;
         })), 'deselect-option', newValue);
       } else if (!isDisabled) {
         // Select option if option is not disabled
         if (isMulti) {
-          _this.setValue((0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.B)([].concat((0,_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_6__["default"])(selectValue), [newValue])), 'select-option', newValue);
+          _this.setValue((0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.B)([].concat((0,_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_6__["default"])(selectValue), [newValue])), 'select-option', newValue);
         } else {
-          _this.setValue((0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.C)(newValue), 'select-option');
+          _this.setValue((0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.C)(newValue), 'select-option');
         }
       } else {
-        _this.ariaOnChange((0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.C)(newValue), {
+        _this.ariaOnChange((0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.C)(newValue), {
           action: 'select-option',
           option: newValue,
           name: name
@@ -4522,7 +4587,7 @@ var Select = /*#__PURE__*/function (_Component) {
       var newValueArray = selectValue.filter(function (i) {
         return _this.getOptionValue(i) !== candidate;
       });
-      var newValue = (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.D)(isMulti, newValueArray, newValueArray[0] || null);
+      var newValue = (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.D)(isMulti, newValueArray, newValueArray[0] || null);
       _this.onChange(newValue, {
         action: 'remove-value',
         removedValue: removedValue
@@ -4531,7 +4596,7 @@ var Select = /*#__PURE__*/function (_Component) {
     };
     _this.clearValue = function () {
       var selectValue = _this.state.selectValue;
-      _this.onChange((0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.D)(_this.props.isMulti, [], null), {
+      _this.onChange((0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.D)(_this.props.isMulti, [], null), {
         action: 'clear',
         removedValues: selectValue
       });
@@ -4541,11 +4606,17 @@ var Select = /*#__PURE__*/function (_Component) {
       var selectValue = _this.state.selectValue;
       var lastSelectedValue = selectValue[selectValue.length - 1];
       var newValueArray = selectValue.slice(0, selectValue.length - 1);
-      var newValue = (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.D)(isMulti, newValueArray, newValueArray[0] || null);
+      var newValue = (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.D)(isMulti, newValueArray, newValueArray[0] || null);
       _this.onChange(newValue, {
         action: 'pop-value',
         removedValue: lastSelectedValue
       });
+    };
+    _this.getFocusedOptionId = function (focusedOption) {
+      return getFocusedOptionId(_this.state.focusableOptionsWithIds, focusedOption);
+    };
+    _this.getFocusableOptionsWithIds = function () {
+      return buildFocusableOptionsWithIds(buildCategorizedOptions(_this.props, _this.state.selectValue), _this.getElementId('option'));
     };
     _this.getValue = function () {
       return _this.state.selectValue;
@@ -4554,7 +4625,7 @@ var Select = /*#__PURE__*/function (_Component) {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
-      return _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.E.apply(void 0, [_this.props.classNamePrefix].concat(args));
+      return _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.E.apply(void 0, [_this.props.classNamePrefix].concat(args));
     };
     _this.getOptionLabel = function (data) {
       return getOptionLabel(_this.props, data);
@@ -4574,10 +4645,10 @@ var Select = /*#__PURE__*/function (_Component) {
       return (_this$props$className = (_this$props$className2 = _this.props.classNames)[key]) === null || _this$props$className === void 0 ? void 0 : _this$props$className.call(_this$props$className2, props);
     };
     _this.getElementId = function (element) {
-      return "".concat(_this.instancePrefix, "-").concat(element);
+      return "".concat(_this.state.instancePrefix, "-").concat(element);
     };
     _this.getComponents = function () {
-      return (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.F)(_this.props);
+      return (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.F)(_this.props);
     };
     _this.buildCategorizedOptions = function () {
       return buildCategorizedOptions(_this.props, _this.state.selectValue);
@@ -4671,7 +4742,7 @@ var Select = /*#__PURE__*/function (_Component) {
     };
     _this.onScroll = function (event) {
       if (typeof _this.props.closeMenuOnScroll === 'boolean') {
-        if (event.target instanceof HTMLElement && (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.G)(event.target)) {
+        if (event.target instanceof HTMLElement && (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.G)(event.target)) {
           _this.props.onMenuClose();
         }
       } else if (typeof _this.props.closeMenuOnScroll === 'function') {
@@ -4783,8 +4854,11 @@ var Select = /*#__PURE__*/function (_Component) {
       if (_this.blockOptionHover || _this.state.focusedOption === focusedOption) {
         return;
       }
+      var options = _this.getFocusableOptions();
+      var focusedOptionIndex = options.indexOf(focusedOption);
       _this.setState({
-        focusedOption: focusedOption
+        focusedOption: focusedOption,
+        focusedOptionId: focusedOptionIndex > -1 ? _this.getFocusedOptionId(focusedOption) : null
       });
     };
     _this.shouldHideSelectedOptions = function () {
@@ -4928,14 +5002,16 @@ var Select = /*#__PURE__*/function (_Component) {
       }
       event.preventDefault();
     };
-    _this.instancePrefix = 'react-select-' + (_this.props.instanceId || ++instanceId);
-    _this.state.selectValue = (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.H)(_props.value);
-
+    _this.state.instancePrefix = 'react-select-' + (_this.props.instanceId || ++instanceId);
+    _this.state.selectValue = (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.H)(_props.value);
     // Set focusedOption if menuIsOpen is set on init (e.g. defaultMenuIsOpen)
     if (_props.menuIsOpen && _this.state.selectValue.length) {
+      var focusableOptionsWithIds = _this.getFocusableOptionsWithIds();
       var focusableOptions = _this.buildFocusableOptions();
       var optionIndex = focusableOptions.indexOf(_this.state.selectValue[0]);
+      _this.state.focusableOptionsWithIds = focusableOptionsWithIds;
       _this.state.focusedOption = focusableOptions[optionIndex];
+      _this.state.focusedOptionId = getFocusedOptionId(focusableOptionsWithIds, focusableOptions[optionIndex]);
     }
     return _this;
   }
@@ -4954,7 +5030,7 @@ var Select = /*#__PURE__*/function (_Component) {
 
       // Scroll focusedOption into view if menuIsOpen is set on mount (e.g. defaultMenuIsOpen)
       if (this.props.menuIsOpen && this.state.focusedOption && this.menuListRef && this.focusedOptionRef) {
-        (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.I)(this.menuListRef, this.focusedOptionRef);
+        (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.I)(this.menuListRef, this.focusedOptionRef);
       }
     }
   }, {
@@ -4987,7 +5063,7 @@ var Select = /*#__PURE__*/function (_Component) {
 
       // scroll the focused option into view if necessary
       if (this.menuListRef && this.focusedOptionRef && this.scrollToFocusedOptionOnUpdate) {
-        (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.I)(this.menuListRef, this.focusedOptionRef);
+        (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.I)(this.menuListRef, this.focusedOptionRef);
         this.scrollToFocusedOptionOnUpdate = false;
       }
     }
@@ -5060,7 +5136,8 @@ var Select = /*#__PURE__*/function (_Component) {
       this.setState({
         inputIsHiddenAfterUpdate: false,
         focusedValue: null,
-        focusedOption: focusableOptions[openAtIndex]
+        focusedOption: focusableOptions[openAtIndex],
+        focusedOptionId: this.getFocusedOptionId(focusableOptions[openAtIndex])
       }, function () {
         return _this2.onMenuOpen();
       });
@@ -5136,7 +5213,8 @@ var Select = /*#__PURE__*/function (_Component) {
       this.scrollToFocusedOptionOnUpdate = true;
       this.setState({
         focusedOption: options[nextFocus],
-        focusedValue: null
+        focusedValue: null,
+        focusedOptionId: this.getFocusedOptionId(options[nextFocus])
       });
     }
   }, {
@@ -5332,10 +5410,10 @@ var Select = /*#__PURE__*/function (_Component) {
         'aria-label': this.props['aria-label'],
         'aria-labelledby': this.props['aria-labelledby'],
         'aria-required': required,
-        role: 'combobox'
+        role: 'combobox',
+        'aria-activedescendant': this.isAppleDevice ? undefined : this.state.focusedOptionId || ''
       }, menuIsOpen && {
-        'aria-controls': this.getElementId('listbox'),
-        'aria-owns': this.getElementId('listbox')
+        'aria-controls': this.getElementId('listbox')
       }), !isSearchable && {
         'aria-readonly': true
       }), this.hasValue() ? (ariaSelection === null || ariaSelection === void 0 ? void 0 : ariaSelection.action) === 'initial-input-focus' && {
@@ -5349,7 +5427,7 @@ var Select = /*#__PURE__*/function (_Component) {
           id: id,
           innerRef: this.getInputRef,
           onBlur: this.onInputBlur,
-          onChange: _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.J,
+          onChange: _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.J,
           onFocus: this.onInputFocus,
           disabled: isDisabled,
           tabIndex: tabIndex,
@@ -5580,8 +5658,11 @@ var Select = /*#__PURE__*/function (_Component) {
           onClick: onSelect,
           onMouseMove: onHover,
           onMouseOver: onHover,
-          tabIndex: -1
+          tabIndex: -1,
+          role: 'option',
+          'aria-selected': _this4.isAppleDevice ? undefined : isSelected // is not supported on Apple devices
         };
+
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__.createElement(Option, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, commonProps, {
           innerProps: innerProps,
           data: data,
@@ -5641,7 +5722,7 @@ var Select = /*#__PURE__*/function (_Component) {
         menuPosition: menuPosition,
         menuShouldScrollIntoView: menuShouldScrollIntoView
       };
-      var menuElement = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__.createElement(_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.M, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, commonProps, menuPlacementProps), function (_ref4) {
+      var menuElement = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7__.createElement(_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.M, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, commonProps, menuPlacementProps), function (_ref4) {
         var ref = _ref4.ref,
           _ref4$placerProps = _ref4.placerProps,
           placement = _ref4$placerProps.placement,
@@ -5650,8 +5731,7 @@ var Select = /*#__PURE__*/function (_Component) {
           innerRef: ref,
           innerProps: {
             onMouseDown: _this4.onMenuMouseDown,
-            onMouseMove: _this4.onMenuMouseMove,
-            id: _this4.getElementId('listbox')
+            onMouseMove: _this4.onMenuMouseMove
           },
           isLoading: isLoading,
           placement: placement
@@ -5665,6 +5745,11 @@ var Select = /*#__PURE__*/function (_Component) {
             innerRef: function innerRef(instance) {
               _this4.getMenuListRef(instance);
               scrollTargetRef(instance);
+            },
+            innerProps: {
+              role: 'listbox',
+              'aria-multiselectable': commonProps.isMulti,
+              id: _this4.getElementId('listbox')
             },
             isLoading: isLoading,
             maxHeight: maxHeight,
@@ -5753,7 +5838,8 @@ var Select = /*#__PURE__*/function (_Component) {
         focusedValue: focusedValue,
         isFocused: isFocused,
         selectValue: selectValue,
-        focusableOptions: focusableOptions
+        focusableOptions: focusableOptions,
+        isAppleDevice: this.isAppleDevice
       }));
     }
   }, {
@@ -5802,21 +5888,26 @@ var Select = /*#__PURE__*/function (_Component) {
         inputIsHiddenAfterUpdate = state.inputIsHiddenAfterUpdate,
         ariaSelection = state.ariaSelection,
         isFocused = state.isFocused,
-        prevWasFocused = state.prevWasFocused;
+        prevWasFocused = state.prevWasFocused,
+        instancePrefix = state.instancePrefix;
       var options = props.options,
         value = props.value,
         menuIsOpen = props.menuIsOpen,
         inputValue = props.inputValue,
         isMulti = props.isMulti;
-      var selectValue = (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.H)(value);
+      var selectValue = (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.H)(value);
       var newMenuOptionsState = {};
       if (prevProps && (value !== prevProps.value || options !== prevProps.options || menuIsOpen !== prevProps.menuIsOpen || inputValue !== prevProps.inputValue)) {
         var focusableOptions = menuIsOpen ? buildFocusableOptions(props, selectValue) : [];
+        var focusableOptionsWithIds = menuIsOpen ? buildFocusableOptionsWithIds(buildCategorizedOptions(props, selectValue), "".concat(instancePrefix, "-option")) : [];
         var focusedValue = clearFocusValueOnUpdate ? getNextFocusedValue(state, selectValue) : null;
         var focusedOption = getNextFocusedOption(state, focusableOptions);
+        var focusedOptionId = getFocusedOptionId(focusableOptionsWithIds, focusedOption);
         newMenuOptionsState = {
           selectValue: selectValue,
           focusedOption: focusedOption,
+          focusedOptionId: focusedOptionId,
+          focusableOptionsWithIds: focusableOptionsWithIds,
           focusedValue: focusedValue,
           clearFocusValueOnUpdate: false
         };
@@ -5832,7 +5923,7 @@ var Select = /*#__PURE__*/function (_Component) {
         // If `value` or `defaultValue` props are not empty then announce them
         // when the Select is initially focused
         newAriaSelection = {
-          value: (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_11__.D)(isMulti, selectValue, selectValue[0] || null),
+          value: (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_11__.D)(isMulti, selectValue, selectValue[0] || null),
           options: selectValue,
           action: 'initial-input-focus'
         };
@@ -5860,9 +5951,9 @@ Select.defaultProps = defaultProps;
 
 /***/ }),
 
-/***/ "./node_modules/react-select/dist/index-baa8dc4f.esm.js":
+/***/ "./node_modules/react-select/dist/index-a301f526.esm.js":
 /*!**************************************************************!*\
-  !*** ./node_modules/react-select/dist/index-baa8dc4f.esm.js ***!
+  !*** ./node_modules/react-select/dist/index-a301f526.esm.js ***!
   \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -6948,7 +7039,9 @@ var Control = function Control(props) {
     'control--is-disabled': isDisabled,
     'control--is-focused': isFocused,
     'control--menu-is-open': menuIsOpen
-  }), innerProps), children);
+  }), innerProps, {
+    "aria-disabled": isDisabled || undefined
+  }), children);
 };
 var Control$1 = Control;
 
@@ -7316,9 +7409,9 @@ var defaultComponents = function defaultComponents(props) {
 
 /***/ }),
 
-/***/ "./node_modules/react-select/dist/useCreatable-4a2d7323.esm.js":
+/***/ "./node_modules/react-select/dist/useCreatable-d97ef2c9.esm.js":
 /*!*********************************************************************!*\
-  !*** ./node_modules/react-select/dist/useCreatable-4a2d7323.esm.js ***!
+  !*** ./node_modules/react-select/dist/useCreatable-d97ef2c9.esm.js ***!
   \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -7331,8 +7424,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./index-baa8dc4f.esm.js */ "./node_modules/react-select/dist/index-baa8dc4f.esm.js");
-/* harmony import */ var _Select_aecb2a80_esm_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Select-aecb2a80.esm.js */ "./node_modules/react-select/dist/Select-aecb2a80.esm.js");
+/* harmony import */ var _index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./index-a301f526.esm.js */ "./node_modules/react-select/dist/index-a301f526.esm.js");
+/* harmony import */ var _Select_49a62830_esm_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Select-49a62830.esm.js */ "./node_modules/react-select/dist/Select-49a62830.esm.js");
 
 
 
@@ -7386,16 +7479,16 @@ function useCreatable(_ref) {
     propsOnChange = _ref.onChange,
     restSelectProps = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__["default"])(_ref, _excluded);
   var _restSelectProps$getO = restSelectProps.getOptionValue,
-    getOptionValue$1 = _restSelectProps$getO === void 0 ? _Select_aecb2a80_esm_js__WEBPACK_IMPORTED_MODULE_4__.g : _restSelectProps$getO,
+    getOptionValue$1 = _restSelectProps$getO === void 0 ? _Select_49a62830_esm_js__WEBPACK_IMPORTED_MODULE_4__.g : _restSelectProps$getO,
     _restSelectProps$getO2 = restSelectProps.getOptionLabel,
-    getOptionLabel$1 = _restSelectProps$getO2 === void 0 ? _Select_aecb2a80_esm_js__WEBPACK_IMPORTED_MODULE_4__.b : _restSelectProps$getO2,
+    getOptionLabel$1 = _restSelectProps$getO2 === void 0 ? _Select_49a62830_esm_js__WEBPACK_IMPORTED_MODULE_4__.b : _restSelectProps$getO2,
     inputValue = restSelectProps.inputValue,
     isLoading = restSelectProps.isLoading,
     isMulti = restSelectProps.isMulti,
     value = restSelectProps.value,
     name = restSelectProps.name;
   var newOption = (0,react__WEBPACK_IMPORTED_MODULE_3__.useMemo)(function () {
-    return isValidNewOption(inputValue, (0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_5__.H)(value), propsOptions, {
+    return isValidNewOption(inputValue, (0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_5__.H)(value), propsOptions, {
       getOptionValue: getOptionValue$1,
       getOptionLabel: getOptionLabel$1
     }) ? getNewOptionData(inputValue, formatCreateLabel(inputValue)) : undefined;
@@ -7416,7 +7509,7 @@ function useCreatable(_ref) {
           name: name,
           option: newOptionData
         };
-        propsOnChange((0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_5__.D)(isMulti, [].concat((0,_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])((0,_index_baa8dc4f_esm_js__WEBPACK_IMPORTED_MODULE_5__.H)(value)), [newOptionData]), newOptionData), newActionMeta);
+        propsOnChange((0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_5__.D)(isMulti, [].concat((0,_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])((0,_index_a301f526_esm_js__WEBPACK_IMPORTED_MODULE_5__.H)(value)), [newOptionData]), newOptionData), newActionMeta);
       }
       return;
     }
