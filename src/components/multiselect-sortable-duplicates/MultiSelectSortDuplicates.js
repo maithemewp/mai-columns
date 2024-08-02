@@ -36,7 +36,7 @@ import {
 
 import {
 	arrayMove,
-	horizontalListSortingStrategy,
+	rectSwappingStrategy,
 	SortableContext,
 	useSortable,
 } from '@dnd-kit/sortable';
@@ -45,6 +45,8 @@ import {
 	isFraction,
 	isValidCSSValue,
 	isPercentage,
+	mapValuesToLabels,
+	mapLabelsToValues,
 } from '../../functions';
 
 /**
@@ -57,23 +59,23 @@ import {
  *
  * @return {bool}
  */
-const isValidNew = ( value ) => {
+const isValidNew = (value) => {
 	if ( ! value ) {
 		return false;
 	}
 
 	// Check if value is a valid number larger then  0 and less than or equal to 100.
-	if ( ! isNaN( value ) && value > 0 && value <= 100 ) {
+	if ( ! isNaN(value) && value > 0 && value <= 100 ) {
 		return true;
 	}
 
 	// Check if it's a valid fraction.
-	if ( isFraction( value ) ) {
+	if ( isFraction(value) ) {
 		return true;
 	}
 
 	// If it's a valid CSS value.
-	if ( isValidCSSValue( value ) ) {
+	if ( isValidCSSValue(value) ) {
 		return true;
 	}
 
@@ -86,7 +88,15 @@ const isValidNew = ( value ) => {
  * @param {string} inputValue
  */
 const formatCreateLabel = ( inputValue ) => {
-	return inputValue ? `${__( 'Add' )} ${isPercentage( inputValue ) ? `${inputValue}%` : inputValue}` : '';
+	if ( inputValue ) {
+		if ( isFraction(inputValue) || isValidCSSValue(inputValue) || isNaN(inputValue) ) {
+			return `${__( 'Add' )} ${inputValue}`;
+		}
+
+		return `${__( 'Add' )} ${inputValue}%`;
+	}
+
+	return '';
 }
 
 /**
@@ -101,20 +111,24 @@ const MultiSelectSortDuplicates = ({
 		onCreateOption = null
 	}) => {
 
-	// Extract the current option values for easier comparison.
-	const currentOptionValues = useMemo(() => options.map( option => option.value ), [options] );
+	// Map value to options, with a unique identifier for each.
+	options = options.map(op => ({
+		...op,
+		actualValue: op.value,
+		value: `${op.value}_${Date.now()}`,
+	}))
 
-	// Map values to options, with a unique identifier for each.
-	const valueOptions = useMemo(() => value.map((val, index) => {
+	// Map selected values from options.
+	const chosenOptions = useMemo(() => value.map((val) => {
 		return {
 			label: val,
-			value: currentOptionValues.includes(val) ? val : `${val}_${index}`,
+			value: options.find((opt) => opt.actualValue === val) ? val : `${val}_${Date.now()}`,
 			actualValue: val
 		};
-	}), [value, currentOptionValues]);
+	}), [value, options]);
 
 	// Initialize the states.
-	const [ selectedOptions, setSelectedOptions ] = useState( valueOptions );
+	const [ selectedOptions, setSelectedOptions ] = useState(chosenOptions);
 
 	/**
 	 * Set the selected options after reordering.
@@ -122,16 +136,21 @@ const MultiSelectSortDuplicates = ({
 	const onDragEnd = useCallback((event) => {
 		const { active, over } = event;
 
-		if ( ! active || ! over ) {
+		if ( ! ( active || over ) ) {
 			return;
 		}
 
 		setSelectedOptions((items) => {
-			console.log( items );
-			const oldIndex = items.findIndex((item) => item.value === active.id);
-			const newIndex = items.findIndex((item) => item.value === over.id);
+			const oldIndex  = items.findIndex((item) => item.value === active.id);
+			const newIndex  = items.findIndex((item) => item.value === over.id);
+			const reordered = arrayMove(items, oldIndex, newIndex);
 
-			return arrayMove(items, oldIndex, newIndex);
+			// Call onChange with the reordered actual values if it exists
+			if (onChange) {
+				onChange(reordered.map(obj => obj.actualValue));
+			}
+
+			return reordered;
 		});
 	}, [setSelectedOptions]);
 
@@ -142,23 +161,23 @@ const MultiSelectSortDuplicates = ({
 	 *                                 that are currently selected in the `CreatableSelect` component.
 	 *                                 Each object typically has a structure like { label: "Option Label", value: "unique-id", actualValue: "Option Value" }
 	 */
-	const handleChange = ( changedOptions ) => {
+	const handleChange = (changedOptions) => {
 		// Map through the changedOptions array to extract the 'actualValue' property from each object.
 		// The 'actualValue' contains the true value of the option, as opposed to the 'value' property which
 		// may have a unique identifier appended to handle duplicates.
-		const selectedValues = changedOptions.map( op => op.actualValue );
+		const selectedValues = changedOptions.map((obj) => obj.actualValue);
+
+		// console.log( changedOptions, selectedValues );
 
 		// Update the state `selectedOptions` with the newly changed options.
 		// This will cause the component to re-render with the new selections.
-		setSelectedOptions( changedOptions );
-
-		console.log( changedOptions, selectedValues, onChange );
+		setSelectedOptions(changedOptions);
 
 		// Check if the 'onChange' callback is provided as a prop to the MaiMultiSelectDuplicate component.
 		if ( onChange ) {
 			// If it is provided, invoke the 'onChange' callback function, passing the extracted 'selectedValues'
 			// (the actual values of the selected options without any unique identifiers).
-			onChange( selectedValues );
+			onChange(selectedValues);
 		}
 	};
 
@@ -186,24 +205,24 @@ const MultiSelectSortDuplicates = ({
 
 		// Create a new array containing all the previously selected options (from the 'selectedOptions' state)
 		// and add the newly created option to the end of this array.
-		const newOptions = [ ...selectedOptions, newOption ];
+		const newOptions = [...selectedOptions, newOption];
 
 		// Update the 'selectedOptions' state with this new array of options.
 		// This will cause the component to re-render, displaying the newly created option as selected.
-		setSelectedOptions( newOptions );
+		setSelectedOptions(newOptions);
 
 		// Check if the 'onChange' callback function is provided as a prop to the MaiMultiSelectDuplicate component.
 		if ( onChange ) {
 			// If provided, call the 'onChange' function, passing in an array of the 'actualValue' properties
 			// from the newOptions array. This informs the parent component of the change.
-			onChange( newOptions.map((obj) => obj.actualValue ) );
+			onChange(newOptions.map((obj) => obj.actualValue));
 		}
 
 		// Check if the 'onCreateOption' callback function is provided as a prop to the MaiMultiSelectDuplicate component.
 		if ( onCreateOption ) {
 			// If provided, call the 'onCreateOption' function, passing in the inputValue.
 			// This can be useful if the parent component wants to take additional actions when a new option is created.
-			onCreateOption( inputValue );
+			onCreateOption(inputValue);
 		}
 	};
 
@@ -274,7 +293,7 @@ const MultiSelectSortDuplicates = ({
 			>
 				<SortableContext
 					items={selectedOptions.map((o) => o.value)}
-					strategy={horizontalListSortingStrategy}
+					strategy={rectSwappingStrategy}
 				>
 					<CreatableSelect
 						isMulti
@@ -283,11 +302,12 @@ const MultiSelectSortDuplicates = ({
 						value={selectedOptions}
 						onChange={handleChange}
 						onCreateOption={handleCreate}
-						options={options.map(op => ({
-							...op,
-							actualValue: op.value,
-							value: `${op.value}_${Date.now()}`,
-						}))}
+						// options={options.map(op => ({
+						// 	...op,
+						// 	actualValue: op.value,
+						// 	value: `${op.value}_${Date.now()}`,
+						// }))}
+						options={options}
 						components={{
 							MultiValue,
 							MultiValueRemove,

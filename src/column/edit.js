@@ -4,9 +4,23 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, useInnerBlocksProps, BlockControls, BlockVerticalAlignmentToolbar, InnerBlocks } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
-import { getIndexValueFromArray, getFlex, getFlexCSSValue, getSize, reverseObject } from '../functions';
+import {
+	useBlockProps,
+	useInnerBlocksProps,
+	BlockControls,
+	BlockVerticalAlignmentToolbar,
+	InnerBlocks,
+} from "@wordpress/block-editor";
+
+import { useSelect } from "@wordpress/data";
+
+import {
+	getIndexValueFromArray,
+	getFlex,
+	getFlexCSSValue,
+	getSize,
+	reverseObject,
+} from "../functions";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -26,10 +40,13 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @return {string}
 	 */
-	const blockIndex = useSelect((select) => {
-		const { getBlockIndex } = select( 'core/block-editor' );
-		return getBlockIndex( clientId );
-	}, [clientId] );
+	const blockIndex = useSelect(
+		(select) => {
+			const { getBlockIndex } = select("core/block-editor");
+			return getBlockIndex(clientId);
+		},
+		[clientId],
+	);
 
 	/**
 	 * Gets the inner block count.
@@ -39,7 +56,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 * @return {int}
 	 */
 	const blockCount = useSelect((select) => {
-		return select( 'core/block-editor').getBlockCount( clientId );
+		return select("core/block-editor").getBlockCount(clientId);
 	});
 
 	/**
@@ -51,69 +68,75 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 *
 	 * @returns {object}
 	 */
-	const setFallbacks = ( arrangement ) => {
+	const setFallbacks = (arrangement) => {
 		// Set fallbacks.
-		for ( const key in arrangements ) {
-			if ( ! arrangements[ key ] ) {
-				const keys  = Object.keys( arrangements );
+		for (const key in arrangements) {
+			if (!arrangements[key]) {
+				const keys  = Object.keys(arrangements);
 				const shift = keys.shift();
 
-				arrangements[ key ] = arrangements[ shift ];
+				arrangements[key] = arrangements[shift];
 			}
 		}
 
 		return arrangements;
-	}
+	};
 
 	/**
 	 * Build inline styles from arrangements.
 	 */
-	let   arrangements = {};
+	let arrangements = {};
 	const inlineStyles = useBlockProps().style || {};
-	const data         = [
+	const data = [
 		{
-			break: 'lg',
-			columns: context['mai/sizesLg'],
-			default: '',
+			break: "lg",
+			columns: context["mai/sizesLg"],
+			default: "",
 		},
 		{
-			break: 'md',
-			columns: context['mai/sizesMd'],
-			default: '',
+			break: "md",
+			columns: context["mai/sizesMd"],
+			default: "",
 		},
 		{
-			break: 'sm',
-			columns: context['mai/sizesSm'],
-			default: '',
-		}
+			break: "sm",
+			columns: context["mai/sizesSm"],
+			default: "",
+		},
 	];
 
 	// Get arrangements.
-	data.forEach( item => {
-		arrangements[ item.break ] = getIndexValueFromArray( blockIndex, item.columns, item.default );
+	data.forEach((item) => {
+		arrangements[item.break] = getIndexValueFromArray(
+			blockIndex,
+			item.columns,
+			item.default,
+		);
 	});
 
 	// Set standard fallbacks.
-	arrangements = setFallbacks( arrangements );
+	arrangements = setFallbacks(arrangements);
 
 	// Set reversed fallbacks.
-	arrangements = setFallbacks( reverseObject( arrangements ) );
+	arrangements = setFallbacks(reverseObject(arrangements));
 
 	// Reverse back.
-	arrangements = reverseObject( arrangements );
+	arrangements = reverseObject(arrangements);
 
 	// Set sizes inline styles.
-	Object.entries( arrangements ).forEach( ( [ key, value ] ) => {
-		inlineStyles[`--size-${key}`] = getSize( value ) || 1;
+	Object.entries(arrangements).forEach(([key, value]) => {
+		inlineStyles[`--size-${key}`] = getSize(value) || 1;
 	});
 
 	// Set flex inline styles.
-	Object.entries( arrangements ).forEach( ( [ key, value ] ) => {
-		inlineStyles[`--flex-${key}`] = getFlex( value );
+	Object.entries(arrangements).forEach(([key, value]) => {
+		inlineStyles[`--flex-${key}`] = getFlex(value);
 	});
 
 	// Justify content is align items value since flex-direction is column.
-	inlineStyles['--justify-content'] = getFlexCSSValue( alignItems );
+	inlineStyles["--justify-content"] = getFlexCSSValue(alignItems);
+
+	console.log( inlineStyles );
 
 	/**
 	 * Define the appender to use.
@@ -121,7 +144,12 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 */
 	const appenderToUse = () => {
 		if ( ! blockCount ) {
-			return <InnerBlocks.ButtonBlockAppender rootClientId={ clientId } style={{ alignSelf: 'auto' }}/>;
+			return (
+				<InnerBlocks.ButtonBlockAppender
+					rootClientId={clientId}
+					style={{ alignSelf: "auto" }}
+				/>
+			);
 		}
 
 		return false;
@@ -131,25 +159,22 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 * Set props.
 	 */
 	const props = {
-		className: 'mai-column',
-		style: inlineStyles
+		className: "mai-column",
+		style: inlineStyles,
 	};
 
-	const blockProps       = useBlockProps( props );
-	const innerBlocksProps = useInnerBlocksProps(
-		blockProps,
-		{
-			renderAppender: appenderToUse,
-		}
-	);
+	const blockProps       = useBlockProps(props);
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		renderAppender: appenderToUse,
+	});
 
 	return (
 		<>
 			<BlockControls group="block">
 				<BlockVerticalAlignmentToolbar
-					value={ alignItems }
-					onChange={ ( value ) => {
-						setAttributes( { alignItems: value } );
+					value={alignItems}
+					onChange={(value) => {
+						setAttributes({ alignItems: value });
 					}}
 				/>
 			</BlockControls>

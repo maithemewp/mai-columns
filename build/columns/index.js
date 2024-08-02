@@ -7570,45 +7570,33 @@ function Edit({
     sizesSm
   } = attributes;
   const options = [{
-    value: '1/4',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('25')
+    value: "1/4",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("25")
   }, {
-    value: '1/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('33')
+    value: "1/3",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("33")
   }, {
-    value: '1/2',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('50')
+    value: "1/2",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("50")
   }, {
-    value: '2/3',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('66')
+    value: "2/3",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("66")
   }, {
-    value: '3/4',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('75')
+    value: "3/4",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("75")
   }, {
-    value: '1/1',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('100')
+    value: "1/1",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("100")
   }, {
-    value: 'fit',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fit Content')
+    value: "fit",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Fit Content")
   }, {
-    value: 'fill',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Fill Space')
+    value: "fill",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Fill Space")
   }, {
-    value: 'break',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Row Break')
+    value: "break",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Row Break")
   }];
-  const mapValuesToLabels = values => {
-    return values.map(value => {
-      const option = options.find(opt => opt.value === value);
-      return option ? option.label : value;
-    });
-  };
-  const mapLabelsToValues = values => {
-    return values.map(value => {
-      const option = options.find(opt => opt.label === value);
-      return option ? option.value : value;
-    });
-  };
 
   /**
    * Sets client ID as block ID.
@@ -7623,25 +7611,28 @@ function Edit({
    * Build inline styles.
    */
   const inlineStyles = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)().style || {};
-  inlineStyles['--justify-content'] = (0,_functions__WEBPACK_IMPORTED_MODULE_5__.getFlexCSSValue)(justifyContent);
-  inlineStyles['--align-items'] = (0,_functions__WEBPACK_IMPORTED_MODULE_5__.getFlexCSSValue)(alignItems);
+  inlineStyles["--justify-content"] = (0,_functions__WEBPACK_IMPORTED_MODULE_5__.getFlexCSSValue)(justifyContent);
+  inlineStyles["--align-items"] = (0,_functions__WEBPACK_IMPORTED_MODULE_5__.getFlexCSSValue)(alignItems);
   if (style && style.spacing.blockGap) {
-    const gaps = getBlockGap(style.spacing.blockGap);
-    inlineStyles['--row-gap'] = gaps.row;
-    inlineStyles['--column-gap'] = gaps.column;
+    const gaps = (0,_functions__WEBPACK_IMPORTED_MODULE_5__.getBlockGap)(style.spacing.blockGap);
+    inlineStyles["--row-gap"] = gaps.row;
+    inlineStyles["--column-gap"] = gaps.column;
+  } else {
+    inlineStyles["--row-gap"] = "2rem";
+    inlineStyles["--column-gap"] = "2rem";
   }
 
   /**
    * Set block props.
    */
   const props = {
-    className: 'mai-columns',
+    className: "mai-columns",
     style: inlineStyles
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(props);
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
-    allowedBlocks: ['mai/column'],
-    template: [['mai/column'], ['mai/column']]
+    allowedBlocks: ["mai/column"],
+    template: [["mai/column"], ["mai/column"]]
   });
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, {
     group: "block"
@@ -7661,17 +7652,17 @@ function Edit({
     }
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
     key: "Sizes"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Column Arrangements')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
-    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Column Arrangements")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field's settings.")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Large Tablet')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Large Tablet")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_6__["default"], {
     key: "sizesLg",
     options: options,
-    value: mapValuesToLabels(sizesLg),
+    value: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapValuesToLabels)(sizesLg, options),
     onChange: values => {
       setAttributes({
-        sizesLg: mapLabelsToValues(values)
+        sizesLg: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapLabelsToValues)(values, options)
       });
     },
     onCreateOption: value => {
@@ -7680,14 +7671,14 @@ function Edit({
       });
     }
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Small Tablet')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Small Tablet")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_6__["default"], {
     key: "sizesMd",
     options: options,
-    value: mapValuesToLabels(sizesMd),
+    value: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapValuesToLabels)(sizesMd, options),
     onChange: values => {
       setAttributes({
-        sizesMd: mapLabelsToValues(values)
+        sizesMd: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapLabelsToValues)(values, options)
       });
     },
     onCreateOption: value => {
@@ -7696,14 +7687,14 @@ function Edit({
       });
     }
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Mobile')
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Mobile")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_6__["default"], {
     key: "sizesSm",
     options: options,
-    value: mapValuesToLabels(sizesSm),
+    value: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapValuesToLabels)(sizesSm, options),
     onChange: values => {
       setAttributes({
-        sizesSm: mapLabelsToValues(values)
+        sizesSm: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapLabelsToValues)(values, options)
       });
     },
     onCreateOption: value => {
@@ -7905,7 +7896,13 @@ const isValidNew = value => {
  * @param {string} inputValue
  */
 const formatCreateLabel = inputValue => {
-  return inputValue ? `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${(0,_functions__WEBPACK_IMPORTED_MODULE_8__.isPercentage)(inputValue) ? `${inputValue}%` : inputValue}` : '';
+  if (inputValue) {
+    if ((0,_functions__WEBPACK_IMPORTED_MODULE_8__.isFraction)(inputValue) || (0,_functions__WEBPACK_IMPORTED_MODULE_8__.isValidCSSValue)(inputValue) || isNaN(inputValue)) {
+      return `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${inputValue}`;
+    }
+    return `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${inputValue}%`;
+  }
+  return '';
 };
 
 /**
@@ -7919,20 +7916,24 @@ const MultiSelectSortDuplicates = ({
   onChange = null,
   onCreateOption = null
 }) => {
-  // Extract the current option values for easier comparison.
-  const currentOptionValues = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useMemo)(() => options.map(option => option.value), [options]);
+  // Map value to options, with a unique identifier for each.
+  options = options.map(op => ({
+    ...op,
+    actualValue: op.value,
+    value: `${op.value}_${Date.now()}`
+  }));
 
-  // Map values to options, with a unique identifier for each.
-  const valueOptions = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useMemo)(() => value.map((val, index) => {
+  // Map selected values from options.
+  const chosenOptions = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useMemo)(() => value.map(val => {
     return {
       label: val,
-      value: currentOptionValues.includes(val) ? val : `${val}_${index}`,
+      value: options.find(opt => opt.actualValue === val) ? val : `${val}_${Date.now()}`,
       actualValue: val
     };
-  }), [value, currentOptionValues]);
+  }), [value, options]);
 
   // Initialize the states.
-  const [selectedOptions, setSelectedOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(valueOptions);
+  const [selectedOptions, setSelectedOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(chosenOptions);
 
   /**
    * Set the selected options after reordering.
@@ -7942,14 +7943,19 @@ const MultiSelectSortDuplicates = ({
       active,
       over
     } = event;
-    if (!active || !over) {
+    if (!(active || over)) {
       return;
     }
     setSelectedOptions(items => {
-      console.log(items);
       const oldIndex = items.findIndex(item => item.value === active.id);
       const newIndex = items.findIndex(item => item.value === over.id);
-      return (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.arrayMove)(items, oldIndex, newIndex);
+      const reordered = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.arrayMove)(items, oldIndex, newIndex);
+
+      // Call onChange with the reordered actual values if it exists
+      if (onChange) {
+        onChange(reordered.map(obj => obj.actualValue));
+      }
+      return reordered;
     });
   }, [setSelectedOptions]);
 
@@ -7964,12 +7970,13 @@ const MultiSelectSortDuplicates = ({
     // Map through the changedOptions array to extract the 'actualValue' property from each object.
     // The 'actualValue' contains the true value of the option, as opposed to the 'value' property which
     // may have a unique identifier appended to handle duplicates.
-    const selectedValues = changedOptions.map(op => op.actualValue);
+    const selectedValues = changedOptions.map(obj => obj.actualValue);
+
+    // console.log( changedOptions, selectedValues );
 
     // Update the state `selectedOptions` with the newly changed options.
     // This will cause the component to re-render with the new selections.
     setSelectedOptions(changedOptions);
-    console.log(changedOptions, selectedValues, onChange);
 
     // Check if the 'onChange' callback is provided as a prop to the MaiMultiSelectDuplicate component.
     if (onChange) {
@@ -8085,19 +8092,21 @@ const MultiSelectSortDuplicates = ({
     collisionDetection: _dnd_kit_core__WEBPACK_IMPORTED_MODULE_6__.closestCorners
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.SortableContext, {
     items: selectedOptions.map(o => o.value),
-    strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.horizontalListSortingStrategy
+    strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.rectSwappingStrategy
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_3__["default"], {
     isMulti: true,
     hideSelectedOptions: false,
     isClearable: true,
     value: selectedOptions,
     onChange: handleChange,
-    onCreateOption: handleCreate,
-    options: options.map(op => ({
-      ...op,
-      actualValue: op.value,
-      value: `${op.value}_${Date.now()}`
-    })),
+    onCreateOption: handleCreate
+    // options={options.map(op => ({
+    // 	...op,
+    // 	actualValue: op.value,
+    // 	value: `${op.value}_${Date.now()}`,
+    // }))}
+    ,
+    options: options,
     components: {
       MultiValue,
       MultiValueRemove,
@@ -8132,6 +8141,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   isFraction: () => (/* binding */ isFraction),
 /* harmony export */   isPercentage: () => (/* binding */ isPercentage),
 /* harmony export */   isValidCSSValue: () => (/* binding */ isValidCSSValue),
+/* harmony export */   mapLabelsToValues: () => (/* binding */ mapLabelsToValues),
+/* harmony export */   mapValuesToLabels: () => (/* binding */ mapValuesToLabels),
 /* harmony export */   reverseObject: () => (/* binding */ reverseObject)
 /* harmony export */ });
 /**
@@ -8148,7 +8159,7 @@ const getBlockGap = gap => {
     row: "initial",
     column: "initial"
   };
-  if (typeof gap === 'object') {
+  if (typeof gap === "object") {
     if (gap.top) {
       returnObj.row = getBlockGapValue(gap.top);
     }
@@ -8171,7 +8182,7 @@ const getBlockGap = gap => {
  * @return {string}
  */
 const getBlockGapValue = gap => {
-  const array = gap.split('|');
+  const array = gap.split("|");
   const last = array.pop();
   return array.length > 1 ? `var(--wp--preset--spacing--${last})` : last;
 };
@@ -8187,15 +8198,15 @@ const getBlockGapValue = gap => {
  */
 const getFlex = size => {
   if (!size) {
-    return '1';
+    return "1";
   }
   switch (size) {
-    case 'fit':
-      return '0 1 auto';
-    case 'fill':
-      return '1 0 0';
+    case "fit":
+      return "0 1 auto";
+    case "fill":
+      return "1 0 0";
   }
-  return '0 1 var(--flex-basis)';
+  return "0 1 var(--flex-basis)";
 };
 
 /**
@@ -8209,14 +8220,14 @@ const getSize = value => {
   if (!value) {
     return false;
   }
-  if (['fit', 'fill', 'break'].includes(value)) {
+  if (["fit", "fill", "break"].includes(value)) {
     return false;
   }
   if (isFraction(value)) {
     return value;
   }
   if (isPercentage(value)) {
-    const percentage = parseFloat(value.replace('%', ''));
+    const percentage = parseFloat(value.replace("%", ""));
     const decimalValue = percentage / 100;
     const numerator = Math.round(decimalValue * 100);
     const denominator = 100;
@@ -8243,19 +8254,19 @@ const getSize = value => {
  */
 const getFlexCSSValue = value => {
   switch (value) {
-    case 'top':
-    case 'left':
-      return 'flex-start';
-    case 'middle':
-    case 'center':
-      return 'center';
-    case 'bottom':
-    case 'right':
-      return 'flex-end';
-    case 'space-between':
-      return 'space-between';
+    case "top":
+    case "left":
+      return "flex-start";
+    case "middle":
+    case "center":
+      return "center";
+    case "bottom":
+    case "right":
+      return "flex-end";
+    case "space-between":
+      return "space-between";
     default:
-      return 'initial';
+      return "initial";
   }
 };
 
@@ -8335,8 +8346,8 @@ const isPercentage = value => {
  *
  * @returns {bool}
  */
-function isValidCSSValue(value, property = 'flex-basis') {
-  const style = document.createElement('div').style;
+function isValidCSSValue(value, property = "flex-basis") {
+  const style = document.createElement("div").style;
   style[property] = value;
   return value === style[property];
 }
@@ -8355,6 +8366,18 @@ function isValidCSSValue(value, property = 'flex-basis') {
  */
 const reverseObject = obj => {
   return Object.fromEntries(Object.entries(obj).reverse());
+};
+const mapValuesToLabels = (values, options) => {
+  return values.map(value => {
+    const option = options.find(opt => opt.value === value);
+    return option ? option.label : value;
+  });
+};
+const mapLabelsToValues = (values, options) => {
+  return values.map(value => {
+    const option = options.find(opt => opt.label === value);
+    return option ? option.value : value;
+  });
 };
 
 /***/ }),

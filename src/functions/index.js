@@ -1,4 +1,3 @@
-
 /**
  * Converts blockGap values to CSS value.
  *
@@ -8,22 +7,22 @@
  *
  * @return {string}
  */
-export const getBlockGap = ( gap ) => {
+export const getBlockGap = (gap) => {
 	const returnObj = {
 		row: "initial",
 		column: "initial",
 	};
 
-	if ( typeof gap === 'object' ) {
-		if ( gap.top ) {
-			returnObj.row = getBlockGapValue( gap.top );
+	if (typeof gap === "object") {
+		if (gap.top) {
+			returnObj.row = getBlockGapValue(gap.top);
 		}
 
-		if ( gap.left ) {
-			returnObj.column = getBlockGapValue( gap.left );
+		if (gap.left) {
+			returnObj.column = getBlockGapValue(gap.left);
 		}
 	} else {
-		returnObj.row = returnObj.column = getBlockGapValue( gap );
+		returnObj.row = returnObj.column = getBlockGapValue(gap);
 	}
 
 	return returnObj;
@@ -38,8 +37,8 @@ export const getBlockGap = ( gap ) => {
  *
  * @return {string}
  */
-export const getBlockGapValue = ( gap ) => {
-	const array = gap.split( '|' );
+export const getBlockGapValue = (gap) => {
+	const array = gap.split("|");
 	const last  = array.pop();
 
 	return array.length > 1 ? `var(--wp--preset--spacing--${last})` : last;
@@ -54,19 +53,19 @@ export const getBlockGapValue = ( gap ) => {
  *
  * @return {string}
  */
-export const getFlex = ( size ) => {
-	if ( ! size ) {
-		return '1';
+export const getFlex = (size) => {
+	if (!size) {
+		return "1";
 	}
 
-	switch ( size ) {
-		case 'fit':
-			return '0 1 auto';
-		case 'fill':
-			return '1 0 0';
+	switch (size) {
+		case "fit":
+			return "0 1 auto";
+		case "fill":
+			return "1 0 0";
 	}
 
-	return '0 1 var(--flex-basis)';
+	return "0 1 var(--flex-basis)";
 };
 
 /**
@@ -76,36 +75,36 @@ export const getFlex = ( size ) => {
  *
  * @return {string}
  */
-export const getSize = ( value ) => {
-	if ( ! value ) {
+export const getSize = (value) => {
+	if (!value) {
 		return false;
 	}
 
-	if ( [ 'fit', 'fill', 'break' ].includes( value )) {
+	if (["fit", "fill", "break"].includes(value)) {
 		return false;
 	}
 
-	if ( isFraction( value ) ) {
+	if (isFraction(value)) {
 		return value;
 	}
 
-	if ( isPercentage( value ) ) {
-		const percentage   = parseFloat( value.replace( '%', '' ) );
+	if (isPercentage(value)) {
+		const percentage   = parseFloat(value.replace("%", ""));
 		const decimalValue = percentage / 100;
-		const numerator    = Math.round( decimalValue * 100 );
+		const numerator    = Math.round(decimalValue * 100);
 		const denominator  = 100;
-		const gcd          = getGcd( numerator, denominator );
+		const gcd          = getGcd(numerator, denominator);
 
 		return `${numerator / gcd}/${denominator / gcd}`;
 	}
 
 	// TODO: Check if valid CSS value?
-	if ( isValidCSSValue( value ) ) {
+	if (isValidCSSValue(value)) {
 		return value;
 	}
 
 	return false;
-}
+};
 
 /**
  * Get the flex CSS value.
@@ -117,21 +116,21 @@ export const getSize = ( value ) => {
  *
  * @return {string}
  */
-export const getFlexCSSValue = ( value ) => {
-	switch ( value ) {
-		case 'top':
-		case 'left':
-			return 'flex-start';
-		case 'middle':
-		case 'center':
-			return 'center';
-		case 'bottom':
-		case 'right':
-			return 'flex-end';
-		case 'space-between':
-			return 'space-between';
+export const getFlexCSSValue = (value) => {
+	switch (value) {
+		case "top":
+		case "left":
+			return "flex-start";
+		case "middle":
+		case "center":
+			return "center";
+		case "bottom":
+		case "right":
+			return "flex-end";
+		case "space-between":
+			return "space-between";
 		default:
-			return 'initial';
+			return "initial";
 	}
 };
 
@@ -145,11 +144,11 @@ export const getFlexCSSValue = ( value ) => {
  *
  * @return {int}
  */
-export const getGcd = ( a, b ) => {
-	if ( 0 === b ) {
+export const getGcd = (a, b) => {
+	if (0 === b) {
 		return a;
 	} else {
-		return getGcd( b, a % b );
+		return getGcd(b, a % b);
 	}
 };
 
@@ -164,16 +163,20 @@ export const getGcd = ( a, b ) => {
  *
  * @return {mixed}
  */
-export const getIndexValueFromArray = function( index, array, defaultVal = null ) {
-	if ( undefined !== array[index] ) {
+export const getIndexValueFromArray = function (
+	index,
+	array,
+	defaultVal = null,
+) {
+	if (undefined !== array[index]) {
 		return array[index];
 	}
 
-	if ( 1 === array.length ) {
+	if (1 === array.length) {
 		return array[0];
 	}
 
-	return array[ index % array.length ] ?? defaultVal;
+	return array[index % array.length] ?? defaultVal;
 };
 
 /**
@@ -185,9 +188,9 @@ export const getIndexValueFromArray = function( index, array, defaultVal = null 
  *
  * @return {bool}
  */
-export const isFraction = ( value ) => {
-	return /^\d+\/\d+$/.test( value );
-}
+export const isFraction = (value) => {
+	return /^\d+\/\d+$/.test(value);
+};
 
 /**
  * Checks if a value is a percentage.
@@ -198,9 +201,9 @@ export const isFraction = ( value ) => {
  *
  * @return {bool}
  */
-export const isPercentage = ( value ) => {
-	return /^\d+%$/.test( value );
-}
+export const isPercentage = (value) => {
+	return /^\d+%$/.test(value);
+};
 
 /**
  * Checks if a value is a valid CSS value for a property.
@@ -212,8 +215,8 @@ export const isPercentage = ( value ) => {
  *
  * @returns {bool}
  */
-export function isValidCSSValue( value, property = 'flex-basis' ) {
-	const style = document.createElement('div').style;
+export function isValidCSSValue(value, property = "flex-basis") {
+	const style = document.createElement("div").style;
 	style[property] = value;
 	return value === style[property];
 }
@@ -230,6 +233,20 @@ export function isValidCSSValue( value, property = 'flex-basis' ) {
  *
  * @returns {object}
  */
-export const reverseObject = ( obj ) => {
-	return Object.fromEntries( Object.entries( obj ).reverse() );
-}
+export const reverseObject = (obj) => {
+	return Object.fromEntries(Object.entries(obj).reverse());
+};
+
+export const mapValuesToLabels = (values, options) => {
+	return values.map((value) => {
+		const option = options.find((opt) => opt.value === value);
+		return option ? option.label : value;
+	});
+};
+
+export const mapLabelsToValues = (values, options) => {
+	return values.map((value) => {
+		const option = options.find((opt) => opt.label === value);
+		return option ? option.value : value;
+	});
+};

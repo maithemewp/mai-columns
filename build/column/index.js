@@ -59,7 +59,7 @@ function Edit({
   const blockIndex = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     const {
       getBlockIndex
-    } = select('core/block-editor');
+    } = select("core/block-editor");
     return getBlockIndex(clientId);
   }, [clientId]);
 
@@ -71,7 +71,7 @@ function Edit({
    * @return {int}
    */
   const blockCount = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
-    return select('core/block-editor').getBlockCount(clientId);
+    return select("core/block-editor").getBlockCount(clientId);
   });
 
   /**
@@ -101,17 +101,17 @@ function Edit({
   let arrangements = {};
   const inlineStyles = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)().style || {};
   const data = [{
-    break: 'lg',
-    columns: context['mai/sizesLg'],
-    default: ''
+    break: "lg",
+    columns: context["mai/sizesLg"],
+    default: ""
   }, {
-    break: 'md',
-    columns: context['mai/sizesMd'],
-    default: ''
+    break: "md",
+    columns: context["mai/sizesMd"],
+    default: ""
   }, {
-    break: 'sm',
-    columns: context['mai/sizesSm'],
-    default: ''
+    break: "sm",
+    columns: context["mai/sizesSm"],
+    default: ""
   }];
 
   // Get arrangements.
@@ -139,7 +139,8 @@ function Edit({
   });
 
   // Justify content is align items value since flex-direction is column.
-  inlineStyles['--justify-content'] = (0,_functions__WEBPACK_IMPORTED_MODULE_3__.getFlexCSSValue)(alignItems);
+  inlineStyles["--justify-content"] = (0,_functions__WEBPACK_IMPORTED_MODULE_3__.getFlexCSSValue)(alignItems);
+  console.log(inlineStyles);
 
   /**
    * Define the appender to use.
@@ -150,7 +151,7 @@ function Edit({
       return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.ButtonBlockAppender, {
         rootClientId: clientId,
         style: {
-          alignSelf: 'auto'
+          alignSelf: "auto"
         }
       });
     }
@@ -161,7 +162,7 @@ function Edit({
    * Set props.
    */
   const props = {
-    className: 'mai-column',
+    className: "mai-column",
     style: inlineStyles
   };
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(props);
@@ -310,6 +311,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   isFraction: () => (/* binding */ isFraction),
 /* harmony export */   isPercentage: () => (/* binding */ isPercentage),
 /* harmony export */   isValidCSSValue: () => (/* binding */ isValidCSSValue),
+/* harmony export */   mapLabelsToValues: () => (/* binding */ mapLabelsToValues),
+/* harmony export */   mapValuesToLabels: () => (/* binding */ mapValuesToLabels),
 /* harmony export */   reverseObject: () => (/* binding */ reverseObject)
 /* harmony export */ });
 /**
@@ -326,7 +329,7 @@ const getBlockGap = gap => {
     row: "initial",
     column: "initial"
   };
-  if (typeof gap === 'object') {
+  if (typeof gap === "object") {
     if (gap.top) {
       returnObj.row = getBlockGapValue(gap.top);
     }
@@ -349,7 +352,7 @@ const getBlockGap = gap => {
  * @return {string}
  */
 const getBlockGapValue = gap => {
-  const array = gap.split('|');
+  const array = gap.split("|");
   const last = array.pop();
   return array.length > 1 ? `var(--wp--preset--spacing--${last})` : last;
 };
@@ -365,15 +368,15 @@ const getBlockGapValue = gap => {
  */
 const getFlex = size => {
   if (!size) {
-    return '1';
+    return "1";
   }
   switch (size) {
-    case 'fit':
-      return '0 1 auto';
-    case 'fill':
-      return '1 0 0';
+    case "fit":
+      return "0 1 auto";
+    case "fill":
+      return "1 0 0";
   }
-  return '0 1 var(--flex-basis)';
+  return "0 1 var(--flex-basis)";
 };
 
 /**
@@ -387,14 +390,14 @@ const getSize = value => {
   if (!value) {
     return false;
   }
-  if (['fit', 'fill', 'break'].includes(value)) {
+  if (["fit", "fill", "break"].includes(value)) {
     return false;
   }
   if (isFraction(value)) {
     return value;
   }
   if (isPercentage(value)) {
-    const percentage = parseFloat(value.replace('%', ''));
+    const percentage = parseFloat(value.replace("%", ""));
     const decimalValue = percentage / 100;
     const numerator = Math.round(decimalValue * 100);
     const denominator = 100;
@@ -421,19 +424,19 @@ const getSize = value => {
  */
 const getFlexCSSValue = value => {
   switch (value) {
-    case 'top':
-    case 'left':
-      return 'flex-start';
-    case 'middle':
-    case 'center':
-      return 'center';
-    case 'bottom':
-    case 'right':
-      return 'flex-end';
-    case 'space-between':
-      return 'space-between';
+    case "top":
+    case "left":
+      return "flex-start";
+    case "middle":
+    case "center":
+      return "center";
+    case "bottom":
+    case "right":
+      return "flex-end";
+    case "space-between":
+      return "space-between";
     default:
-      return 'initial';
+      return "initial";
   }
 };
 
@@ -513,8 +516,8 @@ const isPercentage = value => {
  *
  * @returns {bool}
  */
-function isValidCSSValue(value, property = 'flex-basis') {
-  const style = document.createElement('div').style;
+function isValidCSSValue(value, property = "flex-basis") {
+  const style = document.createElement("div").style;
   style[property] = value;
   return value === style[property];
 }
@@ -533,6 +536,18 @@ function isValidCSSValue(value, property = 'flex-basis') {
  */
 const reverseObject = obj => {
   return Object.fromEntries(Object.entries(obj).reverse());
+};
+const mapValuesToLabels = (values, options) => {
+  return values.map(value => {
+    const option = options.find(opt => opt.value === value);
+    return option ? option.label : value;
+  });
+};
+const mapLabelsToValues = (values, options) => {
+  return values.map(value => {
+    const option = options.find(opt => opt.label === value);
+    return option ? option.value : value;
+  });
 };
 
 /***/ }),
