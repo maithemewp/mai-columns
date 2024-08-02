@@ -18,6 +18,8 @@
 		"@wordpress/scripts": "^27.0.0"
 	},
 	"dependencies": {
+		"@dnd-kit/core": "^6.1.0",
+		"@dnd-kit/modifiers": "^7.0.0",
 		"@dnd-kit/sortable": "^8.0.0",
 		"@wordpress/icons": "^10.4.0",
 		"react-select": "^5.8.0"

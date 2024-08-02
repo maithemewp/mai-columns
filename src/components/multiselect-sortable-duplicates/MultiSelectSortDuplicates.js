@@ -6,29 +6,46 @@
 import { __ } from '@wordpress/i18n';
 
 import {
+	useCallback,
 	useState,
 	useMemo
 } from '@wordpress/element';
 
+import Select, {
+	components,
+	MultiValueProps,
+	MultiValueRemoveProps,
+	OnChangeValue,
+} from 'react-select';
+
 import CreatableSelect from 'react-select/creatable';
 
 import {
+	restrictToParentElement
+} from '@dnd-kit/modifiers';
+
+import {
+	CSS
+} from '@dnd-kit/utilities';
+
+import {
+	closestCorners,
 	DndContext,
-	closestCenter,
-	KeyboardSensor,
-	PointerSensor,
-	useSensor,
-	useSensors,
+	DragEndEvent
 } from '@dnd-kit/core';
 
 import {
 	arrayMove,
+	horizontalListSortingStrategy,
 	SortableContext,
-	sortableKeyboardCoordinates,
-	verticalListSortingStrategy,
+	useSortable,
 } from '@dnd-kit/sortable';
 
-import {SortableItem} from './SortableItem';
+import {
+	isFraction,
+	isValidCSSValue,
+	isPercentage,
+} from '../../functions';
 
 /**
  * Make sure a value is valid new option.
@@ -64,46 +81,12 @@ const isValidNew = ( value ) => {
 }
 
 /**
- * If a value is a fraction.
+ * Format the label for a newly created sizes.
  *
- * @since 0.1.0
- *
- * @param {string} value
- *
- * @return {bool}
+ * @param {string} inputValue
  */
-const isFraction = ( value ) => {
-	// It's an allowed predefined value.
-	if ( [ 'fit', 'fill', 'break' ].includes( value )) {
-		return false;
-	}
-
-	// Split the string into parts based on the '/' character.
-	const parts = value.split( '/' );
-
-	// Ensure there are exactly two parts.
-	if ( 2 !== parts.length ) {
-		return false;
-	}
-
-	// Parse the numerator and denominator.
-	const numerator   = parseInt( parts[0] );
-	const denominator = parseInt( parts[1] );
-
-	// Bail if either parts are not valid integers.
-	if ( isNaN( numerator ) || isNaN( denominator ) ) {
-		//console.log( __( 'Numerator or denominator is not an integer.' ) );
-		return false;
-	}
-
-	// Bail if numerator is larger than denominator.
-	return numerator <= denominator;
-}
-
-function isValidCSSValue( value, property = 'flex-basis' ) {
-	const style = document.createElement('div').style;
-	style[property] = value;
-	return value === style[property];
+const formatCreateLabel = ( inputValue ) => {
+	return inputValue ? `${__( 'Add' )} ${isPercentage( inputValue ) ? `${inputValue}%` : inputValue}` : '';
 }
 
 /**
@@ -111,21 +94,46 @@ function isValidCSSValue( value, property = 'flex-basis' ) {
  *
  * @since 0.1.0
  */
-const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, onCreateOption = null } ) => {
+const MultiSelectSortDuplicates = ({
+		options        = [],
+		value          = [],
+		onChange       = null,
+		onCreateOption = null
+	}) => {
+
 	// Extract the current option values for easier comparison.
 	const currentOptionValues = useMemo(() => options.map( option => option.value ), [options] );
 
 	// Map values to options, with a unique identifier for each.
-	const valueOptions = value.map(( val, index ) => {
+	const valueOptions = useMemo(() => value.map((val, index) => {
 		return {
 			label: val,
-			value: currentOptionValues.includes( val ) ? val : `${val}_${index}`,
+			value: currentOptionValues.includes(val) ? val : `${val}_${index}`,
 			actualValue: val
 		};
-	});
+	}), [value, currentOptionValues]);
 
 	// Initialize the states.
-	const [ selectedOptions, setSelectOption ] = useState( valueOptions );
+	const [ selectedOptions, setSelectedOptions ] = useState( valueOptions );
+
+	/**
+	 * Set the selected options after reordering.
+	 */
+	const onDragEnd = useCallback((event) => {
+		const { active, over } = event;
+
+		if ( ! active || ! over ) {
+			return;
+		}
+
+		setSelectedOptions((items) => {
+			console.log( items );
+			const oldIndex = items.findIndex((item) => item.value === active.id);
+			const newIndex = items.findIndex((item) => item.value === over.id);
+
+			return arrayMove(items, oldIndex, newIndex);
+		});
+	}, [setSelectedOptions]);
 
 	/**
 	 * This function handles the change event of the `CreatableSelect` component.
@@ -142,7 +150,9 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 
 		// Update the state `selectedOptions` with the newly changed options.
 		// This will cause the component to re-render with the new selections.
-		setSelectOption( changedOptions );
+		setSelectedOptions( changedOptions );
+
+		console.log( changedOptions, selectedValues, onChange );
 
 		// Check if the 'onChange' callback is provided as a prop to the MaiMultiSelectDuplicate component.
 		if ( onChange ) {
@@ -180,7 +190,7 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 
 		// Update the 'selectedOptions' state with this new array of options.
 		// This will cause the component to re-render, displaying the newly created option as selected.
-		setSelectOption( newOptions );
+		setSelectedOptions( newOptions );
 
 		// Check if the 'onChange' callback function is provided as a prop to the MaiMultiSelectDuplicate component.
 		if ( onChange ) {
@@ -198,40 +208,101 @@ const MaiMultiSelectDuplicate = ( { options = [], value = [], onChange = null, o
 	};
 
 	/**
-	 * Format the label for a newly created sizes.
-	 *
-	 * @param {string} inputValue
+	 * Custom MultiValue component for handling sorting.
 	 */
-	const formatCreateLabel = ( inputValue ) => {
-		return inputValue ? `${__( 'Add' )} ${isFraction( inputValue ) || isNaN( inputValue ) ? inputValue : `${inputValue}%`}` : '';
-	}
+	const MultiValue = (props) => {
+		const innerProps = {...props.innerProps};
+		const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+			id: props.data.value,
+		});
+		const style = {
+			transform: CSS.Transform.toString(transform),
+			transition,
+		};
+
+		return (
+			<div style={style} ref={setNodeRef} {...attributes} {...listeners}>
+				<components.MultiValue {...props} innerProps={innerProps} />
+			</div>
+		);
+	};
+
+	/**
+	 * Custom MultiValueRemove component to prevent drag events on remove.
+	 */
+	const MultiValueRemove = (props) => {
+		return (
+		  <components.MultiValueRemove
+			{...props}
+			innerProps={{
+				onPointerDown: (e) => e.stopPropagation(),
+				...props.innerProps,
+			}}
+		  />
+		);
+	};
+
+	// Custom styles for the select component.
+	const customStyles = {
+		control: (provided, state) => ({
+			...provided,
+			boxShadow: 'none', // Remove the default box shadow
+			// Remove the default border if focused, otherwise keep it.
+			border: state.isFocused ? '1px solid #1e1e1e' : provided.border,
+		}),
+	};
 
 	return (
 		<>
-			<style>
+			{/* <style>
 				{`
-					div[class*="-multiValue"] + div[class*="-Input"] > input[id*="react-select"],
-					div[class*="-multiValue"] + div[class*="-Input"] > input[id*="react-select"]:focus {
+					.ValueContainer {
+						margin-bottom: 100%;
+					}
+					.ValueContainer input[id*="react-select"],
+					.ValueContainer input[id*="react-select"]:focus {
 						min-height: unset !important;
+						border: none !important;
 						box-shadow: none !important;
 					}
 				`}
-			</style>
-			<CreatableSelect
-				isMulti
-				hideSelectedOptions={ false }
-				isClearable={ true }
-				value={ selectedOptions }
-				onChange={ handleChange }
-				onCreateOption={ handleCreate }
-				options={ options.map( op => ( { ...op, actualValue: op.value, value: `${op.value}_${Date.now()}` } ) ) }
-				formatOptionLabel={ option => ! option.label || isFraction( option.label ) || isValidCSSValue( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%` }
-				formatCreateLabel={ formatCreateLabel }
-				components={ { DropdownIndicator:() => null, IndicatorSeparator:() => null } }
-				isValidNewOption={ isValidNew }
-			/>
+			</style> */}
+			<DndContext
+				modifiers={[restrictToParentElement]}
+				onDragEnd={onDragEnd}
+				collisionDetection={closestCorners}
+			>
+				<SortableContext
+					items={selectedOptions.map((o) => o.value)}
+					strategy={horizontalListSortingStrategy}
+				>
+					<CreatableSelect
+						isMulti
+						hideSelectedOptions={false}
+						isClearable={true}
+						value={selectedOptions}
+						onChange={handleChange}
+						onCreateOption={handleCreate}
+						options={options.map(op => ({
+							...op,
+							actualValue: op.value,
+							value: `${op.value}_${Date.now()}`,
+						}))}
+						components={{
+							MultiValue,
+							MultiValueRemove,
+							DropdownIndicator : () => null,
+							IndicatorSeparator: () => null,
+						}}
+						formatOptionLabel={option => ! option.label || isFraction( option.label ) || isValidCSSValue( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%`}
+						formatCreateLabel={formatCreateLabel}
+						isValidNewOption={isValidNew}
+						styles={customStyles}
+					/>
+				</SortableContext>
+			</DndContext>
 		</>
 	);
 };
 
-export default MaiMultiSelectDuplicate;
+export default MultiSelectSortDuplicates;

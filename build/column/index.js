@@ -12,12 +12,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Edit)
 /* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions */ "./src/functions/index.js");
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -25,6 +26,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
 
 
 
@@ -48,159 +50,34 @@ function Edit({
   } = attributes;
 
   /**
-   * Gets flex value from column size.
+   * Gets block index of parent.
    *
    * @since 0.1.0
-   *
-   * @param {string} size The size value from settings.
    *
    * @return {string}
    */
-  const getFlex = size => {
-    if (!size) {
-      return '1';
-    }
-    switch (size) {
-      case 'fit':
-        return '0 1 auto';
-      case 'fill':
-        return '1 0 0';
-    }
-    return '0 1 var(--flex-basis)';
-  };
+  const blockIndex = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
+    const {
+      getBlockIndex
+    } = select('core/block-editor');
+    return getBlockIndex(clientId);
+  }, [clientId]);
 
   /**
-   * Gets the correct column value from the repeated arrangement array.
+   * Gets the inner block count.
    *
    * @since 0.1.0
-   *
-   * @param {int}   index   The current item index to get the value for.
-   * @param {array} array   The array to get index value from.
-   * @param {mixed} default The default value if there is no index.
-   *
-   * @return {mixed}
-   */
-  const getIndexValueFromArray = function (index, array, defaultVal = null) {
-    var _array;
-    if (undefined !== array[index]) {
-      return array[index];
-    }
-    if (1 === array.length) {
-      return array[0];
-    }
-    return (_array = array[index % array.length]) !== null && _array !== void 0 ? _array : defaultVal;
-  };
-
-  /**
-   * Gets the fraction value from a given value.
-   *
-   * @param {string} value
-   *
-   * @return {string}
-   */
-  const getSize = value => {
-    if (!value) {
-      return false;
-    }
-    if (['fit', 'fill', 'break'].includes(value)) {
-      return false;
-    }
-    if (isFraction(value)) {
-      return value;
-    }
-    if (isPercentage(value)) {
-      const percentage = parseFloat(value.replace('%', ''));
-      const decimalValue = percentage / 100;
-      const numerator = Math.round(decimalValue * 100);
-      const denominator = 100;
-      const gcd = getGcd(numerator, denominator);
-      return `${numerator / gcd}/${denominator / gcd}`;
-    }
-
-    // TODO: Check if valid CSS value?
-    if (isValidCSSValue(value)) {
-      return value;
-    }
-    return false;
-  };
-
-  /**
-   * Gets the greatest common denominator.
-   *
-   * @since 0.1.0
-   *
-   * @param {int} a
-   * @param {int} b
    *
    * @return {int}
    */
-  const getGcd = (a, b) => {
-    if (0 === b) {
-      return a;
-    } else {
-      return getGcd(b, a % b);
-    }
-  };
-
-  /**
-   * Checks if a value is a fraction.
-   *
-   * @since 0.1.0
-   *
-   * @param {string} value
-   *
-   * @return {bool}
-   */
-  const isFraction = value => {
-    return /^\d+\/\d+$/.test(value);
-  };
-
-  /**
-   * Checks if a value is a percentage.
-   *
-   * @since 0.1.0
-   *
-   * @param {string} value
-   *
-   * @return {bool}
-   */
-  const isPercentage = value => {
-    return /^\d+%$/.test(value);
-  };
-  function isValidCSSValue(value, property = 'flex-basis') {
-    const style = document.createElement('div').style;
-    style[property] = value;
-    return value === style[property];
-  }
-
-  /**
-   * Get the flex CSS value.
-   * TODO: This is duplicated in edit.js of the other block.
-   *
-   * @since 0.1.0
-   *
-   * @return {string}
-   */
-  const getFlexCSSValue = value => {
-    switch (value) {
-      case 'top':
-      case 'left':
-        return 'flex-start';
-      case 'middle':
-      case 'center':
-        return 'center';
-      case 'bottom':
-      case 'right':
-        return 'flex-end';
-      case 'space-between':
-        return 'space-between';
-      default:
-        return 'initial';
-    }
-  };
+  const blockCount = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
+    return select('core/block-editor').getBlockCount(clientId);
+  });
 
   /**
    * Adds arrangements to the object.
+   *
+   * @since 0.1.0
    *
    * @param {object} arrangement
    *
@@ -217,34 +94,6 @@ function Edit({
     }
     return arrangements;
   };
-
-  /**
-   * Reverses an object.
-   * Convert the object to an array of [key, value] pairs.
-   * Reverses the array.
-   * Convert the reversed array back to an object.
-   *
-   * @param {object} obj The object to reverse.
-   *
-   * @returns {object}
-   */
-  const reverseObject = obj => {
-    return Object.fromEntries(Object.entries(obj).reverse());
-  };
-
-  /**
-   * Gets block index of parent.
-   *
-   * @since 0.1.0
-   *
-   * @return {string}
-   */
-  const blockIndex = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
-    const {
-      getBlockIndex
-    } = select('core/block-editor');
-    return getBlockIndex(clientId);
-  }, [clientId]);
 
   /**
    * Build inline styles from arrangements.
@@ -267,52 +116,45 @@ function Edit({
 
   // Get arrangements.
   data.forEach(item => {
-    arrangements[item.break] = getIndexValueFromArray(blockIndex, item.columns, item.default);
+    arrangements[item.break] = (0,_functions__WEBPACK_IMPORTED_MODULE_3__.getIndexValueFromArray)(blockIndex, item.columns, item.default);
   });
 
   // Set standard fallbacks.
   arrangements = setFallbacks(arrangements);
 
   // Set reversed fallbacks.
-  arrangements = setFallbacks(reverseObject(arrangements));
+  arrangements = setFallbacks((0,_functions__WEBPACK_IMPORTED_MODULE_3__.reverseObject)(arrangements));
 
   // Reverse back.
-  arrangements = reverseObject(arrangements);
+  arrangements = (0,_functions__WEBPACK_IMPORTED_MODULE_3__.reverseObject)(arrangements);
 
   // Set sizes inline styles.
   Object.entries(arrangements).forEach(([key, value]) => {
-    inlineStyles[`--size-${key}`] = getSize(value) || 1;
+    inlineStyles[`--size-${key}`] = (0,_functions__WEBPACK_IMPORTED_MODULE_3__.getSize)(value) || 1;
   });
 
   // Set flex inline styles.
   Object.entries(arrangements).forEach(([key, value]) => {
-    inlineStyles[`--flex-${key}`] = getFlex(value);
+    inlineStyles[`--flex-${key}`] = (0,_functions__WEBPACK_IMPORTED_MODULE_3__.getFlex)(value);
   });
 
   // Justify content is align items value since flex-direction is column.
-  inlineStyles['--justify-content'] = getFlexCSSValue(alignItems);
-
-  /**
-   * Gets the inner block count.
-   *
-   * @since 0.1.0
-   *
-   * @return {int}
-   */
-  const blockCount = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
-    return select('core/block-editor').getBlockCount(clientId);
-  });
+  inlineStyles['--justify-content'] = (0,_functions__WEBPACK_IMPORTED_MODULE_3__.getFlexCSSValue)(alignItems);
 
   /**
    * Define the appender to use.
+   * If no blocks, add the appender.
    */
   const appenderToUse = () => {
-    return !blockCount ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.ButtonBlockAppender, {
-      rootClientId: clientId,
-      style: {
-        alignSelf: 'auto'
-      }
-    }) : false;
+    if (!blockCount) {
+      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.ButtonBlockAppender, {
+        rootClientId: clientId,
+        style: {
+          alignSelf: 'auto'
+        }
+      });
+    }
+    return false;
   };
 
   /**
@@ -326,16 +168,16 @@ function Edit({
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)(blockProps, {
     renderAppender: appenderToUse
   });
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockControls, {
     group: "block"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockVerticalAlignmentToolbar, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.BlockVerticalAlignmentToolbar, {
     value: alignItems,
     onChange: value => {
       setAttributes({
         alignItems: value
       });
     }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...innerBlocksProps
   }));
 }
@@ -450,6 +292,251 @@ function save() {
 
 /***/ }),
 
+/***/ "./src/functions/index.js":
+/*!********************************!*\
+  !*** ./src/functions/index.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getBlockGap: () => (/* binding */ getBlockGap),
+/* harmony export */   getBlockGapValue: () => (/* binding */ getBlockGapValue),
+/* harmony export */   getFlex: () => (/* binding */ getFlex),
+/* harmony export */   getFlexCSSValue: () => (/* binding */ getFlexCSSValue),
+/* harmony export */   getGcd: () => (/* binding */ getGcd),
+/* harmony export */   getIndexValueFromArray: () => (/* binding */ getIndexValueFromArray),
+/* harmony export */   getSize: () => (/* binding */ getSize),
+/* harmony export */   isFraction: () => (/* binding */ isFraction),
+/* harmony export */   isPercentage: () => (/* binding */ isPercentage),
+/* harmony export */   isValidCSSValue: () => (/* binding */ isValidCSSValue),
+/* harmony export */   reverseObject: () => (/* binding */ reverseObject)
+/* harmony export */ });
+/**
+ * Converts blockGap values to CSS value.
+ *
+ * @since 0.1.0
+ *
+ * @param {string|array} gap The blockGap value.
+ *
+ * @return {string}
+ */
+const getBlockGap = gap => {
+  const returnObj = {
+    row: "initial",
+    column: "initial"
+  };
+  if (typeof gap === 'object') {
+    if (gap.top) {
+      returnObj.row = getBlockGapValue(gap.top);
+    }
+    if (gap.left) {
+      returnObj.column = getBlockGapValue(gap.left);
+    }
+  } else {
+    returnObj.row = returnObj.column = getBlockGapValue(gap);
+  }
+  return returnObj;
+};
+
+/**
+ * Gets the CSS value from the blockGap value.
+ *
+ * @since 0.1.0
+ *
+ * @param {string} gap The blockGap value.
+ *
+ * @return {string}
+ */
+const getBlockGapValue = gap => {
+  const array = gap.split('|');
+  const last = array.pop();
+  return array.length > 1 ? `var(--wp--preset--spacing--${last})` : last;
+};
+
+/**
+ * Gets flex value from column size.
+ *
+ * @since 0.1.0
+ *
+ * @param {string} size The size value from settings.
+ *
+ * @return {string}
+ */
+const getFlex = size => {
+  if (!size) {
+    return '1';
+  }
+  switch (size) {
+    case 'fit':
+      return '0 1 auto';
+    case 'fill':
+      return '1 0 0';
+  }
+  return '0 1 var(--flex-basis)';
+};
+
+/**
+ * Gets the fraction value from a given value.
+ *
+ * @param {string} value
+ *
+ * @return {string}
+ */
+const getSize = value => {
+  if (!value) {
+    return false;
+  }
+  if (['fit', 'fill', 'break'].includes(value)) {
+    return false;
+  }
+  if (isFraction(value)) {
+    return value;
+  }
+  if (isPercentage(value)) {
+    const percentage = parseFloat(value.replace('%', ''));
+    const decimalValue = percentage / 100;
+    const numerator = Math.round(decimalValue * 100);
+    const denominator = 100;
+    const gcd = getGcd(numerator, denominator);
+    return `${numerator / gcd}/${denominator / gcd}`;
+  }
+
+  // TODO: Check if valid CSS value?
+  if (isValidCSSValue(value)) {
+    return value;
+  }
+  return false;
+};
+
+/**
+ * Get the flex CSS value.
+ * TODO: This is duplicated in edit.js of the other block.
+ *
+ * @since 0.1.0
+ *
+ * @param {string} value
+ *
+ * @return {string}
+ */
+const getFlexCSSValue = value => {
+  switch (value) {
+    case 'top':
+    case 'left':
+      return 'flex-start';
+    case 'middle':
+    case 'center':
+      return 'center';
+    case 'bottom':
+    case 'right':
+      return 'flex-end';
+    case 'space-between':
+      return 'space-between';
+    default:
+      return 'initial';
+  }
+};
+
+/**
+ * Gets the greatest common denominator.
+ *
+ * @since 0.1.0
+ *
+ * @param {int} a
+ * @param {int} b
+ *
+ * @return {int}
+ */
+const getGcd = (a, b) => {
+  if (0 === b) {
+    return a;
+  } else {
+    return getGcd(b, a % b);
+  }
+};
+
+/**
+ * Gets the correct column value from the repeated arrangement array.
+ *
+ * @since 0.1.0
+ *
+ * @param {int}   index   The current item index to get the value for.
+ * @param {array} array   The array to get index value from.
+ * @param {mixed} default The default value if there is no index.
+ *
+ * @return {mixed}
+ */
+const getIndexValueFromArray = function (index, array, defaultVal = null) {
+  var _array;
+  if (undefined !== array[index]) {
+    return array[index];
+  }
+  if (1 === array.length) {
+    return array[0];
+  }
+  return (_array = array[index % array.length]) !== null && _array !== void 0 ? _array : defaultVal;
+};
+
+/**
+ * Checks if a value is a fraction.
+ *
+ * @since 0.1.0
+ *
+ * @param {string} value
+ *
+ * @return {bool}
+ */
+const isFraction = value => {
+  return /^\d+\/\d+$/.test(value);
+};
+
+/**
+ * Checks if a value is a percentage.
+ *
+ * @since 0.1.0
+ *
+ * @param {string} value
+ *
+ * @return {bool}
+ */
+const isPercentage = value => {
+  return /^\d+%$/.test(value);
+};
+
+/**
+ * Checks if a value is a valid CSS value for a property.
+ *
+ * @since 0.1.0
+ *
+ * @param {string} value    The value to check.
+ * @param {string} property The CSS property to check against.
+ *
+ * @returns {bool}
+ */
+function isValidCSSValue(value, property = 'flex-basis') {
+  const style = document.createElement('div').style;
+  style[property] = value;
+  return value === style[property];
+}
+
+/**
+ * Reverses an object.
+ * Convert the object to an array of [key, value] pairs.
+ * Reverses the array.
+ * Convert the reversed array back to an object.
+ *
+ * @since 0.1.0
+ *
+ * @param {object} obj The object to reverse.
+ *
+ * @returns {object}
+ */
+const reverseObject = obj => {
+  return Object.fromEntries(Object.entries(obj).reverse());
+};
+
+/***/ }),
+
 /***/ "./src/column/style.scss":
 /*!*******************************!*\
   !*** ./src/column/style.scss ***!
@@ -459,6 +546,16 @@ function save() {
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "react":
+/*!************************!*\
+  !*** external "React" ***!
+  \************************/
+/***/ ((module) => {
+
+module.exports = window["React"];
 
 /***/ }),
 
