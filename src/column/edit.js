@@ -136,8 +136,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	// Justify content is align items value since flex-direction is column.
 	inlineStyles["--justify-content"] = getFlexCSSValue(alignItems);
 
-	console.log( inlineStyles );
-
 	/**
 	 * Define the appender to use.
 	 * If no blocks, add the appender.
