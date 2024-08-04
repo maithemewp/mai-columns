@@ -7835,21 +7835,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/index-a301f526.esm.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/index-a301f526.esm.js");
 /* harmony import */ var react_select_creatable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select/creatable */ "./node_modules/react-select/creatable/dist/react-select-creatable.esm.js");
 /* harmony import */ var _dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dnd-kit/modifiers */ "./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js");
 /* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
 /* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
 /* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
-/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../functions */ "./src/functions/index.js");
-
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
 
 
+// import { ToolbarButton, ToolbarGroup } from "@wordpress/components";
 
 
 
@@ -7859,56 +7853,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * Make sure a value is valid new option.
- * No need to check for auto, fit, fill because those are predefined.
+ * Creates a unique value by appending a counter for duplicate entries.
  *
- * @since 0.1.0
- *
- * @param {string} value
- *
- * @return {bool}
+ * @param {string} val - The base value.
+ * @param {Array} existingValues - Array of existing values.
+ * @return {string} - A unique value string.
  */
-const isValidNew = value => {
-  if (!value) {
-    return false;
+const createUniqueValue = (val, existingValues) => {
+  let uniqueValue = val;
+  let count = 1;
+  while (existingValues.includes(uniqueValue)) {
+    count += 1;
+    uniqueValue = `${val}_${count}`;
   }
-
-  // Check if value is a valid number larger then  0 and less than or equal to 100.
-  if (!isNaN(value) && value > 0 && value <= 100) {
-    return true;
-  }
-
-  // Check if it's a valid fraction.
-  if ((0,_functions__WEBPACK_IMPORTED_MODULE_8__.isFraction)(value)) {
-    return true;
-  }
-
-  // If it's a valid CSS value.
-  if ((0,_functions__WEBPACK_IMPORTED_MODULE_8__.isValidCSSValue)(value)) {
-    return true;
-  }
-  return false;
+  return uniqueValue;
 };
 
 /**
- * Format the label for a newly created sizes.
+ * MultiSelectSortDuplicates Component
  *
- * @param {string} inputValue
- */
-const formatCreateLabel = inputValue => {
-  if (inputValue) {
-    if ((0,_functions__WEBPACK_IMPORTED_MODULE_8__.isFraction)(inputValue) || (0,_functions__WEBPACK_IMPORTED_MODULE_8__.isValidCSSValue)(inputValue) || isNaN(inputValue)) {
-      return `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${inputValue}`;
-    }
-    return `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add')} ${inputValue}%`;
-  }
-  return '';
-};
-
-/**
- * Setup component.
- *
- * @since 0.1.0
+ * @param {Array} options - Array of available options.
+ * @param {Array} value - Array of selected values.
+ * @param {function} onChange - Function to call when the selection changes.
+ * @param {function} onCreateOption - Function to call when a new option is created.
  */
 const MultiSelectSortDuplicates = ({
   options = [],
@@ -7916,129 +7883,88 @@ const MultiSelectSortDuplicates = ({
   onChange = null,
   onCreateOption = null
 }) => {
-  // Map value to options, with a unique identifier for each.
-  options = options.map(op => ({
-    ...op,
-    actualValue: op.value,
-    value: `${op.value}_${Date.now()}`
-  }));
+  // Map value to options, assigning a unique identifier for each.
+  const chosenOptions = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useMemo)(() => {
+    const existingValues = [];
+    return value.map(val => {
+      const uniqueValue = createUniqueValue(val, existingValues);
+      existingValues.push(uniqueValue);
+      return {
+        label: val,
+        value: uniqueValue,
+        actualValue: val
+      };
+    });
+  }, [value]);
 
-  // Map selected values from options.
-  const chosenOptions = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useMemo)(() => value.map(val => {
-    return {
-      label: val,
-      value: options.find(opt => opt.actualValue === val) ? val : `${val}_${Date.now()}`,
-      actualValue: val
-    };
-  }), [value, options]);
-
-  // Initialize the states.
+  // Initialize the state for selected options.
   const [selectedOptions, setSelectedOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(chosenOptions);
 
   /**
-   * Set the selected options after reordering.
+   * Handles the end of a drag event, reordering the selected items.
+   *
+   * @param {object} event - The drag end event.
    */
   const onDragEnd = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useCallback)(event => {
     const {
       active,
       over
     } = event;
-    if (!(active || over)) {
+    if (!active || !over) {
       return;
     }
     setSelectedOptions(items => {
       const oldIndex = items.findIndex(item => item.value === active.id);
       const newIndex = items.findIndex(item => item.value === over.id);
       const reordered = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.arrayMove)(items, oldIndex, newIndex);
-
-      // Call onChange with the reordered actual values if it exists
       if (onChange) {
         onChange(reordered.map(obj => obj.actualValue));
       }
       return reordered;
     });
-  }, [setSelectedOptions]);
+  }, [onChange]);
 
   /**
-   * This function handles the change event of the `CreatableSelect` component.
+   * Handles changes in the selection.
    *
-   * @param {Array} changedOptions - This is an array of objects representing the options
-   *                                 that are currently selected in the `CreatableSelect` component.
-   *                                 Each object typically has a structure like { label: "Option Label", value: "unique-id", actualValue: "Option Value" }
+   * @param {Array} changedOptions - Array of changed options.
    */
   const handleChange = changedOptions => {
-    // Map through the changedOptions array to extract the 'actualValue' property from each object.
-    // The 'actualValue' contains the true value of the option, as opposed to the 'value' property which
-    // may have a unique identifier appended to handle duplicates.
     const selectedValues = changedOptions.map(obj => obj.actualValue);
-
-    // console.log( changedOptions, selectedValues );
-
-    // Update the state `selectedOptions` with the newly changed options.
-    // This will cause the component to re-render with the new selections.
     setSelectedOptions(changedOptions);
-
-    // Check if the 'onChange' callback is provided as a prop to the MaiMultiSelectDuplicate component.
     if (onChange) {
-      // If it is provided, invoke the 'onChange' callback function, passing the extracted 'selectedValues'
-      // (the actual values of the selected options without any unique identifiers).
       onChange(selectedValues);
     }
   };
 
   /**
-   * This function handles the creation of a new option in the `CreatableSelect` component.
+   * Handles the creation of a new option.
    *
-   * @param {string} inputValue - The string value of the newly created option. This comes from the user's input.
+   * @param {string} inputValue - The value of the new option.
    */
   const handleCreate = inputValue => {
-    // Log the creation of a new option to the console for debugging purposes.
-    console.log('Creating new option:', inputValue);
-
-    // Create a new option object for the newly entered value.
-    // - The 'label' will be what is displayed in the dropdown menu.
-    // - The 'value' will be a unique identifier, created by combining the inputValue and the current timestamp
-    //   (using Date.now()). This ensures that even if a user creates two identical options, they have distinct
-    //   identifiers so they can be treated as separate.
-    // - The 'actualValue' retains the original inputValue without any added identifiers, which can be used
-    //   elsewhere in the application logic if needed.
+    const uniqueValue = createUniqueValue(inputValue, selectedOptions.map(opt => opt.value));
     const newOption = {
       label: inputValue,
-      value: `${inputValue}_${Date.now()}`,
-      // Unique identifier using current time
+      value: uniqueValue,
       actualValue: inputValue
     };
-
-    // Create a new array containing all the previously selected options (from the 'selectedOptions' state)
-    // and add the newly created option to the end of this array.
     const newOptions = [...selectedOptions, newOption];
-
-    // Update the 'selectedOptions' state with this new array of options.
-    // This will cause the component to re-render, displaying the newly created option as selected.
     setSelectedOptions(newOptions);
-
-    // Check if the 'onChange' callback function is provided as a prop to the MaiMultiSelectDuplicate component.
     if (onChange) {
-      // If provided, call the 'onChange' function, passing in an array of the 'actualValue' properties
-      // from the newOptions array. This informs the parent component of the change.
       onChange(newOptions.map(obj => obj.actualValue));
     }
-
-    // Check if the 'onCreateOption' callback function is provided as a prop to the MaiMultiSelectDuplicate component.
     if (onCreateOption) {
-      // If provided, call the 'onCreateOption' function, passing in the inputValue.
-      // This can be useful if the parent component wants to take additional actions when a new option is created.
       onCreateOption(inputValue);
     }
   };
 
   /**
-   * Custom MultiValue component for handling sorting.
+   * Custom component for rendering each selected value with drag-and-drop capabilities.
+   *
+   * @param {object} props - The props for the component.
    */
   const MultiValue = props => {
-    const innerProps = {
-      ...props.innerProps
-    };
     const {
       attributes,
       listeners,
@@ -8057,17 +7983,18 @@ const MultiSelectSortDuplicates = ({
       ref: setNodeRef,
       ...attributes,
       ...listeners
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_9__.c.MultiValue, {
-      ...props,
-      innerProps: innerProps
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__.c.MultiValue, {
+      ...props
     }));
   };
 
   /**
-   * Custom MultiValueRemove component to prevent drag events on remove.
+   * Custom component for rendering the remove button, preventing drag events on remove.
+   *
+   * @param {object} props - The props for the component.
    */
   const MultiValueRemove = props => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_9__.c.MultiValueRemove, {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__.c.MultiValueRemove, {
       ...props,
       innerProps: {
         onPointerDown: e => e.stopPropagation(),
@@ -8080,13 +8007,11 @@ const MultiSelectSortDuplicates = ({
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      boxShadow: 'none',
-      // Remove the default box shadow
-      // Remove the default border if focused, otherwise keep it.
-      border: state.isFocused ? '1px solid #1e1e1e' : provided.border
+      boxShadow: "none",
+      border: state.isFocused ? "1px solid #1e1e1e" : provided.border
     })
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_6__.DndContext, {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_6__.DndContext, {
     modifiers: [_dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_4__.restrictToParentElement],
     onDragEnd: onDragEnd,
     collisionDetection: _dnd_kit_core__WEBPACK_IMPORTED_MODULE_6__.closestCorners
@@ -8099,13 +8024,7 @@ const MultiSelectSortDuplicates = ({
     isClearable: true,
     value: selectedOptions,
     onChange: handleChange,
-    onCreateOption: handleCreate
-    // options={options.map(op => ({
-    // 	...op,
-    // 	actualValue: op.value,
-    // 	value: `${op.value}_${Date.now()}`,
-    // }))}
-    ,
+    onCreateOption: handleCreate,
     options: options,
     components: {
       MultiValue,
@@ -8113,11 +8032,10 @@ const MultiSelectSortDuplicates = ({
       DropdownIndicator: () => null,
       IndicatorSeparator: () => null
     },
-    formatOptionLabel: option => !option.label || (0,_functions__WEBPACK_IMPORTED_MODULE_8__.isFraction)(option.label) || (0,_functions__WEBPACK_IMPORTED_MODULE_8__.isValidCSSValue)(option.label) || isNaN(option.label) ? option.label : `${option.label}%`,
-    formatCreateLabel: formatCreateLabel,
-    isValidNewOption: isValidNew,
+    formatOptionLabel: option => !option.label || isNaN(option.label) ? option.label : `${option.label}%`,
+    formatCreateLabel: inputValue => inputValue ? `Add ${inputValue}` : "",
     styles: customStyles
-  }))));
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MultiSelectSortDuplicates);
 

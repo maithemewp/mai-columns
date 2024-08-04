@@ -1,239 +1,153 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
-
+import { __ } from "@wordpress/i18n";
+// import { ToolbarButton, ToolbarGroup } from "@wordpress/components";
 import {
 	useCallback,
 	useState,
 	useMemo
-} from '@wordpress/element';
-
-import Select, {
-	components,
-	MultiValueProps,
-	MultiValueRemoveProps,
-	OnChangeValue,
-} from 'react-select';
-
-import CreatableSelect from 'react-select/creatable';
-
-import {
-	restrictToParentElement
-} from '@dnd-kit/modifiers';
-
-import {
-	CSS
-} from '@dnd-kit/utilities';
-
-import {
-	closestCorners,
-	DndContext,
-	DragEndEvent
-} from '@dnd-kit/core';
-
+} from "@wordpress/element";
+import Select, { components } from "react-select";
+import CreatableSelect from "react-select/creatable";
+import { restrictToParentElement } from "@dnd-kit/modifiers";
+import { CSS } from "@dnd-kit/utilities";
+import { closestCorners, DndContext } from "@dnd-kit/core";
 import {
 	arrayMove,
 	rectSwappingStrategy,
 	SortableContext,
 	useSortable,
-} from '@dnd-kit/sortable';
-
-import {
-	isFraction,
-	isValidCSSValue,
-	isPercentage,
-	mapValuesToLabels,
-	mapLabelsToValues,
-} from '../../functions';
+} from "@dnd-kit/sortable";
 
 /**
- * Make sure a value is valid new option.
- * No need to check for auto, fit, fill because those are predefined.
+ * Creates a unique value by appending a counter for duplicate entries.
  *
- * @since 0.1.0
- *
- * @param {string} value
- *
- * @return {bool}
+ * @param {string} val - The base value.
+ * @param {Array} existingValues - Array of existing values.
+ * @return {string} - A unique value string.
  */
-const isValidNew = (value) => {
-	if ( ! value ) {
-		return false;
+const createUniqueValue = (val, existingValues) => {
+	let uniqueValue = val;
+	let count = 1;
+
+	while (existingValues.includes(uniqueValue)) {
+		count += 1;
+		uniqueValue = `${val}_${count}`;
 	}
 
-	// Check if value is a valid number larger then  0 and less than or equal to 100.
-	if ( ! isNaN(value) && value > 0 && value <= 100 ) {
-		return true;
-	}
-
-	// Check if it's a valid fraction.
-	if ( isFraction(value) ) {
-		return true;
-	}
-
-	// If it's a valid CSS value.
-	if ( isValidCSSValue(value) ) {
-		return true;
-	}
-
-	return false;
-}
+	return uniqueValue;
+};
 
 /**
- * Format the label for a newly created sizes.
+ * MultiSelectSortDuplicates Component
  *
- * @param {string} inputValue
- */
-const formatCreateLabel = ( inputValue ) => {
-	if ( inputValue ) {
-		if ( isFraction(inputValue) || isValidCSSValue(inputValue) || isNaN(inputValue) ) {
-			return `${__( 'Add' )} ${inputValue}`;
-		}
-
-		return `${__( 'Add' )} ${inputValue}%`;
-	}
-
-	return '';
-}
-
-/**
- * Setup component.
- *
- * @since 0.1.0
+ * @param {Array} options - Array of available options.
+ * @param {Array} value - Array of selected values.
+ * @param {function} onChange - Function to call when the selection changes.
+ * @param {function} onCreateOption - Function to call when a new option is created.
  */
 const MultiSelectSortDuplicates = ({
-		options        = [],
-		value          = [],
-		onChange       = null,
-		onCreateOption = null
-	}) => {
+	options = [],
+	value = [],
+	onChange = null,
+	onCreateOption = null,
+}) => {
+	// Map value to options, assigning a unique identifier for each.
+	const chosenOptions = useMemo(() => {
+		const existingValues = [];
+		return value.map((val) => {
+			const uniqueValue = createUniqueValue(val, existingValues);
+			existingValues.push(uniqueValue);
+			return {
+				label: val,
+				value: uniqueValue,
+				actualValue: val,
+			};
+		});
+	}, [value]);
 
-	// Map value to options, with a unique identifier for each.
-	options = options.map(op => ({
-		...op,
-		actualValue: op.value,
-		value: `${op.value}_${Date.now()}`,
-	}))
-
-	// Map selected values from options.
-	const chosenOptions = useMemo(() => value.map((val) => {
-		return {
-			label: val,
-			value: options.find((opt) => opt.actualValue === val) ? val : `${val}_${Date.now()}`,
-			actualValue: val
-		};
-	}), [value, options]);
-
-	// Initialize the states.
-	const [ selectedOptions, setSelectedOptions ] = useState(chosenOptions);
+	// Initialize the state for selected options.
+	const [selectedOptions, setSelectedOptions] = useState(chosenOptions);
 
 	/**
-	 * Set the selected options after reordering.
+	 * Handles the end of a drag event, reordering the selected items.
+	 *
+	 * @param {object} event - The drag end event.
 	 */
-	const onDragEnd = useCallback((event) => {
-		const { active, over } = event;
+	const onDragEnd = useCallback(
+		(event) => {
+			const { active, over } = event;
 
-		if ( ! ( active || over ) ) {
-			return;
-		}
-
-		setSelectedOptions((items) => {
-			const oldIndex  = items.findIndex((item) => item.value === active.id);
-			const newIndex  = items.findIndex((item) => item.value === over.id);
-			const reordered = arrayMove(items, oldIndex, newIndex);
-
-			// Call onChange with the reordered actual values if it exists
-			if (onChange) {
-				onChange(reordered.map(obj => obj.actualValue));
+			if (!active || !over) {
+				return;
 			}
 
-			return reordered;
-		});
-	}, [setSelectedOptions]);
+			setSelectedOptions((items) => {
+				const oldIndex = items.findIndex((item) => item.value === active.id);
+				const newIndex = items.findIndex((item) => item.value === over.id);
+				const reordered = arrayMove(items, oldIndex, newIndex);
+
+				if (onChange) {
+					onChange(reordered.map((obj) => obj.actualValue));
+				}
+
+				return reordered;
+			});
+		},
+		[onChange],
+	);
 
 	/**
-	 * This function handles the change event of the `CreatableSelect` component.
+	 * Handles changes in the selection.
 	 *
-	 * @param {Array} changedOptions - This is an array of objects representing the options
-	 *                                 that are currently selected in the `CreatableSelect` component.
-	 *                                 Each object typically has a structure like { label: "Option Label", value: "unique-id", actualValue: "Option Value" }
+	 * @param {Array} changedOptions - Array of changed options.
 	 */
 	const handleChange = (changedOptions) => {
-		// Map through the changedOptions array to extract the 'actualValue' property from each object.
-		// The 'actualValue' contains the true value of the option, as opposed to the 'value' property which
-		// may have a unique identifier appended to handle duplicates.
 		const selectedValues = changedOptions.map((obj) => obj.actualValue);
-
-		// console.log( changedOptions, selectedValues );
-
-		// Update the state `selectedOptions` with the newly changed options.
-		// This will cause the component to re-render with the new selections.
 		setSelectedOptions(changedOptions);
 
-		// Check if the 'onChange' callback is provided as a prop to the MaiMultiSelectDuplicate component.
-		if ( onChange ) {
-			// If it is provided, invoke the 'onChange' callback function, passing the extracted 'selectedValues'
-			// (the actual values of the selected options without any unique identifiers).
+		if (onChange) {
 			onChange(selectedValues);
 		}
 	};
 
 	/**
-	 * This function handles the creation of a new option in the `CreatableSelect` component.
+	 * Handles the creation of a new option.
 	 *
-	 * @param {string} inputValue - The string value of the newly created option. This comes from the user's input.
+	 * @param {string} inputValue - The value of the new option.
 	 */
-	const handleCreate = inputValue => {
-		// Log the creation of a new option to the console for debugging purposes.
-		console.log( 'Creating new option:', inputValue );
+	const handleCreate = (inputValue) => {
+		const uniqueValue = createUniqueValue(
+			inputValue,
+			selectedOptions.map((opt) => opt.value),
+		);
 
-		// Create a new option object for the newly entered value.
-		// - The 'label' will be what is displayed in the dropdown menu.
-		// - The 'value' will be a unique identifier, created by combining the inputValue and the current timestamp
-		//   (using Date.now()). This ensures that even if a user creates two identical options, they have distinct
-		//   identifiers so they can be treated as separate.
-		// - The 'actualValue' retains the original inputValue without any added identifiers, which can be used
-		//   elsewhere in the application logic if needed.
 		const newOption = {
 			label: inputValue,
-			value: `${inputValue}_${Date.now()}`,  // Unique identifier using current time
-			actualValue: inputValue
+			value: uniqueValue,
+			actualValue: inputValue,
 		};
 
-		// Create a new array containing all the previously selected options (from the 'selectedOptions' state)
-		// and add the newly created option to the end of this array.
 		const newOptions = [...selectedOptions, newOption];
-
-		// Update the 'selectedOptions' state with this new array of options.
-		// This will cause the component to re-render, displaying the newly created option as selected.
 		setSelectedOptions(newOptions);
 
-		// Check if the 'onChange' callback function is provided as a prop to the MaiMultiSelectDuplicate component.
-		if ( onChange ) {
-			// If provided, call the 'onChange' function, passing in an array of the 'actualValue' properties
-			// from the newOptions array. This informs the parent component of the change.
+		if (onChange) {
 			onChange(newOptions.map((obj) => obj.actualValue));
 		}
 
-		// Check if the 'onCreateOption' callback function is provided as a prop to the MaiMultiSelectDuplicate component.
-		if ( onCreateOption ) {
-			// If provided, call the 'onCreateOption' function, passing in the inputValue.
-			// This can be useful if the parent component wants to take additional actions when a new option is created.
+		if (onCreateOption) {
 			onCreateOption(inputValue);
 		}
 	};
 
 	/**
-	 * Custom MultiValue component for handling sorting.
+	 * Custom component for rendering each selected value with drag-and-drop capabilities.
+	 *
+	 * @param {object} props - The props for the component.
 	 */
 	const MultiValue = (props) => {
-		const innerProps = {...props.innerProps};
-		const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-			id: props.data.value,
-		});
+		const { attributes, listeners, setNodeRef, transform, transition } =
+			useSortable({
+				id: props.data.value,
+			});
 		const style = {
 			transform: CSS.Transform.toString(transform),
 			transition,
@@ -241,23 +155,25 @@ const MultiSelectSortDuplicates = ({
 
 		return (
 			<div style={style} ref={setNodeRef} {...attributes} {...listeners}>
-				<components.MultiValue {...props} innerProps={innerProps} />
+				<components.MultiValue {...props} />
 			</div>
 		);
 	};
 
 	/**
-	 * Custom MultiValueRemove component to prevent drag events on remove.
+	 * Custom component for rendering the remove button, preventing drag events on remove.
+	 *
+	 * @param {object} props - The props for the component.
 	 */
 	const MultiValueRemove = (props) => {
 		return (
-		  <components.MultiValueRemove
-			{...props}
-			innerProps={{
-				onPointerDown: (e) => e.stopPropagation(),
-				...props.innerProps,
-			}}
-		  />
+			<components.MultiValueRemove
+				{...props}
+				innerProps={{
+					onPointerDown: (e) => e.stopPropagation(),
+					...props.innerProps,
+				}}
+			/>
 		);
 	};
 
@@ -265,63 +181,47 @@ const MultiSelectSortDuplicates = ({
 	const customStyles = {
 		control: (provided, state) => ({
 			...provided,
-			boxShadow: 'none', // Remove the default box shadow
-			// Remove the default border if focused, otherwise keep it.
-			border: state.isFocused ? '1px solid #1e1e1e' : provided.border,
+			boxShadow: "none",
+			border: state.isFocused ? "1px solid #1e1e1e" : provided.border,
 		}),
 	};
 
 	return (
-		<>
-			{/* <style>
-				{`
-					.ValueContainer {
-						margin-bottom: 100%;
-					}
-					.ValueContainer input[id*="react-select"],
-					.ValueContainer input[id*="react-select"]:focus {
-						min-height: unset !important;
-						border: none !important;
-						box-shadow: none !important;
-					}
-				`}
-			</style> */}
-			<DndContext
-				modifiers={[restrictToParentElement]}
-				onDragEnd={onDragEnd}
-				collisionDetection={closestCorners}
+		<DndContext
+			modifiers={[restrictToParentElement]}
+			onDragEnd={onDragEnd}
+			collisionDetection={closestCorners}
+		>
+			<SortableContext
+				items={selectedOptions.map((o) => o.value)}
+				strategy={rectSwappingStrategy}
 			>
-				<SortableContext
-					items={selectedOptions.map((o) => o.value)}
-					strategy={rectSwappingStrategy}
-				>
-					<CreatableSelect
-						isMulti
-						hideSelectedOptions={false}
-						isClearable={true}
-						value={selectedOptions}
-						onChange={handleChange}
-						onCreateOption={handleCreate}
-						// options={options.map(op => ({
-						// 	...op,
-						// 	actualValue: op.value,
-						// 	value: `${op.value}_${Date.now()}`,
-						// }))}
-						options={options}
-						components={{
-							MultiValue,
-							MultiValueRemove,
-							DropdownIndicator : () => null,
-							IndicatorSeparator: () => null,
-						}}
-						formatOptionLabel={option => ! option.label || isFraction( option.label ) || isValidCSSValue( option.label ) || isNaN( option.label ) ? option.label : `${option.label}%`}
-						formatCreateLabel={formatCreateLabel}
-						isValidNewOption={isValidNew}
-						styles={customStyles}
-					/>
-				</SortableContext>
-			</DndContext>
-		</>
+				<CreatableSelect
+					isMulti
+					hideSelectedOptions={false}
+					isClearable={true}
+					value={selectedOptions}
+					onChange={handleChange}
+					onCreateOption={handleCreate}
+					options={options}
+					components={{
+						MultiValue,
+						MultiValueRemove,
+						DropdownIndicator: () => null,
+						IndicatorSeparator: () => null,
+					}}
+					formatOptionLabel={(option) =>
+						!option.label || isNaN(option.label)
+							? option.label
+							: `${option.label}%`
+					}
+					formatCreateLabel={(inputValue) =>
+						inputValue ? `Add ${inputValue}` : ""
+					}
+					styles={customStyles}
+				/>
+			</SortableContext>
+		</DndContext>
 	);
 };
 
