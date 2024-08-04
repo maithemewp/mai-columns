@@ -140,7 +140,6 @@ function Edit({
 
   // Justify content is align items value since flex-direction is column.
   inlineStyles["--justify-content"] = (0,_functions__WEBPACK_IMPORTED_MODULE_3__.getFlexCSSValue)(alignItems);
-  console.log(inlineStyles);
 
   /**
    * Define the appender to use.
