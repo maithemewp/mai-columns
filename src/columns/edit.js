@@ -1,5 +1,4 @@
 import { __ } from "@wordpress/i18n";
-
 import {
 	useBlockProps,
 	useInnerBlocksProps,
@@ -8,12 +7,14 @@ import {
 	JustifyContentControl,
 	BlockVerticalAlignmentToolbar,
 } from "@wordpress/block-editor";
-
+import { createBlock } from "@wordpress/blocks";
+import { useDispatch } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
-
 import {
 	PanelBody,
-	BaseControl
+	BaseControl,
+	ToolbarButton,
+	ToolbarGroup,
 } from "@wordpress/components";
 
 import {
@@ -40,40 +41,41 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		{ value: "break", label: __("Row Break") },
 	];
 
-	/**
-	 * Sets client ID as block ID.
-	 */
+	// Get the dispatch function to insert a block
+	const { insertBlock } = useDispatch("core/block-editor");
+
+	// Function to insert a new column block
+	const insertColumn = () => {
+		// Create the new block
+		const newBlock = createBlock("mai/column", {});
+		// Insert the new block inside the current block (identified by clientId)
+		insertBlock(newBlock, undefined, clientId);
+	};
+
+	// Set the clientId as an attribute to identify the block
 	useEffect(() => {
 		setAttributes({ id: clientId });
-	}, [clientId]);
+	}, [clientId, setAttributes]);
 
-	/**
-	 * Build inline styles.
-	 */
+	// Build inline styles based on attributes
 	const inlineStyles = useBlockProps().style || {};
-
 	inlineStyles["--justify-content"] = getFlexCSSValue(justifyContent);
-	inlineStyles["--align-items"]     = getFlexCSSValue(alignItems);
+	inlineStyles["--align-items"] = getFlexCSSValue(alignItems);
 
 	if (style && style.spacing.blockGap) {
 		const gaps = getBlockGap(style.spacing.blockGap);
-
-		inlineStyles["--row-gap"]    = gaps.row;
+		inlineStyles["--row-gap"] = gaps.row;
 		inlineStyles["--column-gap"] = gaps.column;
 	} else {
-		inlineStyles["--row-gap"]    = "2rem";
+		inlineStyles["--row-gap"] = "2rem";
 		inlineStyles["--column-gap"] = "2rem";
 	}
 
-	/**
-	 * Set block props.
-	 */
-	const props = {
+	// Set block props and inner block props
+	const blockProps = useBlockProps({
 		className: "mai-columns",
 		style: inlineStyles,
-	};
-
-	const blockProps       = useBlockProps(props);
+	});
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ["mai/column"],
 		template: [["mai/column"], ["mai/column"]],
@@ -84,23 +86,24 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 			<BlockControls group="block">
 				<JustifyContentControl
 					value={justifyContent}
-					onChange={(value) => {
-						setAttributes({ justifyContent: value });
-					}}
+					onChange={(value) => setAttributes({ justifyContent: value })}
 				/>
 				<BlockVerticalAlignmentToolbar
 					value={alignItems}
-					onChange={(value) => {
-						setAttributes({ alignItems: value });
-					}}
+					onChange={(value) => setAttributes({ alignItems: value })}
 				/>
+				<ToolbarGroup>
+					<ToolbarButton onClick={insertColumn}>
+						{__("Add Column")}
+					</ToolbarButton>
+				</ToolbarGroup>
 			</BlockControls>
 			<InspectorControls key="Sizes">
 				<PanelBody>
 					<h2>{__("Column Arrangements")}</h2>
 					<BaseControl
 						help={__(
-							"Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field's settings.",
+							"Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field's settings."
 						)}
 					/>
 					<BaseControl label={__("Large Tablet")}>

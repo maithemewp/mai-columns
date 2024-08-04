@@ -7543,12 +7543,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../functions */ "./src/functions/index.js");
-/* harmony import */ var _components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/multiselect-sortable-duplicates/MultiSelectSortDuplicates */ "./src/components/multiselect-sortable-duplicates/MultiSelectSortDuplicates.js");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../functions */ "./src/functions/index.js");
+/* harmony import */ var _components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/multiselect-sortable-duplicates/MultiSelectSortDuplicates */ "./src/components/multiselect-sortable-duplicates/MultiSelectSortDuplicates.js");
+
+
 
 
 
@@ -7598,23 +7604,32 @@ function Edit({
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Row Break")
   }];
 
-  /**
-   * Sets client ID as block ID.
-   */
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
+  // Get the dispatch function to insert a block
+  const {
+    insertBlock
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useDispatch)("core/block-editor");
+
+  // Function to insert a new column block
+  const insertColumn = () => {
+    // Create the new block
+    const newBlock = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.createBlock)("mai/column", {});
+    // Insert the new block inside the current block (identified by clientId)
+    insertBlock(newBlock, undefined, clientId);
+  };
+
+  // Set the clientId as an attribute to identify the block
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
     setAttributes({
       id: clientId
     });
-  }, [clientId]);
+  }, [clientId, setAttributes]);
 
-  /**
-   * Build inline styles.
-   */
+  // Build inline styles based on attributes
   const inlineStyles = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)().style || {};
-  inlineStyles["--justify-content"] = (0,_functions__WEBPACK_IMPORTED_MODULE_5__.getFlexCSSValue)(justifyContent);
-  inlineStyles["--align-items"] = (0,_functions__WEBPACK_IMPORTED_MODULE_5__.getFlexCSSValue)(alignItems);
+  inlineStyles["--justify-content"] = (0,_functions__WEBPACK_IMPORTED_MODULE_7__.getFlexCSSValue)(justifyContent);
+  inlineStyles["--align-items"] = (0,_functions__WEBPACK_IMPORTED_MODULE_7__.getFlexCSSValue)(alignItems);
   if (style && style.spacing.blockGap) {
-    const gaps = (0,_functions__WEBPACK_IMPORTED_MODULE_5__.getBlockGap)(style.spacing.blockGap);
+    const gaps = (0,_functions__WEBPACK_IMPORTED_MODULE_7__.getBlockGap)(style.spacing.blockGap);
     inlineStyles["--row-gap"] = gaps.row;
     inlineStyles["--column-gap"] = gaps.column;
   } else {
@@ -7622,14 +7637,11 @@ function Edit({
     inlineStyles["--column-gap"] = "2rem";
   }
 
-  /**
-   * Set block props.
-   */
-  const props = {
+  // Set block props and inner block props
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
     className: "mai-columns",
     style: inlineStyles
-  };
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(props);
+  });
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useInnerBlocksProps)(blockProps, {
     allowedBlocks: ["mai/column"],
     template: [["mai/column"], ["mai/column"]]
@@ -7638,31 +7650,29 @@ function Edit({
     group: "block"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.JustifyContentControl, {
     value: justifyContent,
-    onChange: value => {
-      setAttributes({
-        justifyContent: value
-      });
-    }
+    onChange: value => setAttributes({
+      justifyContent: value
+    })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockVerticalAlignmentToolbar, {
     value: alignItems,
-    onChange: value => {
-      setAttributes({
-        alignItems: value
-      });
-    }
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
+    onChange: value => setAttributes({
+      alignItems: value
+    })
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarButton, {
+    onClick: insertColumn
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Column")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
     key: "Sizes"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Column Arrangements")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Column Arrangements")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field's settings.")
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Large Tablet")
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
     key: "sizesLg",
     options: options,
-    value: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapValuesToLabels)(sizesLg, options),
+    value: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapValuesToLabels)(sizesLg, options),
     onChange: values => {
       setAttributes({
-        sizesLg: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapLabelsToValues)(values, options)
+        sizesLg: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapLabelsToValues)(values, options)
       });
     },
     onCreateOption: value => {
@@ -7670,15 +7680,15 @@ function Edit({
         sizesLg: [...sizesLg, value]
       });
     }
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Small Tablet")
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
     key: "sizesMd",
     options: options,
-    value: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapValuesToLabels)(sizesMd, options),
+    value: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapValuesToLabels)(sizesMd, options),
     onChange: values => {
       setAttributes({
-        sizesMd: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapLabelsToValues)(values, options)
+        sizesMd: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapLabelsToValues)(values, options)
       });
     },
     onCreateOption: value => {
@@ -7686,15 +7696,15 @@ function Edit({
         sizesMd: [...sizesMd, value]
       });
     }
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Mobile")
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
     key: "sizesSm",
     options: options,
-    value: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapValuesToLabels)(sizesSm, options),
+    value: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapValuesToLabels)(sizesSm, options),
     onChange: values => {
       setAttributes({
-        sizesSm: (0,_functions__WEBPACK_IMPORTED_MODULE_5__.mapLabelsToValues)(values, options)
+        sizesSm: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapLabelsToValues)(values, options)
       });
     },
     onCreateOption: value => {
@@ -13200,6 +13210,16 @@ module.exports = window["wp"]["blocks"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
 
 /***/ }),
 
