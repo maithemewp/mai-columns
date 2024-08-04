@@ -7942,6 +7942,7 @@ const MultiSelectSortDuplicates = ({
   const handleChange = changedOptions => {
     const selectedValues = changedOptions.map(obj => obj.actualValue);
     setSelectedOptions(changedOptions);
+    console.log(selectedValues, changedOptions);
     if (onChange) {
       onChange(selectedValues);
     }
