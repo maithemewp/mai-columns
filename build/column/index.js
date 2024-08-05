@@ -537,16 +537,18 @@ const reverseObject = obj => {
   return Object.fromEntries(Object.entries(obj).reverse());
 };
 const mapValuesToLabels = (values, options) => {
-  return values.map(value => {
+  const toReturn = values.map(value => {
     const option = options.find(opt => opt.value === value);
     return option ? option.label : value;
   });
+  return toReturn;
 };
 const mapLabelsToValues = (values, options) => {
-  return values.map(value => {
+  const toReturn = values.map(value => {
     const option = options.find(opt => opt.label === value);
     return option ? option.value : value;
   });
+  return toReturn;
 };
 
 /***/ }),

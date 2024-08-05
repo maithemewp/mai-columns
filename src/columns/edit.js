@@ -20,6 +20,9 @@ import {
 import {
 	getFlexCSSValue,
 	getBlockGap,
+	isFraction,
+	isPercentage,
+	isValidCSSValue,
 	mapValuesToLabels,
 	mapLabelsToValues,
 } from "../functions";
@@ -30,16 +33,31 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	const { style, justifyContent, alignItems, sizesLg, sizesMd, sizesSm } = attributes;
 
 	const options = [
-		{ value: "1/4", label: __("25") },
-		{ value: "1/3", label: __("33") },
-		{ value: "1/2", label: __("50") },
-		{ value: "2/3", label: __("66") },
-		{ value: "3/4", label: __("75") },
-		{ value: "1/1", label: __("100") },
+		{ value: "1/4", label: __("25%") },
+		{ value: "1/3", label: __("33%") },
+		{ value: "1/2", label: __("50%") },
+		{ value: "2/3", label: __("66%") },
+		{ value: "3/4", label: __("75%") },
+		{ value: "1/1", label: __("100%") },
 		{ value: "fit", label: __("Fit Content") },
 		{ value: "fill", label: __("Fill Space") },
 		{ value: "break", label: __("Row Break") },
 	];
+
+	/**
+	 * Make sure a value is valid new option.
+	 * No need to check for auto, fit, fill because those are predefined.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param {string} value
+	 *
+	 * @return {bool}
+	 */
+	const isValidNew = ( value ) => {
+		console.log( value );
+		return value && ( isFraction( value ) || isValidCSSValue( value ) );
+	}
 
 	// Get the dispatch function to insert a block
 	const { insertBlock } = useDispatch("core/block-editor");
@@ -106,7 +124,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 							"Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field's settings."
 						)}
 					/>
-					<BaseControl label={__("Large Tablet")}>
+					<BaseControl label={__("Desktop")}>
 						<MultiSelectSortDuplicates
 							key="sizesLg"
 							options={options}
@@ -117,9 +135,14 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 							onCreateOption={(value) => {
 								setAttributes({ sizesLg: [...sizesLg, value] });
 							}}
+							isValidNewOption={ isValidNew }
+							formatCreateLabel={(inputValue) => {
+								console.log("Create label inputValue:", inputValue);
+								return inputValue && isValidNewOption(inputValue) ? `Add ${inputValue}` : "";
+							}}
 						/>
 					</BaseControl>
-					<BaseControl label={__("Small Tablet")}>
+					<BaseControl label={__("Tablet")}>
 						<MultiSelectSortDuplicates
 							key="sizesMd"
 							options={options}
@@ -130,6 +153,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 							onCreateOption={(value) => {
 								setAttributes({ sizesMd: [...sizesMd, value] });
 							}}
+							isValidNewOption={ isValidNew }
 						/>
 					</BaseControl>
 					<BaseControl label={__("Mobile")}>
@@ -143,6 +167,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 							onCreateOption={(value) => {
 								setAttributes({ sizesSm: [...sizesSm, value] });
 							}}
+							isValidNewOption={ isValidNew }
 						/>
 					</BaseControl>
 				</PanelBody>

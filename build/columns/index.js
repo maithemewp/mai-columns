@@ -7577,22 +7577,22 @@ function Edit({
   } = attributes;
   const options = [{
     value: "1/4",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("25")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("25%")
   }, {
     value: "1/3",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("33")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("33%")
   }, {
     value: "1/2",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("50")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("50%")
   }, {
     value: "2/3",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("66")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("66%")
   }, {
     value: "3/4",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("75")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("75%")
   }, {
     value: "1/1",
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("100")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("100%")
   }, {
     value: "fit",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Fit Content")
@@ -7603,6 +7603,21 @@ function Edit({
     value: "break",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Row Break")
   }];
+
+  /**
+   * Make sure a value is valid new option.
+   * No need to check for auto, fit, fill because those are predefined.
+   *
+   * @since 0.1.0
+   *
+   * @param {string} value
+   *
+   * @return {bool}
+   */
+  const isValidNew = value => {
+    console.log(value);
+    return value && ((0,_functions__WEBPACK_IMPORTED_MODULE_7__.isFraction)(value) || (0,_functions__WEBPACK_IMPORTED_MODULE_7__.isValidCSSValue)(value));
+  };
 
   // Get the dispatch function to insert a block
   const {
@@ -7665,7 +7680,7 @@ function Edit({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Column Arrangements")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field's settings.")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Large Tablet")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Desktop")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
     key: "sizesLg",
     options: options,
@@ -7679,9 +7694,14 @@ function Edit({
       setAttributes({
         sizesLg: [...sizesLg, value]
       });
+    },
+    isValidNewOption: isValidNew,
+    formatCreateLabel: inputValue => {
+      console.log("Create label inputValue:", inputValue);
+      return inputValue && isValidNewOption(inputValue) ? `Add ${inputValue}` : "";
     }
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Small Tablet")
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Tablet")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
     key: "sizesMd",
     options: options,
@@ -7695,7 +7715,8 @@ function Edit({
       setAttributes({
         sizesMd: [...sizesMd, value]
       });
-    }
+    },
+    isValidNewOption: isValidNew
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Mobile")
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
@@ -7711,7 +7732,8 @@ function Edit({
       setAttributes({
         sizesSm: [...sizesSm, value]
       });
-    }
+    },
+    isValidNewOption: isValidNew
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...innerBlocksProps
   }));
@@ -7841,19 +7863,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/index-a301f526.esm.js");
-/* harmony import */ var react_select_creatable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select/creatable */ "./node_modules/react-select/creatable/dist/react-select-creatable.esm.js");
-/* harmony import */ var _dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dnd-kit/modifiers */ "./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js");
-/* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
-/* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
-/* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/index-a301f526.esm.js");
+/* harmony import */ var react_select_creatable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select/creatable */ "./node_modules/react-select/creatable/dist/react-select-creatable.esm.js");
+/* harmony import */ var _dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @dnd-kit/modifiers */ "./node_modules/@dnd-kit/modifiers/dist/modifiers.esm.js");
+/* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
+/* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
+/* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
 
-
-// import { ToolbarButton, ToolbarGroup } from "@wordpress/components";
 
 
 
@@ -7882,7 +7900,7 @@ const createUniqueValue = (val, existingValues) => {
 /**
  * MultiSelectSortDuplicates Component
  *
- * @param {Array} options - Array of available options.
+ * @param {Array} options - Array of initial available options.
  * @param {Array} value - Array of selected values.
  * @param {function} onChange - Function to call when the selection changes.
  * @param {function} onCreateOption - Function to call when a new option is created.
@@ -7894,11 +7912,20 @@ const MultiSelectSortDuplicates = ({
   onCreateOption = null
 }) => {
   // Map value to options, assigning a unique identifier for each.
-  const chosenOptions = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useMemo)(() => {
+  const chosenOptions = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => {
     const existingValues = [];
     return value.map(val => {
       const uniqueValue = createUniqueValue(val, existingValues);
       existingValues.push(uniqueValue);
+
+      // Add to options if it doesn't exist.
+      if (!options.find(opt => opt.label === val)) {
+        options.push({
+          label: val,
+          value: uniqueValue,
+          actualValue: val
+        });
+      }
       return {
         label: val,
         value: uniqueValue,
@@ -7907,15 +7934,21 @@ const MultiSelectSortDuplicates = ({
     });
   }, [value]);
 
+  // State to manage the additional options created by the user
+  const [additionalOptions, setAdditionalOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+
+  // Merge initial and additional options
+  const allOptions = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => [...options, ...additionalOptions], [options, additionalOptions]);
+
   // Initialize the state for selected options.
-  const [selectedOptions, setSelectedOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(chosenOptions);
+  const [selectedOptions, setSelectedOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(chosenOptions);
 
   /**
    * Handles the end of a drag event, reordering the selected items.
    *
    * @param {object} event - The drag end event.
    */
-  const onDragEnd = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useCallback)(event => {
+  const onDragEnd = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useCallback)(event => {
     const {
       active,
       over
@@ -7926,7 +7959,7 @@ const MultiSelectSortDuplicates = ({
     setSelectedOptions(items => {
       const oldIndex = items.findIndex(item => item.value === active.id);
       const newIndex = items.findIndex(item => item.value === over.id);
-      const reordered = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.arrayMove)(items, oldIndex, newIndex);
+      const reordered = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_6__.arrayMove)(items, oldIndex, newIndex);
       if (onChange) {
         onChange(reordered.map(obj => obj.actualValue));
       }
@@ -7940,10 +7973,20 @@ const MultiSelectSortDuplicates = ({
    * @param {Array} changedOptions - Array of changed options.
    */
   const handleChange = changedOptions => {
-    const selectedValues = changedOptions.map(obj => obj.actualValue);
-    setSelectedOptions(changedOptions);
-    console.log(selectedValues, changedOptions);
+    const existingValues = selectedOptions.map(opt => opt.value);
+    const processedOptions = changedOptions.map(opt => {
+      const actualValue = opt.label;
+      const uniqueValue = createUniqueValue(actualValue, existingValues);
+      return {
+        label: actualValue,
+        value: uniqueValue,
+        // actualValue: isNaN(actualValue) ? actualValue : `${actualValue}%`,
+        actualValue: actualValue
+      };
+    });
+    setSelectedOptions(processedOptions);
     if (onChange) {
+      const selectedValues = processedOptions.map(obj => obj.actualValue);
       onChange(selectedValues);
     }
   };
@@ -7953,20 +7996,31 @@ const MultiSelectSortDuplicates = ({
    *
    * @param {string} inputValue - The value of the new option.
    */
-  const handleCreate = inputValue => {
-    const uniqueValue = createUniqueValue(inputValue, selectedOptions.map(opt => opt.value));
+  const handleCreate = (inputValue, options) => {
+    // Ensure the new option has a unique value.
+    const existingValues = selectedOptions.map(opt => opt.value);
+    const uniqueValue = createUniqueValue(inputValue, existingValues);
     const newOption = {
       label: inputValue,
       value: uniqueValue,
       actualValue: inputValue
+      // actualValue: isNaN(inputValue) ? inputValue : `${inputValue}%`,
     };
-    const newOptions = [...selectedOptions, newOption];
-    setSelectedOptions(newOptions);
+
+    // Add the new option to the selected options
+    const newSelectedOptions = [...selectedOptions, newOption];
+    setSelectedOptions(newSelectedOptions);
+    console.log(inputValue, options);
+
+    // If it doesn't exist, add to the options list.
+    if (!allOptions.find(opt => opt.label === inputValue)) {
+      setAdditionalOptions(prevOptions => [...prevOptions, newOption]);
+    }
     if (onChange) {
-      onChange(newOptions.map(obj => obj.actualValue));
+      onChange(newSelectedOptions.map(obj => obj.actualValue));
     }
     if (onCreateOption) {
-      onCreateOption(inputValue);
+      onCreateOption(newOption.actualValue);
     }
   };
 
@@ -7982,11 +8036,11 @@ const MultiSelectSortDuplicates = ({
       setNodeRef,
       transform,
       transition
-    } = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.useSortable)({
+    } = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_6__.useSortable)({
       id: props.data.value
     });
     const style = {
-      transform: _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_5__.CSS.Transform.toString(transform),
+      transform: _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_4__.CSS.Transform.toString(transform),
       transition
     };
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -7994,7 +8048,7 @@ const MultiSelectSortDuplicates = ({
       ref: setNodeRef,
       ...attributes,
       ...listeners
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__.c.MultiValue, {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_7__.c.MultiValue, {
       ...props
     }));
   };
@@ -8005,7 +8059,7 @@ const MultiSelectSortDuplicates = ({
    * @param {object} props - The props for the component.
    */
   const MultiValueRemove = props => {
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__.c.MultiValueRemove, {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_7__.c.MultiValueRemove, {
       ...props,
       innerProps: {
         onPointerDown: e => e.stopPropagation(),
@@ -8022,29 +8076,36 @@ const MultiSelectSortDuplicates = ({
       border: state.isFocused ? "1px solid #1e1e1e" : provided.border
     })
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_6__.DndContext, {
-    modifiers: [_dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_4__.restrictToParentElement],
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_5__.DndContext, {
+    modifiers: [_dnd_kit_modifiers__WEBPACK_IMPORTED_MODULE_3__.restrictToParentElement],
     onDragEnd: onDragEnd,
-    collisionDetection: _dnd_kit_core__WEBPACK_IMPORTED_MODULE_6__.closestCorners
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.SortableContext, {
+    collisionDetection: _dnd_kit_core__WEBPACK_IMPORTED_MODULE_5__.closestCorners
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_6__.SortableContext, {
     items: selectedOptions.map(o => o.value),
-    strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_7__.rectSwappingStrategy
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_6__.rectSwappingStrategy
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_2__["default"], {
     isMulti: true,
     hideSelectedOptions: false,
     isClearable: true,
     value: selectedOptions,
     onChange: handleChange,
     onCreateOption: handleCreate,
-    options: options,
+    options: allOptions,
     components: {
       MultiValue,
       MultiValueRemove,
       DropdownIndicator: () => null,
       IndicatorSeparator: () => null
-    },
-    formatOptionLabel: option => !option.label || isNaN(option.label) ? option.label : `${option.label}%`,
-    formatCreateLabel: inputValue => inputValue ? `Add ${inputValue}` : "",
+    }
+    // formatOptionLabel={(option) =>
+    // 	!option.label || isNaN(option.label)
+    // 		? option.label
+    // 		: `${option.label}%`
+    // }
+    // formatCreateLabel={(inputValue) =>
+    // 	inputValue ? `Add ${inputValue}` : ""
+    // }
+    ,
     styles: customStyles
   })));
 };
@@ -8297,16 +8358,18 @@ const reverseObject = obj => {
   return Object.fromEntries(Object.entries(obj).reverse());
 };
 const mapValuesToLabels = (values, options) => {
-  return values.map(value => {
+  const toReturn = values.map(value => {
     const option = options.find(opt => opt.value === value);
     return option ? option.label : value;
   });
+  return toReturn;
 };
 const mapLabelsToValues = (values, options) => {
-  return values.map(value => {
+  const toReturn = values.map(value => {
     const option = options.find(opt => opt.label === value);
     return option ? option.value : value;
   });
+  return toReturn;
 };
 
 /***/ }),

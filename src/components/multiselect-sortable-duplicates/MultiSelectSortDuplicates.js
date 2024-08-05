@@ -1,10 +1,4 @@
-import { __ } from "@wordpress/i18n";
-// import { ToolbarButton, ToolbarGroup } from "@wordpress/components";
-import {
-	useCallback,
-	useState,
-	useMemo
-} from "@wordpress/element";
+import { useCallback, useState, useMemo } from "@wordpress/element";
 import Select, { components } from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
@@ -39,7 +33,7 @@ const createUniqueValue = (val, existingValues) => {
 /**
  * MultiSelectSortDuplicates Component
  *
- * @param {Array} options - Array of available options.
+ * @param {Array} options - Array of initial available options.
  * @param {Array} value - Array of selected values.
  * @param {function} onChange - Function to call when the selection changes.
  * @param {function} onCreateOption - Function to call when a new option is created.
@@ -56,6 +50,16 @@ const MultiSelectSortDuplicates = ({
 		return value.map((val) => {
 			const uniqueValue = createUniqueValue(val, existingValues);
 			existingValues.push(uniqueValue);
+
+			// Add to options if it doesn't exist.
+			if ( ! options.find((opt) => opt.label === val) ) {
+				options.push({
+					label: val,
+					value: uniqueValue,
+					actualValue: val,
+				});
+			}
+
 			return {
 				label: val,
 				value: uniqueValue,
@@ -63,6 +67,15 @@ const MultiSelectSortDuplicates = ({
 			};
 		});
 	}, [value]);
+
+	// State to manage the additional options created by the user
+	const [additionalOptions, setAdditionalOptions] = useState([]);
+
+	// Merge initial and additional options
+	const allOptions = useMemo(() => [...options, ...additionalOptions], [
+		options,
+		additionalOptions,
+	]);
 
 	// Initialize the state for selected options.
 	const [selectedOptions, setSelectedOptions] = useState(chosenOptions);
@@ -101,10 +114,24 @@ const MultiSelectSortDuplicates = ({
 	 * @param {Array} changedOptions - Array of changed options.
 	 */
 	const handleChange = (changedOptions) => {
-		const selectedValues = changedOptions.map((obj) => obj.actualValue);
-		setSelectedOptions(changedOptions);
+		const existingValues = selectedOptions.map((opt) => opt.value);
+
+		const processedOptions = changedOptions.map((opt) => {
+			const actualValue = opt.label;
+			const uniqueValue = createUniqueValue(actualValue, existingValues);
+
+			return {
+				label: actualValue,
+				value: uniqueValue,
+				// actualValue: isNaN(actualValue) ? actualValue : `${actualValue}%`,
+				actualValue: actualValue,
+			};
+		});
+
+		setSelectedOptions(processedOptions);
 
 		if (onChange) {
+			const selectedValues = processedOptions.map((obj) => obj.actualValue);
 			onChange(selectedValues);
 		}
 	};
@@ -114,27 +141,35 @@ const MultiSelectSortDuplicates = ({
 	 *
 	 * @param {string} inputValue - The value of the new option.
 	 */
-	const handleCreate = (inputValue) => {
-		const uniqueValue = createUniqueValue(
-			inputValue,
-			selectedOptions.map((opt) => opt.value),
-		);
+	const handleCreate = (inputValue, options) => {
+		// Ensure the new option has a unique value.
+		const existingValues = selectedOptions.map((opt) => opt.value);
+		const uniqueValue = createUniqueValue(inputValue, existingValues);
 
 		const newOption = {
 			label: inputValue,
 			value: uniqueValue,
 			actualValue: inputValue,
+			// actualValue: isNaN(inputValue) ? inputValue : `${inputValue}%`,
 		};
 
-		const newOptions = [...selectedOptions, newOption];
-		setSelectedOptions(newOptions);
+		// Add the new option to the selected options
+		const newSelectedOptions = [...selectedOptions, newOption];
+		setSelectedOptions(newSelectedOptions);
+
+		console.log( inputValue, options);
+
+		// If it doesn't exist, add to the options list.
+		if ( ! allOptions.find((opt) => opt.label === inputValue) ) {
+			setAdditionalOptions((prevOptions) => [...prevOptions, newOption]);
+		}
 
 		if (onChange) {
-			onChange(newOptions.map((obj) => obj.actualValue));
+			onChange(newSelectedOptions.map((obj) => obj.actualValue));
 		}
 
 		if (onCreateOption) {
-			onCreateOption(inputValue);
+			onCreateOption(newOption.actualValue);
 		}
 	};
 
@@ -203,21 +238,21 @@ const MultiSelectSortDuplicates = ({
 					value={selectedOptions}
 					onChange={handleChange}
 					onCreateOption={handleCreate}
-					options={options}
+					options={allOptions}
 					components={{
 						MultiValue,
 						MultiValueRemove,
 						DropdownIndicator: () => null,
 						IndicatorSeparator: () => null,
 					}}
-					formatOptionLabel={(option) =>
-						!option.label || isNaN(option.label)
-							? option.label
-							: `${option.label}%`
-					}
-					formatCreateLabel={(inputValue) =>
-						inputValue ? `Add ${inputValue}` : ""
-					}
+					// formatOptionLabel={(option) =>
+					// 	!option.label || isNaN(option.label)
+					// 		? option.label
+					// 		: `${option.label}%`
+					// }
+					// formatCreateLabel={(inputValue) =>
+					// 	inputValue ? `Add ${inputValue}` : ""
+					// }
 					styles={customStyles}
 				/>
 			</SortableContext>
