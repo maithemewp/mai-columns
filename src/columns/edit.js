@@ -27,6 +27,7 @@ import {
 	mapLabelsToValues,
 } from "../functions";
 
+import SelectSortable from "../components/select-sortable/SelectSortable";
 import MultiSelectSortDuplicates from "../components/multiselect-sortable-duplicates/MultiSelectSortDuplicates";
 
 export default function Edit({ clientId, attributes, setAttributes }) {
@@ -55,7 +56,6 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	 * @return {bool}
 	 */
 	const isValidNew = ( value ) => {
-		console.log( value );
 		return value && ( isFraction( value ) || isValidCSSValue( value ) );
 	}
 
@@ -125,20 +125,20 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 						)}
 					/>
 					<BaseControl label={__("Desktop")}>
-						<MultiSelectSortDuplicates
+						<SelectSortable
 							key="sizesLg"
+							attributeKey="sizesLg"
+							attributes={attributes}
+							setAttributes={setAttributes}
 							options={options}
-							value={mapValuesToLabels(sizesLg, options)}
-							onChange={(values) => {
-								setAttributes({ sizesLg: mapLabelsToValues(values, options) });
+							// onChange={(values) => {}}
+							// onCreateOption={(value) => {}}
+							isValidNewOption={(inputValue) => {
+								return isValidNew( inputValue );
 							}}
-							onCreateOption={(value) => {
-								setAttributes({ sizesLg: [...sizesLg, value] });
-							}}
-							isValidNewOption={ isValidNew }
 							formatCreateLabel={(inputValue) => {
 								console.log("Create label inputValue:", inputValue);
-								return inputValue && isValidNewOption(inputValue) ? `Add ${inputValue}` : "";
+								return inputValue && isValidNew(inputValue) ? `Add ${inputValue}` : "";
 							}}
 						/>
 					</BaseControl>

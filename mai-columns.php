@@ -339,6 +339,14 @@ class Mai_Columns_Block {
 
 		// Loop through no_breaks, setting custom properties by breakpoint.
 		foreach ( $this->no_breaks[ $block->context['mai/id'] ] as $break => $values ) {
+			// If values value is an array, skip it.
+			// Temporary while i'm breaking things in JS.
+			foreach ( $values as $value ) {
+				if ( is_array( $value ) ) {
+					continue 2;
+				}
+			}
+
 			$size      = $this->get_index_value_from_array( $this->indexes[ $block->context['mai/id'] ], $values );
 			$columns[] = sprintf( '--size-%s:%s;', $break, $this->get_fraction( $size ) ?: 1 );
 			$flexes[]  = sprintf( '--flex-%s:%s;', $break, $this->get_flex( $size ) );
@@ -601,7 +609,8 @@ class Mai_Columns_Block {
 	 * @return bool
 	 */
 	function is_fraction( $value ) {
-		return preg_match( '/^\\d+\\/\\d+$/', $value );
+		// This should always be a string. I added this check while building and breaking things.
+		return $value && is_string( $value ) ? preg_match( '/^\\d+\\/\\d+$/', $value ) : $value;
 	}
 
 	/**

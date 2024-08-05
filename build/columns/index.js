@@ -7552,7 +7552,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _functions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../functions */ "./src/functions/index.js");
-/* harmony import */ var _components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/multiselect-sortable-duplicates/MultiSelectSortDuplicates */ "./src/components/multiselect-sortable-duplicates/MultiSelectSortDuplicates.js");
+/* harmony import */ var _components_select_sortable_SelectSortable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/select-sortable/SelectSortable */ "./src/components/select-sortable/SelectSortable.js");
+/* harmony import */ var _components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/multiselect-sortable-duplicates/MultiSelectSortDuplicates */ "./src/components/multiselect-sortable-duplicates/MultiSelectSortDuplicates.js");
+
 
 
 
@@ -7615,7 +7617,6 @@ function Edit({
    * @return {bool}
    */
   const isValidNew = value => {
-    console.log(value);
     return value && ((0,_functions__WEBPACK_IMPORTED_MODULE_7__.isFraction)(value) || (0,_functions__WEBPACK_IMPORTED_MODULE_7__.isValidCSSValue)(value));
   };
 
@@ -7681,28 +7682,25 @@ function Edit({
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field's settings.")
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Desktop")
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_select_sortable_SelectSortable__WEBPACK_IMPORTED_MODULE_8__["default"], {
     key: "sizesLg",
-    options: options,
-    value: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapValuesToLabels)(sizesLg, options),
-    onChange: values => {
-      setAttributes({
-        sizesLg: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapLabelsToValues)(values, options)
-      });
+    attributeKey: "sizesLg",
+    attributes: attributes,
+    setAttributes: setAttributes,
+    options: options
+    // onChange={(values) => {}}
+    // onCreateOption={(value) => {}}
+    ,
+    isValidNewOption: inputValue => {
+      return isValidNew(inputValue);
     },
-    onCreateOption: value => {
-      setAttributes({
-        sizesLg: [...sizesLg, value]
-      });
-    },
-    isValidNewOption: isValidNew,
     formatCreateLabel: inputValue => {
       console.log("Create label inputValue:", inputValue);
-      return inputValue && isValidNewOption(inputValue) ? `Add ${inputValue}` : "";
+      return inputValue && isValidNew(inputValue) ? `Add ${inputValue}` : "";
     }
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Tablet")
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_9__["default"], {
     key: "sizesMd",
     options: options,
     value: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapValuesToLabels)(sizesMd, options),
@@ -7719,7 +7717,7 @@ function Edit({
     isValidNewOption: isValidNew
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.BaseControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Mobile")
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_multiselect_sortable_duplicates_MultiSelectSortDuplicates__WEBPACK_IMPORTED_MODULE_9__["default"], {
     key: "sizesSm",
     options: options,
     value: (0,_functions__WEBPACK_IMPORTED_MODULE_7__.mapValuesToLabels)(sizesSm, options),
@@ -8110,6 +8108,203 @@ const MultiSelectSortDuplicates = ({
   })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MultiSelectSortDuplicates);
+
+/***/ }),
+
+/***/ "./src/components/select-sortable/SelectSortable.js":
+/*!**********************************************************!*\
+  !*** ./src/components/select-sortable/SelectSortable.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_select_creatable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select/creatable */ "./node_modules/react-select/creatable/dist/react-select-creatable.esm.js");
+/* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
+/* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
+/* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
+
+
+
+
+
+
+
+// Helper component for sortable items
+const SortableItem = ({
+  id,
+  value,
+  options,
+  index
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition
+  } = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_4__.useSortable)({
+    id
+  });
+  const style = {
+    transform: _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_5__.CSS.Transform.toString(transform),
+    transition,
+    marginTop: index === 0 ? "4px" : "0",
+    // Add top margin only to the first item.
+    marginBottom: "4px",
+    padding: "8px",
+    backgroundColor: "#f9f9f9",
+    border: "1px solid #ddd",
+    borderRadius: "3px",
+    cursor: "grab",
+    ...attributes.style
+  };
+
+  // Find the label for the item
+  const label = options.find(option => option.value === value)?.label || value;
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ref: setNodeRef,
+    ...attributes,
+    ...listeners,
+    style: style
+  }, label);
+};
+const SelectSortable = ({
+  options = [],
+  attributeKey,
+  attributes,
+  setAttributes,
+  onChange = null,
+  onCreateOption = null,
+  isValidNewOption = null // Add isValidNewOption prop
+}) => {
+  const [sortableItems, setSortableItems] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [activeId, setActiveId] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (attributes[attributeKey]) {
+      // Create sortable items with unique IDs
+      const existingItems = attributes[attributeKey].map((value, index) => ({
+        id: `${value}-${index}`,
+        // Use value and index for unique ID
+        value: value
+      }));
+      setSortableItems(existingItems);
+    }
+  }, [attributes, attributeKey, options]);
+  const handleChange = selected => {
+    if (selected) {
+      const newItems = selected.map(option => ({
+        id: `${option.value}-${Date.now()}`,
+        // Use timestamp for unique ID
+        value: option.value
+      }));
+      setSortableItems(prev => [...prev, ...newItems]);
+
+      // Update block attributes with unique IDs
+      setAttributes({
+        [attributeKey]: [...(attributes[attributeKey] || []), ...newItems.map(item => item.value)]
+      });
+    }
+  };
+  const handleCreateOption = inputValue => {
+    if (isValidNewOption && !isValidNewOption(inputValue)) {
+      return; // If invalid, do nothing
+    }
+
+    if (onCreateOption) {
+      onCreateOption(inputValue);
+    }
+    const newOption = {
+      label: inputValue,
+      value: inputValue
+    };
+    const newItem = {
+      id: `${newOption.value}-${Date.now()}`,
+      value: newOption.value
+    };
+    setSortableItems(prev => [...prev, newItem]);
+
+    // Update block attributes with unique IDs
+    setAttributes({
+      [attributeKey]: [...(attributes[attributeKey] || []), newItem.value]
+    });
+  };
+  const handleDragEnd = event => {
+    const {
+      active,
+      over
+    } = event;
+    if (active.id !== over.id) {
+      const activeIndex = sortableItems.findIndex(item => item.id === active.id);
+      const overIndex = sortableItems.findIndex(item => item.id === over.id);
+      const newItems = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_4__.arrayMove)(sortableItems, activeIndex, overIndex);
+      setSortableItems(newItems);
+
+      // Update block attributes with only values, not IDs
+      setAttributes({
+        [attributeKey]: newItems.map(item => item.value)
+      });
+    }
+    setActiveId(null);
+  };
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      boxShadow: "none",
+      border: state.isFocused ? "1px solid #1e1e1e" : provided.border
+    })
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select_creatable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    isMulti: true,
+    options: options,
+    onChange: handleChange,
+    onCreateOption: handleCreateOption,
+    components: {
+      MultiValue: ({
+        data,
+        innerProps
+      }) => {
+        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+          ...innerProps
+        }, data.label);
+      },
+      MultiValueRemove: props => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        ...props.innerProps,
+        onMouseDown: e => e.stopPropagation()
+      }, "\xD7"),
+      DropdownIndicator: () => null,
+      IndicatorSeparator: () => null
+    },
+    placeholder: "Select or create sizes...",
+    value: [] // Keep the select field always empty
+    ,
+    styles: customStyles,
+    isValidNewOption: isValidNewOption // Pass validation function here
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_3__.DndContext, {
+    onDragEnd: handleDragEnd,
+    collisionDetection: _dnd_kit_core__WEBPACK_IMPORTED_MODULE_3__.closestCorners
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_4__.SortableContext, {
+    items: sortableItems.map(item => item.id),
+    strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_4__.verticalListSortingStrategy
+  }, sortableItems.map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SortableItem, {
+    key: item.id,
+    id: item.id,
+    value: item.value,
+    index: index,
+    options: options
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_dnd_kit_core__WEBPACK_IMPORTED_MODULE_3__.DragOverlay, null, activeId ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SortableItem, {
+    id: activeId,
+    value: sortableItems.find(item => item.id === activeId)?.value,
+    options: options
+  }) : null)));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SelectSortable);
 
 /***/ }),
 
