@@ -11,15 +11,18 @@
  * Text Domain:       mai-columns
  */
 
+// Autoload Composer dependencies.
+require_once __DIR__ . '/vendor/autoload.php';
+
 // Prevent direct file access.
 defined( 'ABSPATH' ) || die;
 
 $block = new Mai_Columns_Block;
 
 class Mai_Columns_Block {
-	static $arrangements = [];
-	static $no_breaks    = [];
-	static $indexes      = [];
+	public static $arrangements = [];
+	public static $no_breaks    = [];
+	public static $indexes      = [];
 
 	/**
 	 * Construct the class.
@@ -87,39 +90,39 @@ class Mai_Columns_Block {
 		// }
 
 		// // Maybe arrangements.
-		// if ( ! isset( $this->arrangements[ $attributes['id'] ] ) ) {
-		// 	$this->arrangements[ $attributes['id'] ] = [
+		// if ( ! isset( self::$arrangements[ $attributes['id'] ] ) ) {
+		// 	self::$arrangements[ $attributes['id'] ] = [
 		// 		'lg' => $attributes['sizesLg'],
 		// 		'md' => $attributes['sizesMd'],
 		// 		'sm' => $attributes['sizesSm'],
 		// 	];
 
 		// 	// Get arrangement.
-		// 	$arrangement = $this->arrangements[ $attributes['id'] ];
+		// 	$arrangement = self::$arrangements[ $attributes['id'] ];
 
 		// 	// Set fallbacks large to small.
-		// 	foreach ( $this->arrangements[ $attributes['id'] ] as $key => $value ) {
+		// 	foreach ( self::$arrangements[ $attributes['id'] ] as $key => $value ) {
 		// 		if ( ! $value ) {
-		// 			$keys                = array_keys( $this->arrangements[ $attributes['id'] ] );
+		// 			$keys                = array_keys( self::$arrangements[ $attributes['id'] ] );
 		// 			$shift               = array_shift( $keys );
-		// 			$this->arrangements[ $attributes['id'] ][ $key ] = $this->arrangements[ $attributes['id'] ][ $shift ];
+		// 			self::$arrangements[ $attributes['id'] ][ $key ] = self::$arrangements[ $attributes['id'] ][ $shift ];
 		// 		}
 		// 	}
 
 		// 	// Set fallbacks in reverse.
-		// 	$this->arrangements[ $attributes['id'] ] = array_reverse( $this->arrangements[ $attributes['id'] ] );
+		// 	self::$arrangements[ $attributes['id'] ] = array_reverse( self::$arrangements[ $attributes['id'] ] );
 
 		// 	// Set fallbacks small to large, if any empty.
-		// 	foreach ( $this->arrangements[ $attributes['id'] ] as $key => $value ) {
+		// 	foreach ( self::$arrangements[ $attributes['id'] ] as $key => $value ) {
 		// 		if ( ! $value ) {
-		// 			$keys                = array_keys( $this->arrangements[ $attributes['id'] ] );
+		// 			$keys                = array_keys( self::$arrangements[ $attributes['id'] ] );
 		// 			$shift               = array_shift( $keys );
-		// 			$this->arrangements[ $attributes['id'] ][ $key ] = $this->arrangements[ $attributes['id'] ][ $shift ];
+		// 			self::$arrangements[ $attributes['id'] ][ $key ] = self::$arrangements[ $attributes['id'] ][ $shift ];
 		// 		}
 		// 	}
 
 		// 	// Reverse back arrangement.
-		// 	$this->arrangements[ $attributes['id'] ] = array_reverse( $this->arrangements[ $attributes['id'] ] );
+		// 	self::$arrangements[ $attributes['id'] ] = array_reverse( self::$arrangements[ $attributes['id'] ] );
 		// }
 
 		// ray( $block );
@@ -177,7 +180,7 @@ class Mai_Columns_Block {
 		// 	// Loop through arrangements, setting custom properties by breakpoint.
 		// 	foreach ( $arrangements as $key => $values ) {
 		// 		$size      = $values ? $this->get_index_value_from_array( $i, $values ) : '';
-		// 		$columns[] = sprintf( '--size-%s:%s', $key, $this->get_fraction( $size ) ?: 1 );
+		// 		$columns[] = sprintf( '--size-%s:%s', $key, $this->get_size( $size ) ?: 1 );
 		// 		$flexes[]  = sprintf( '--flex-%s:%s', $key, $this->get_flex( $size ) );
 		// 	}
 
@@ -219,7 +222,7 @@ class Mai_Columns_Block {
 			$gap = $this->get_block_gap( $attributes['style']['spacing']['blockGap'] );
 
 			if ( $gap ) {
-				foreach ( $gap as $position => $value ) {
+				foreach ( (array) $gap as $position => $value ) {
 					$style[] = sprintf( '--%s-gap:%s;', $position, $value );
 				}
 			}
@@ -262,7 +265,7 @@ class Mai_Columns_Block {
 		// 	$this->instances[ $block->context['mai/id'] ] = 0;
 		// }
 
-		// ray( $this->arrangements );
+		// ray( self::$arrangements );
 
 		// // Start HTML.
 		// $html = '';
@@ -279,58 +282,60 @@ class Mai_Columns_Block {
 		// static $no_breaks    = [];
 
 		// Maybe arrangements.
-		if ( ! isset( $this->arrangements[ $block->context['mai/id'] ] ) ) {
-			$this->arrangements[ $block->context['mai/id'] ] = [
+		if ( ! isset( self::$arrangements[ $block->context['mai/id'] ] ) ) {
+			self::$arrangements = [];
+
+			self::$arrangements[ $block->context['mai/id'] ] = [
 				'lg' => $block->context['mai/sizesLg'],
 				'md' => $block->context['mai/sizesMd'],
 				'sm' => $block->context['mai/sizesSm'],
 			];
 
 			// Get arrangement.
-			$arrangement = $this->arrangements[ $block->context['mai/id'] ];
+			$arrangement = self::$arrangements[ $block->context['mai/id'] ];
 
 			// Set fallbacks large to small.
-			foreach ( $this->arrangements[ $block->context['mai/id'] ] as $key => $value ) {
+			foreach ( self::$arrangements[ $block->context['mai/id'] ] as $key => $value ) {
 				if ( ! $value ) {
-					$keys                = array_keys( $this->arrangements[ $block->context['mai/id'] ] );
+					$keys                = array_keys( self::$arrangements[ $block->context['mai/id'] ] );
 					$shift               = array_shift( $keys );
-					$this->arrangements[ $block->context['mai/id'] ][ $key ] = $this->arrangements[ $block->context['mai/id'] ][ $shift ];
+					self::$arrangements[ $block->context['mai/id'] ][ $key ] = self::$arrangements[ $block->context['mai/id'] ][ $shift ];
 				}
 			}
 
 			// Set fallbacks in reverse.
-			$this->arrangements[ $block->context['mai/id'] ] = array_reverse( $this->arrangements[ $block->context['mai/id'] ] );
+			self::$arrangements[ $block->context['mai/id'] ] = array_reverse( self::$arrangements[ $block->context['mai/id'] ] );
 
 			// Set fallbacks small to large, if any empty.
-			foreach ( $this->arrangements[ $block->context['mai/id'] ] as $key => $value ) {
+			foreach ( self::$arrangements[ $block->context['mai/id'] ] as $key => $value ) {
 				if ( ! $value ) {
-					$keys                = array_keys( $this->arrangements[ $block->context['mai/id'] ] );
+					$keys                = array_keys( self::$arrangements[ $block->context['mai/id'] ] );
 					$shift               = array_shift( $keys );
-					$this->arrangements[ $block->context['mai/id'] ][ $key ] = $this->arrangements[ $block->context['mai/id'] ][ $shift ];
+					self::$arrangements[ $block->context['mai/id'] ][ $key ] = self::$arrangements[ $block->context['mai/id'] ][ $shift ];
 				}
 			}
 
 			// Reverse back arrangement.
-			$this->arrangements[ $block->context['mai/id'] ] = array_reverse( $this->arrangements[ $block->context['mai/id'] ] );
+			self::$arrangements[ $block->context['mai/id'] ] = array_reverse( self::$arrangements[ $block->context['mai/id'] ] );
 		}
 
 		// If no nobreaks, filter them out.
-		if ( ! isset( $this->no_breaks[ $block->context['mai/id'] ] ) ) {
-			$this->no_breaks[ $block->context['mai/id'] ] = array_filter( $this->arrangements[ $block->context['mai/id'] ], function( $value ) {
+		if ( ! isset( self::$no_breaks[ $block->context['mai/id'] ] ) ) {
+			self::$no_breaks[ $block->context['mai/id'] ] = array_filter( self::$arrangements[ $block->context['mai/id'] ], function( $value ) {
 				return 'break' !== $value;
 			});
 
 			// If any empty breaks, use '1/1';
-			foreach ( $this->no_breaks[ $block->context['mai/id'] ] as $key => $value ) {
+			foreach ( self::$no_breaks[ $block->context['mai/id'] ] as $key => $value ) {
 				if ( ! $value ) {
-					$this->no_breaks[ $block->context['mai/id'] ][ $key ] = '1/1';
+					self::$no_breaks[ $block->context['mai/id'] ][ $key ] = '1/1';
 				}
 			}
 		}
 
 		// If no index, set it.
-		if ( ! isset( $this->indexes[ $block->context['mai/id'] ] ) ) {
-			$this->indexes[ $block->context['mai/id'] ] = 0;
+		if ( ! isset( self::$indexes[ $block->context['mai/id'] ] ) ) {
+			self::$indexes[ $block->context['mai/id'] ] = 0;
 		}
 
 		// Start columns and flexes.
@@ -338,22 +343,26 @@ class Mai_Columns_Block {
 		$flexes  = [];
 
 		// Loop through no_breaks, setting custom properties by breakpoint.
-		foreach ( $this->no_breaks[ $block->context['mai/id'] ] as $break => $values ) {
+		foreach ( self::$no_breaks[ $block->context['mai/id'] ] as $break => $values ) {
 			// If values value is an array, skip it.
 			// Temporary while i'm breaking things in JS.
-			foreach ( $values as $value ) {
-				if ( is_array( $value ) ) {
-					continue 2;
-				}
-			}
+			// foreach ( $values as $value ) {
+			// 	if ( is_array( $value ) ) {
+			// 		continue 2;
+			// 	}
+			// }
 
-			$size      = $this->get_index_value_from_array( $this->indexes[ $block->context['mai/id'] ], $values );
-			$columns[] = sprintf( '--size-%s:%s;', $break, $this->get_fraction( $size ) ?: 1 );
+			// ray( $values );
+
+			$size      = $this->get_index_value_from_array( self::$indexes[ $block->context['mai/id'] ], $values );
+			$columns[] = sprintf( '--size-%s:%s;', $break, $this->get_size( $size ) ?: 1 );
 			$flexes[]  = sprintf( '--flex-%s:%s;', $break, $this->get_flex( $size ) );
 		}
 
 		// Merge styles.
 		$style = array_merge( $columns, $flexes );
+
+		// ray( $style );
 
 		// Justify content is align items value since flex-direction is column.
 		if ( isset( $attributes['alignItems'] ) ) {
@@ -375,8 +384,8 @@ class Mai_Columns_Block {
 		$html = sprintf( '<div %s>%s</div>', trim( $attr ), $content );
 
 		// Loop through arrangements and add the breaks.
-		foreach ( $this->arrangements[ $block->context['mai/id'] ] as $break => $values ) {
-			$size = $this->get_index_value_from_array( $this->indexes[ $block->context['mai/id'] ], $values );
+		foreach ( self::$arrangements[ $block->context['mai/id'] ] as $break => $values ) {
+			$size = $this->get_index_value_from_array( self::$indexes[ $block->context['mai/id'] ], $values );
 
 			if ( 'break' === $size ) {
 				$html = sprintf( '<span class="mai-column__break mai-column__break-%s"></span>', $break ) . $html;
@@ -384,7 +393,7 @@ class Mai_Columns_Block {
 		}
 
 		// Increment index.
-		$this->indexes[ $block->context['mai/id'] ]++;
+		self::$indexes[ $block->context['mai/id'] ]++;
 
 		return $html;
 	}
@@ -511,6 +520,10 @@ class Mai_Columns_Block {
 				return '1 0 0';
 		}
 
+		if ( ! $this->is_fraction( $size ) ) {
+			return sprintf( '0 1 %s', $size );
+		}
+
 		return '0 1 var(--flex-basis)';
 	}
 
@@ -552,33 +565,42 @@ class Mai_Columns_Block {
 	}
 
 	/**
-	 * Gets the fraction value from a given value.
+	 * Gets the size value from a given value.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $value
 	 *
 	 * @return string
 	 */
-	function get_fraction( $value ) {
+	function get_size( $value ) {
 		if ( ! $value ) {
 			return false;
 		}
 
+		// If it's a fit, fill, or break, return false.
 		if ( in_array( $value, [ 'fit', 'fill', 'break' ] ) ) {
 			return false;
 		}
 
+		// If it's a fraction, return it.
 		if ( $this->is_fraction( $value ) ) {
 			return $value;
 		}
 
-		// If not a fraction, it's a percentage. Convert to fraction and reduce.
-		$percentage   = floatval( str_replace( '%', '', $value ) );
-		$decimalValue = $percentage / 100;
-		$numerator    = intval( round( $decimalValue * 100 ) );
-		$denominator  = 100;
-		$gcd          = $this->get_gcd( $numerator, $denominator );
+		// If it's a percentage, convert to fraction and reduce.
+		if ( $this->is_percentage( $value ) ) {
+			$percentage   = floatval( str_replace( '%', '', $value ) );
+			$decimalValue = $percentage / 100;
+			$numerator    = intval( round( $decimalValue * 100 ) );
+			$denominator  = 100;
+			$gcd          = $this->get_gcd( $numerator, $denominator );
 
-		return sprintf( '%s/%s', $numerator / $gcd, $denominator / $gcd);
+			return sprintf( '%s/%s', $numerator / $gcd, $denominator / $gcd);
+		}
+
+		// Return the raw value.
+		return $value;
 	}
 
 	/**
@@ -611,6 +633,19 @@ class Mai_Columns_Block {
 	function is_fraction( $value ) {
 		// This should always be a string. I added this check while building and breaking things.
 		return $value && is_string( $value ) ? preg_match( '/^\\d+\\/\\d+$/', $value ) : $value;
+	}
+
+	/**
+	 * Checks if a value is a percentage.
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	function is_percentage( $value ) {
+		return preg_match( '/^-?\d+(\.\d+)?%$/', trim( $value ) );
 	}
 
 	/**

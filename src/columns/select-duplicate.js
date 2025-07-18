@@ -12,24 +12,6 @@ import {
 
 import CreatableSelect from 'react-select/creatable';
 
-import {
-	DndContext,
-	closestCenter,
-	KeyboardSensor,
-	PointerSensor,
-	useSensor,
-	useSensors,
-} from '@dnd-kit/core';
-
-import {
-	arrayMove,
-	SortableContext,
-	sortableKeyboardCoordinates,
-	verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-
-import {SortableItem} from './SortableItem';
-
 /**
  * Make sure a value is valid new option.
  * No need to check for auto, fit, fill because those are predefined.
@@ -100,10 +82,14 @@ const isFraction = ( value ) => {
 	return numerator <= denominator;
 }
 
-function isValidCSSValue( value, property = 'flex-basis' ) {
+const isValidCSSValue = ( value, property = 'flex-basis' ) => {
 	const style = document.createElement('div').style;
 	style[property] = value;
 	return value === style[property];
+}
+
+const isPercentage = ( value ) => {
+	return /^-?\d+(\.\d+)?%$/.test( value.trim() );
 }
 
 /**

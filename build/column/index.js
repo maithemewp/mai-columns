@@ -375,6 +375,9 @@ const getFlex = size => {
     case "fill":
       return "1 0 0";
   }
+  if (!isFraction(size)) {
+    return `0 1 ${size}`;
+  }
   return "0 1 var(--flex-basis)";
 };
 

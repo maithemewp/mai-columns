@@ -27,8 +27,8 @@ import {
 	mapLabelsToValues,
 } from "../functions";
 
-import SelectSortable from "../components/select-sortable/SelectSortable";
-import MultiSelectSortDuplicates from "../components/multiselect-sortable-duplicates/MultiSelectSortDuplicates";
+import SelectSortable from "../components/SelectSortable";
+import MultiSelectSortableDuplicates from "../components/MultiSelectSortableDuplicates";
 
 export default function Edit({ clientId, attributes, setAttributes }) {
 	const { style, justifyContent, alignItems, sizesLg, sizesMd, sizesSm } = attributes;
@@ -131,19 +131,16 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 							attributes={attributes}
 							setAttributes={setAttributes}
 							options={options}
-							// onChange={(values) => {}}
-							// onCreateOption={(value) => {}}
 							isValidNewOption={(inputValue) => {
 								return isValidNew( inputValue );
 							}}
 							formatCreateLabel={(inputValue) => {
-								console.log("Create label inputValue:", inputValue);
 								return inputValue && isValidNew(inputValue) ? `Add ${inputValue}` : "";
 							}}
 						/>
 					</BaseControl>
 					<BaseControl label={__("Tablet")}>
-						<MultiSelectSortDuplicates
+						{/* <MultiSelectSortableDuplicates
 							key="sizesMd"
 							options={options}
 							value={mapValuesToLabels(sizesMd, options)}
@@ -154,10 +151,23 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 								setAttributes({ sizesMd: [...sizesMd, value] });
 							}}
 							isValidNewOption={ isValidNew }
+						/> */}
+						<SelectSortable
+							key="sizesMd"
+							attributeKey="sizesMd"
+							attributes={attributes}
+							setAttributes={setAttributes}
+							options={options}
+							isValidNewOption={(inputValue) => {
+								return isValidNew( inputValue );
+							}}
+							formatCreateLabel={(inputValue) => {
+								return inputValue && isValidNew(inputValue) ? `Add ${inputValue}` : "";
+							}}
 						/>
 					</BaseControl>
 					<BaseControl label={__("Mobile")}>
-						<MultiSelectSortDuplicates
+						{/* <MultiSelectSortableDuplicates
 							key="sizesSm"
 							options={options}
 							value={mapValuesToLabels(sizesSm, options)}
@@ -168,6 +178,19 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 								setAttributes({ sizesSm: [...sizesSm, value] });
 							}}
 							isValidNewOption={ isValidNew }
+						/> */}
+						<SelectSortable
+							key="sizesSm"
+							attributeKey="sizesSm"
+							attributes={attributes}
+							setAttributes={setAttributes}
+							options={options}
+							isValidNewOption={(inputValue) => {
+								return isValidNew( inputValue );
+							}}
+							formatCreateLabel={(inputValue) => {
+								return inputValue && isValidNew(inputValue) ? `Add ${inputValue}` : "";
+							}}
 						/>
 					</BaseControl>
 				</PanelBody>
