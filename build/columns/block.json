@@ -15,7 +15,9 @@
     },
     "sizesLg": {
       "type": "array",
-      "default": []
+      "default": [
+        "fill"
+      ]
     },
     "sizesMd": {
       "type": "array",
@@ -23,7 +25,9 @@
     },
     "sizesSm": {
       "type": "array",
-      "default": []
+      "default": [
+        "1/1"
+      ]
     }
   },
   "supports": {
