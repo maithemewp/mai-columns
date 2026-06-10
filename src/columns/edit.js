@@ -1,277 +1,183 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
+import { __ } from "@wordpress/i18n";
+import {
+	useBlockProps,
+	useInnerBlocksProps,
+	InspectorControls,
+	BlockControls,
+	JustifyContentControl,
+	BlockVerticalAlignmentToolbar,
+} from "@wordpress/block-editor";
+import { createBlock } from "@wordpress/blocks";
+import { useDispatch } from "@wordpress/data";
+import {
+	PanelBody,
+	BaseControl,
+	ToolbarButton,
+	ToolbarGroup,
+} from "@wordpress/components";
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { InspectorControls, useBlockProps, useInnerBlocksProps, BlockControls, JustifyContentControl, BlockVerticalAlignmentToolbar } from '@wordpress/block-editor';
-import { Panel, PanelBody, PanelRow, BaseControl, TextControl, FormTokenField } from '@wordpress/components';
-import MaiMultiSelectDuplicate from './select-duplicate';
+import {
+	getFlexCSSValue,
+	getBlockGap,
+	isFraction,
+	isPercentage,
+	isValidCSSValue,
+} from "../functions";
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
-export default function Edit({ attributes, setAttributes }) {
-	const { style, justifyContent, alignItems, sizesLg, sizesMd, sizesSm } = attributes;
+import SelectSortable from "../components/SelectSortable";
 
-	/**
-	 * Set default options for the select field.
-	 */
+export default function Edit({ clientId, attributes, setAttributes }) {
+	const { style, justifyContent, alignItems } = attributes;
+
 	const options = [
-		{
-			value: '1/4',
-			label: __( '25' ),
-		},
-		{
-			value: '1/3',
-			label: __( '33' ),
-		},
-		{
-			value: '1/2',
-			label: __( '50' ),
-		},
-		{
-			value: '2/3',
-			label: __( '66' ),
-		},
-		{
-			value: '3/4',
-			label: __( '75' ),
-		},
-		{
-			value: '1/1',
-			label: __( '100' ),
-		},
-		{
-			value: 'fit',
-			label: __( 'Fit Content' ),
-		},
-		{
-			value: 'fill',
-			label: __( 'Fill Space' ),
-		},
+		{ value: "1/4", label: __("25%") },
+		{ value: "1/3", label: __("33%") },
+		{ value: "1/2", label: __("50%") },
+		{ value: "2/3", label: __("66%") },
+		{ value: "3/4", label: __("75%") },
+		{ value: "1/1", label: __("100%") },
+		{ value: "fit", label: __("Fit Content") },
+		{ value: "fill", label: __("Fill Space") },
+		{ value: "break", label: __("Row Break") },
 	];
 
 	/**
-	 * Map values to labels.
+	 * Make sure a value is valid new option.
+	 * No need to check for fit, fill, break because those are predefined.
+	 * Fractions and percentages are capped at 100% — a column wider than its
+	 * row is never a layout, it's a typo.
 	 *
 	 * @since 0.1.0
 	 *
-	 * @return {string}
+	 * @param {string} value
+	 *
+	 * @return {bool}
 	 */
-	const mapValuesToLabels = ( values ) => {
-		return values.map( value => {
-			const option = options.find( opt => opt.value === value );
-			return option ? option.label : value;
-		});
-	}
-
-	/**
-	 * Map labels to values.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @return {string}
-	 */
-	const mapLabelsToValues = ( values ) => {
-		return values.map( value => {
-			const option = options.find( opt => opt.label === value );
-			return option ? option.value : value;
-		});
-	}
-
-	/**
-	 * Get the flex CSS value.
-	 * TODO: This is duplicated in edit.js of the other block.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @return {string}
-	 */
-	const getFlexCSSValue = ( value ) => {
-		switch ( value ) {
-			case 'top':
-			case 'left':
-				return 'flex-start';
-			case 'middle':
-			case 'center':
-				return 'center';
-			case 'bottom':
-			case 'right':
-				return 'flex-end';
-			case 'space-between':
-				return 'space-between';
-			default:
-				return 'initial';
-		}
-	};
-
-	/**
-	 * Converts blockGap values to CSS value.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param {string|array} gap The blockGap value.
-	 *
-	 * @return {string}
-	 */
-	const getBlockGap = ( gap ) => {
-		const returnObj = {
-			row: "initial",
-			column: "initial",
-		};
-
-		if ( typeof gap === 'object' ) {
-			if ( gap.top ) {
-				returnObj.row = getBlockGapValue( gap.top );
-			}
-
-			if ( gap.left ) {
-				returnObj.column = getBlockGapValue( gap.left );
-			}
-		} else {
-			returnObj.row = returnObj.column = getBlockGapValue( gap );
+	const isValidNew = (value) => {
+		if (!value) {
+			return false;
 		}
 
-		return returnObj;
+		if (isFraction(value)) {
+			const [numerator, denominator] = value.split("/").map(Number);
+			return numerator <= denominator;
+		}
+
+		if (isPercentage(value)) {
+			return parseFloat(value) <= 100;
+		}
+
+		return isValidCSSValue(value);
 	};
 
-	/**
-	 * Gets the CSS value from the blockGap value.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param {string} gap The blockGap value.
-	 *
-	 * @return {string}
-	 */
-	const getBlockGapValue = ( gap ) => {
-		const array = gap.split( '|' );
-		const last  = array.pop();
+	// Get the dispatch function to insert a block
+	const { insertBlock } = useDispatch("core/block-editor");
 
-		return array.length > 1 ? `var(--wp--preset--spacing--${last})` : last;
+	// Function to insert a new column block
+	const insertColumn = () => {
+		// Create the new block
+		const newBlock = createBlock("mai/column", {});
+		// Insert the new block inside the current block (identified by clientId)
+		insertBlock(newBlock, undefined, clientId);
 	};
 
-	/**
-	 * Build inline styles.
-	 */
+	// Build inline styles based on attributes
 	const inlineStyles = useBlockProps().style || {};
+	inlineStyles["--justify-content"] = getFlexCSSValue(justifyContent);
+	inlineStyles["--align-items"] = getFlexCSSValue(alignItems);
 
-	inlineStyles['--justify-content'] = getFlexCSSValue( justifyContent );
-	inlineStyles['--align-items']     = getFlexCSSValue( alignItems );
-
-	if ( style && style.spacing.blockGap ) {
-		const gaps = getBlockGap( style.spacing.blockGap );
-
-		inlineStyles['--row-gap']    = gaps.row;
-		inlineStyles['--column-gap'] = gaps.column;
+	if (style && style.spacing.blockGap) {
+		const gaps = getBlockGap(style.spacing.blockGap);
+		inlineStyles["--row-gap"] = gaps.row;
+		inlineStyles["--column-gap"] = gaps.column;
+	} else {
+		inlineStyles["--row-gap"] = "2rem";
+		inlineStyles["--column-gap"] = "2rem";
 	}
 
-	/**
-	 * Set block props.
-	 */
-	const props = {
-		className: 'mai-columns',
-		style: inlineStyles
-	};
-
-	const blockProps       = useBlockProps( props );
-	const innerBlocksProps = useInnerBlocksProps(
-		blockProps,
-		{
-			allowedBlocks: [ 'mai/column' ],
-			orientation: 'horizontal',
-			template: [
-				[
-					'mai/column',
-					{},
-					[]
-				],
-				[
-					'mai/column',
-					{},
-					[]
-				],
-			]
-		}
-	);
+	// Set block props and inner block props
+	const blockProps = useBlockProps({
+		className: "mai-columns",
+		style: inlineStyles,
+	});
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ["mai/column"],
+		template: [["mai/column"], ["mai/column"]],
+	});
 
 	return (
 		<>
 			<BlockControls group="block">
 				<JustifyContentControl
-					value={ justifyContent }
-					onChange={ ( value ) => {
-						setAttributes( { justifyContent: value } );
-					} }
+					value={justifyContent}
+					onChange={(value) => setAttributes({ justifyContent: value })}
 				/>
 				<BlockVerticalAlignmentToolbar
-					value={ alignItems }
-					onChange={ ( value ) => {
-						setAttributes( { alignItems: value } );
-					}}
+					value={alignItems}
+					onChange={(value) => setAttributes({ alignItems: value })}
 				/>
+				<ToolbarGroup>
+					<ToolbarButton onClick={insertColumn}>
+						{__("Add Column")}
+					</ToolbarButton>
+				</ToolbarGroup>
 			</BlockControls>
 			<InspectorControls key="Sizes">
 				<PanelBody>
-					<h2>{ __( 'Column Arrangements' ) }</h2>
+					<h2>{__("Column Arrangements")}</h2>
 					<BaseControl
-						help={ __( 'Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field\'s settings.' ) }
-					></BaseControl>
-					<BaseControl label={ __( 'Large Tablet' ) }>
-						<MaiMultiSelectDuplicate
+						help={__(
+							"Arrangements respond to the space the columns sit in, not the device. Values repeat in the sequence you set. One value sizes all columns; an empty field inherits the next-wider setting."
+						)}
+					/>
+					<BaseControl label={__("Wide")}>
+						<SelectSortable
 							key="sizesLg"
-							options={ options }
-							value={ mapValuesToLabels( sizesLg ) }
-							onChange={ ( values ) => {
-								setAttributes( { sizesLg: mapLabelsToValues( values ) } );
+							attributeKey="sizesLg"
+							attributes={attributes}
+							setAttributes={setAttributes}
+							options={options}
+							isValidNewOption={(inputValue) => {
+								return isValidNew( inputValue );
 							}}
-							onCreateOption={ ( value ) => {
-								setAttributes( { sizesLg: [ ...sizesLg, value ] } );
+							formatCreateLabel={(inputValue) => {
+								return inputValue && isValidNew(inputValue) ? `Add ${inputValue}` : "";
 							}}
 						/>
 					</BaseControl>
-					<BaseControl label={ __( 'Small Tablet' ) }>
-						<MaiMultiSelectDuplicate
+					<BaseControl label={__("Medium")}>
+						<SelectSortable
 							key="sizesMd"
-							options={ options }
-							value={ mapValuesToLabels( sizesMd ) }
-							onChange={ ( values ) => {
-								setAttributes( { sizesMd: mapLabelsToValues( values ) } );
+							attributeKey="sizesMd"
+							attributes={attributes}
+							setAttributes={setAttributes}
+							options={options}
+							isValidNewOption={(inputValue) => {
+								return isValidNew( inputValue );
 							}}
-							onCreateOption={ ( value ) => {
-								setAttributes( { sizesMd: [ ...sizesMd, value ] } );
+							formatCreateLabel={(inputValue) => {
+								return inputValue && isValidNew(inputValue) ? `Add ${inputValue}` : "";
 							}}
 						/>
 					</BaseControl>
-					<BaseControl label={ __( 'Mobile' ) }>
-						<MaiMultiSelectDuplicate
+					<BaseControl label={__("Narrow")}>
+						<SelectSortable
 							key="sizesSm"
-							options={ options }
-							value={ mapValuesToLabels( sizesSm ) }
-							onChange={ ( values ) => {
-								setAttributes( { sizesSm: mapLabelsToValues( values ) } );
+							attributeKey="sizesSm"
+							attributes={attributes}
+							setAttributes={setAttributes}
+							options={options}
+							isValidNewOption={(inputValue) => {
+								return isValidNew( inputValue );
 							}}
-							onCreateOption={ ( value ) => {
-								setAttributes( { sizesSm: [ ...sizesSm, value ] } );
+							formatCreateLabel={(inputValue) => {
+								return inputValue && isValidNew(inputValue) ? `Add ${inputValue}` : "";
 							}}
 						/>
 					</BaseControl>
 				</PanelBody>
 			</InspectorControls>
-			<div { ...innerBlocksProps } />
+			<div {...innerBlocksProps} />
 		</>
 	);
 }

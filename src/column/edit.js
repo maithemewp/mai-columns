@@ -4,261 +4,109 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, useInnerBlocksProps, BlockControls, BlockVerticalAlignmentToolbar, InnerBlocks } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
+import {
+	useBlockProps,
+	useInnerBlocksProps,
+	BlockControls,
+	BlockVerticalAlignmentToolbar,
+	InnerBlocks,
+} from "@wordpress/block-editor";
+
+import { useSelect } from "@wordpress/data";
+
+import { getFlexCSSValue } from "../functions";
+import { resolve } from "../functions/arrangement.mjs";
 
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
+ *
+ * The per-bucket size/flex custom props come from the shared arrangement
+ * resolver — the same fixture-locked math the PHP render runs — so the canvas
+ * preview cannot drift from the front end.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes, context, clientId }) {
-	const { style, alignItems } = attributes;
+	const { alignItems } = attributes;
 
 	/**
-	 * Gets flex value from column size.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param string size The size value from settings.
-	 *
-	 * @return string
+	 * Gets this column's index among its siblings and the sibling count,
+	 * the two inputs the resolver needs beyond the parent's size arrays.
 	 */
-	const getFlex = ( size ) => {
-		if ( ! size ) {
-			return '1';
-		}
-
-		switch ( size ) {
-			case 'auto':
-				return '0 1 0%';
-			case 'fit':
-				return '0 1 auto';
-			case 'fill':
-				return '1 0 0';
-		}
-
-		return '0 1 var(--flex-basis)';
-	};
-
-	/**
-	 * Gets the correct column value from the repeated arrangement array.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param int   index   The current item index to get the value for.
-	 * @param array array   The array to get index value from.
-	 * @param mixed default The default value if there is no index.
-	 *
-	 * @return mixed
-	 */
-	const getIndexValueFromArray = function( index, array, defaultVal = null ) {
-		if ( undefined !== array[index] ) {
-			return array[index];
-		}
-
-		if ( 1 === array.length ) {
-			return array[0];
-		}
-
-		return array[ index % array.length ] ?? defaultVal;
-	};
-
-	/**
-	 * Gets the fraction value from a given value.
-	 *
-	 * @param string value
-	 *
-	 * @return string
-	 */
-	const getFraction = ( value ) => {
-		if ( ! value ) {
-			return false;
-		}
-
-		if ( [ 'auto', 'fit', 'fill' ].includes( value )) {
-			return false;
-		}
-
-		if ( isFraction( value ) ) {
-			return value;
-		}
-
-		const percentage   = parseFloat( value.replace( '%', '' ) );
-		const decimalValue = percentage / 100;
-		const numerator    = Math.round( decimalValue * 100 );
-		const denominator  = 100;
-		const gcd          = getGcd( numerator, denominator );
-
-		return `${numerator / gcd}/${denominator / gcd}`;
-	}
-
-	/**
-	 * Gets the greatest common denominator.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param int a
-	 * @param int b
-	 *
-	 * @return int
-	 */
-	const getGcd = ( a, b ) => {
-		if ( 0 === b ) {
-			return a;
-		} else {
-			return getGcd( b, a % b );
-		}
-	};
-
-	/**
-	 * Checks if a value is a fraction.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param string value
-	 *
-	 * @return bool
-	 */
-	const isFraction = ( value ) => {
-		return /^\d+\/\d+$/.test( value );
-	}
-
-	/**
-	 * Get the flex CSS value.
-	 * TODO: This is duplicated in edit.js of the other block.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @return {string}
-	 */
-	const getFlexCSSValue = ( value ) => {
-		switch ( value ) {
-			case 'top':
-			case 'left':
-				return 'flex-start';
-			case 'middle':
-			case 'center':
-				return 'center';
-			case 'bottom':
-			case 'right':
-				return 'flex-end';
-			case 'space-between':
-				return 'space-between';
-			default:
-				return 'initial';
-		}
-	};
-
-	/**
-	 * Gets block index of parent.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @return string
-	 */
-	const blockIndex = useSelect(
+	const { blockIndex, siblingCount } = useSelect(
 		(select) => {
-			const { getBlockIndex } = select( 'core/block-editor' );
-			return getBlockIndex( clientId );
+			const { getBlockIndex, getBlockRootClientId, getBlockCount } =
+				select("core/block-editor");
+
+			return {
+				blockIndex: getBlockIndex(clientId),
+				siblingCount: getBlockCount(getBlockRootClientId(clientId)),
+			};
 		},
-		[clientId]
+		[clientId],
 	);
 
 	/**
-	 * Build inline styles from arrangements.
-	 */
-	const inlineStyles = useBlockProps().style || {};
-	const arrangements = {};
-	const data         = [
-		{
-			break: 'lg',
-			columns: context['mai/sizesLg'],
-			default: '',
-		},
-		{
-			break: 'md',
-			columns: context['mai/sizesMd'],
-			default: '',
-		},
-		{
-			break: 'sm',
-			columns: context['mai/sizesSm'],
-			default: '',
-		}
-	];
-
-	// Get arrangements.
-	data.forEach( item => {
-		arrangements[ item.break ] = getIndexValueFromArray( blockIndex, item.columns, item.default );
-	});
-
-	// Set fallbacks.
-	for ( const key in arrangements ) {
-		if ( ! arrangements[ key ] ) {
-			const keys  = Object.keys( arrangements );
-			const shift = keys.shift();
-
-			arrangements[ key ] = arrangements[ shift ];
-		}
-	}
-
-	/**
-	 * Set inline styles.
-	 */
-	Object.entries( arrangements ).forEach( ( [ key, value ] ) => {
-		inlineStyles[`--size-${key}`] = getFraction( value ) || 1;
-	});
-
-	Object.entries( arrangements ).forEach( ( [ key, value ] ) => {
-		inlineStyles[`--flex-${key}`] = getFlex( value );
-	});
-
-	// Justify content is align items value since flex-direction is column.
-	inlineStyles['--justify-content'] = getFlexCSSValue( alignItems );
-
-	/**
-	 * Gets the inner block count.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @return int
+	 * Gets the inner block count, for the appender.
 	 */
 	const blockCount = useSelect(
-		(select) => {
-			return select( 'core/block-editor').getBlockCount( clientId );
-		}
+		(select) => select("core/block-editor").getBlockCount(clientId),
+		[clientId],
 	);
 
-	// Define the appender to use.
-	const appenderToUse = () => { return ! blockCount ? <InnerBlocks.ButtonBlockAppender rootClientId={ clientId } style={{ alignSelf: 'auto' }}/> : false };
+	/**
+	 * Build inline styles from the resolved arrangement.
+	 */
+	const resolved = resolve(
+		context["mai/sizesLg"] ?? [],
+		context["mai/sizesMd"] ?? [],
+		context["mai/sizesSm"] ?? [],
+		siblingCount,
+	)[blockIndex];
+
+	const inlineStyles = { ...(resolved?.styles ?? {}) };
+
+	// Justify content is align items value since flex-direction is column.
+	inlineStyles["--justify-content"] = getFlexCSSValue(alignItems);
+
+	/**
+	 * Define the appender to use.
+	 * If no blocks, add the appender.
+	 */
+	const appenderToUse = () => {
+		if (!blockCount) {
+			return (
+				<InnerBlocks.ButtonBlockAppender
+					rootClientId={clientId}
+					style={{ alignSelf: "auto" }}
+				/>
+			);
+		}
+
+		return false;
+	};
 
 	/**
 	 * Set props.
 	 */
-	const props = {
-		className: 'mai-column',
-		style: inlineStyles
-	};
-
-	const blockProps       = useBlockProps( props );
-	const innerBlocksProps = useInnerBlocksProps(
-		blockProps,
-		{
-			renderAppender: appenderToUse,
-		}
-	);
+	const blockProps = useBlockProps({
+		className: "mai-column",
+		style: inlineStyles,
+	});
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		renderAppender: appenderToUse,
+	});
 
 	return (
 		<>
 			<BlockControls group="block">
 				<BlockVerticalAlignmentToolbar
-					value={ alignItems }
-					onChange={ ( value ) => {
-						setAttributes( { alignItems: value } );
+					value={alignItems}
+					onChange={(value) => {
+						setAttributes({ alignItems: value });
 					}}
 				/>
 			</BlockControls>
