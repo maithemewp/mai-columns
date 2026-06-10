@@ -54,6 +54,14 @@ inheriting Wide.
 Works with any theme. Block themes get the full padding/gap/color controls
 from theme.json; classic themes use the block's own defaults.
 
+== Screenshots ==
+
+1. The Column Arrangements settings — sortable, repeatable size tokens per width bucket (Wide / Medium / Narrow).
+2. A repeating fraction pattern: 1/3 + 2/3 over four columns.
+3. Sizing tokens: fit hugs content, fill takes the leftover space, fixed CSS lengths like 300px.
+4. Row breaks end a row before it is full — with fractions or sizing tokens.
+5. Nested columns measure their own container and stack when their column is narrow, even on desktop.
+
 == Changelog ==
 
 = 0.2.0 =
