@@ -1,0 +1,234 @@
+<!-- wp:paragraph -->
+<p>Mai Columns 0.2.0 showcase. Buckets: Narrow &lt;640px, Medium 640–1023px, Wide ≥1024px — measured on the <strong>container</strong>, not the screen. This content column is ~740px, so top-level blocks here sit in the Medium bucket on desktop; resize the window to see Narrow.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">1 — Fresh-block defaults (fill / inherit / 1/1)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No sizes set. Wide/Medium: equal columns via <code>fill</code>. Narrow: stacked.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>Default 1</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>Default 2</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>Default 3</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">2 — Repeating 1/3 + 2/3 over four columns</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The two-token pattern repeats: rows of third/two-thirds. Stacks on Narrow.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/3","2/3"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>1/3</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>2/3</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>1/3 again</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fce8e6"}}} -->
+<!-- wp:paragraph --><p>2/3 again</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">3 — Different arrangement per bucket</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Wide: quarters (4-up). Medium: halves (2×2). Narrow: stacked.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/4"],"sizesMd":["1/2"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>Card A</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>Card B</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>Card C</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fce8e6"}}} -->
+<!-- wp:paragraph --><p>Card D</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">4 — fit / fill / fixed 300px</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>First hugs its content, second takes the leftovers, third is locked at 300px.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["fit","fill","300px"],"sizesSm":[]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>fit</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>fill — grows to use whatever space the other two leave behind</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>300px</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">5 — Row break (Wide/Medium only)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Three thirds — they all <em>fit</em> on one row, but <code>break</code> after the second forces the third down. That's what break is for: ending a row before it's full. Narrow stacks anyway.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/3","1/3","break","1/3"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>1/3</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>1/3</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>1/3 — after the break</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:paragraph -->
+<p>Same idea with sizing tokens: <code>fit</code> and <code>fill</code> share the first row, <code>break</code> drops the last <code>fit</code> onto its own row.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["fit","fill","break","fit"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>fit</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>fill</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>fit — own row via break</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">6 — Custom fraction (2/5) and percentage (40%)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Created tokens: <code>2/5</code> and <code>40%</code> normalize to the same width; the third column fills.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["2/5","40%","fill"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>2/5</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>40%</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>fill</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">7 — Nested: columns inside a column</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The inner block measures its <em>own</em> container (~half this column), so it uses its Narrow arrangement and stacks even on desktop — the container-query model at work.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/2","1/2"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>Plain column</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#f3e8fd"}}} -->
+<!-- wp:mai/columns {"sizesLg":["1/3","2/3"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>nested 1/3</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>nested 2/3</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">8 — Same block twice (repeat-render)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Identical 1/4 + 3/4 markup pasted twice — both render the same (the old saved-id bug interleaved these).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/4","3/4"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>1/4</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>3/4</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:mai/columns {"sizesLg":["1/4","3/4"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>1/4</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>3/4</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">9 — Vertical alignment</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><strong>Parent alignment (middle):</strong> columns shrink to their content and center against the tallest. Note per-column alignment does nothing in this mode — there's no extra room inside a content-height column.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"alignItems":"middle","sizesLg":["1/3"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>Tall column with a lot more content than its neighbors so the vertical centering of the others is visible against it.</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>centered</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>centered</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:paragraph -->
+<p><strong>Per-column alignment (parent default/stretch):</strong> columns stretch to equal height, so each column can place its own content — top, middle, bottom.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/4"],"sizesSm":["1/1"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>Tall column with a lot more content than its neighbors, giving the other three stretched columns room to show their own top, middle, and bottom alignment.</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"alignItems":"top","style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>top</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"alignItems":"middle","style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>middle</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"alignItems":"bottom","style":{"color":{"background":"#fce8e6"}}} -->
+<!-- wp:paragraph --><p>bottom</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
