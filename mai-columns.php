@@ -44,7 +44,7 @@ add_action( 'plugins_loaded', function (): void {
 		$updater->setAuthentication( MAI_GITHUB_API_TOKEN );
 	}
 
-	// Add icons for Dashboard > Updates screen (bundled — no mai-engine dependency).
+	// Add icons for Dashboard > Updates screen.
 	$updater->addResultFilter(
 		function ( $info ) {
 			$info->icons = [
