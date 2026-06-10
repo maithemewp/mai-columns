@@ -1,18 +1,25 @@
 /**
- * The following styles get applied both on the front of your site
- * and in the editor.
+ * Front-end and editor-canvas layout for mai/columns + mai/column.
  *
- * Replace them with your own styles or remove the file completely.
+ * The responsive mechanism lives ENTIRELY in this file: buckets respond to
+ * the space the columns sit in (container queries), not the device. The
+ * per-column custom props (--size-{bucket} / --flex-{bucket}) are emitted by
+ * ArrangementResolver (PHP, front end) and arrangement.mjs (editor preview).
  */
 
+/* Bucket boundaries. Container width, not viewport. */
+$bucket-md: 600px;
+$bucket-lg: 1024px;
+
 .mai-columns {
+	container-type: inline-size;
 	--column-gap: 0.5em;
 	--row-gap: 0.5em;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: var(--align-items, initial);
 	justify-content: var(--justify-content, initial);
-	gap: var(--row-gap) var(--column-gap) !important; /* is-layout-flex class overrides this so we're forcing for now */
+	gap: var(--row-gap) var(--column-gap);
 }
 
 .mai-column {
@@ -21,7 +28,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: var(--justify-content, initial);
-	margin: 0 !important;
+	margin: 0;
 }
 
 .mai-column__break {
@@ -29,9 +36,15 @@
 	flex-basis: 100%;
 }
 
-/* SM */
-@media only screen and (max-width: 599px) {
+/* ── Container-query buckets ─────────────────────────────────────────────
+   REVERT PATH: to go back to viewport behavior, delete container-type above
+   and replace each @container below with the equivalent @media:
+   sm: @media (max-width: 599px)
+   md: @media (min-width: 600px) and (max-width: 1023px)
+   lg: @media (min-width: 1024px)
+   Nothing else changes — markup and custom props are mechanism-agnostic. */
 
+@container (max-width: #{$bucket-md - 1px}) {
 	.mai-column {
 		--size: var(--size-sm, 1);
 		--flex: var(--flex-sm, 1);
@@ -42,9 +55,7 @@
 	}
 }
 
-/* MD */
-@media only screen and (min-width: 600px) and (max-width: 1023px) {
-
+@container (min-width: #{$bucket-md}) and (max-width: #{$bucket-lg - 1px}) {
 	.mai-column {
 		--size: var(--size-md, 1);
 		--flex: var(--flex-md, 1);
@@ -55,9 +66,7 @@
 	}
 }
 
-/* LG */
-@media only screen and (min-width: 1024px) {
-
+@container (min-width: #{$bucket-lg}) {
 	.mai-column {
 		--size: var(--size-lg, 1);
 		--flex: var(--flex-lg, 1);
