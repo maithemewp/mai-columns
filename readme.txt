@@ -57,6 +57,7 @@ from theme.json; classic themes use the block's own defaults.
 == Changelog ==
 
 = 0.2.0 =
+* Added tag-based updater (Plugin Update Checker v5).
 * Rebuild: parent-orchestrated render — the parent block resolves the whole
   arrangement and passes each column its values; no saved ids, no shared
   state. Duplicated blocks, repeated patterns, and nested columns all render
