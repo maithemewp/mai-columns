@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "mai/column",
 	"parent": ["mai/columns"],
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"title": "Mai Column",
 	"category": "design",
 	"description": "An individual row item.",
@@ -27,7 +27,7 @@
 			"blockGap": true
 		}
 	},
-	"usesContext": ["mai/id", "mai/sizesLg", "mai/sizesMd", "mai/sizesSm"],
+	"usesContext": ["mai/sizesLg", "mai/sizesMd", "mai/sizesSm", "mai/columnStyles"],
 	"textdomain": "mai-columns",
 	"editorScript": "file:./index.js"
 }

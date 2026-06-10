@@ -2,14 +2,11 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "mai/columns",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"title": "Mai Columns",
 	"category": "design",
 	"description": "Repeatable column arrangements.",
 	"attributes": {
-		"id": {
-			"type": "string"
-		},
 		"alignItems": {
 			"type": "string"
 		},
@@ -25,10 +22,6 @@
 			"default": []
 		},
 		"sizesSm": {
-			"type": "array",
-			"default": [ "1/1" ]
-		},
-		"innerBlocks": {
 			"type": "array",
 			"default": []
 		}
@@ -51,7 +44,6 @@
 		}
 	},
 	"providesContext": {
-		"mai/id": "id",
 		"mai/sizesLg": "sizesLg",
 		"mai/sizesMd": "sizesMd",
 		"mai/sizesSm": "sizesSm"
