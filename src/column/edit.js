@@ -4,13 +4,16 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+import { __ } from "@wordpress/i18n";
 import {
 	useBlockProps,
 	useInnerBlocksProps,
 	BlockControls,
 	BlockVerticalAlignmentToolbar,
 	InnerBlocks,
+	InspectorControls,
 } from "@wordpress/block-editor";
+import { PanelBody, BaseControl, TextControl } from "@wordpress/components";
 
 import { useSelect } from "@wordpress/data";
 
@@ -30,7 +33,7 @@ import { resolve } from "../functions/arrangement.mjs";
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes, context, clientId }) {
-	const { alignItems } = attributes;
+	const { alignItems, orderLg, orderMd, orderSm } = attributes;
 
 	/**
 	 * Gets this column's index among its siblings and the sibling count,
@@ -65,12 +68,35 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		context["mai/sizesMd"] ?? [],
 		context["mai/sizesSm"] ?? [],
 		siblingCount,
+		{
+			lg: !!context["mai/reverseLg"],
+			md: !!context["mai/reverseMd"],
+			sm: !!context["mai/reverseSm"],
+		},
 	)[blockIndex];
 
 	const inlineStyles = { ...(resolved?.styles ?? {}) };
 
 	// Justify content is align items value since flex-direction is column.
 	inlineStyles["--justify-content"] = getFlexCSSValue(alignItems);
+
+	// Per-column order overrides beat any parent reverse order.
+	for (const [bucket, value] of [["lg", orderLg], ["md", orderMd], ["sm", orderSm]]) {
+		if (undefined !== value && "" !== value) {
+			inlineStyles[`--order-${bucket}`] = String(value);
+		}
+	}
+
+	const orderControl = (label, key, value) => (
+		<TextControl
+			label={label}
+			type="number"
+			value={value ?? ""}
+			onChange={(next) => {
+				setAttributes({ [key]: "" === next ? undefined : Number(next) });
+			}}
+		/>
+	);
 
 	/**
 	 * Define the appender to use.
@@ -110,6 +136,18 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 					}}
 				/>
 			</BlockControls>
+			<InspectorControls key="Order">
+				<PanelBody title={__("Order")} initialOpen={false}>
+					<BaseControl
+						help={__(
+							"Visual order of this column within its width bucket — lower numbers come first. Keyboard and screen reader order is unchanged."
+						)}
+					/>
+					{orderControl(__("Wide"), "orderLg", orderLg)}
+					{orderControl(__("Medium"), "orderMd", orderMd)}
+					{orderControl(__("Narrow"), "orderSm", orderSm)}
+				</PanelBody>
+			</InspectorControls>
 			<div {...innerBlocksProps} />
 		</>
 	);

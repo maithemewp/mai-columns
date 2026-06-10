@@ -12,6 +12,7 @@ import { useDispatch } from "@wordpress/data";
 import {
 	PanelBody,
 	BaseControl,
+	ToggleControl,
 	ToolbarButton,
 	ToolbarGroup,
 } from "@wordpress/components";
@@ -27,7 +28,7 @@ import {
 import SelectSortable from "../components/SelectSortable";
 
 export default function Edit({ clientId, attributes, setAttributes }) {
-	const { style, justifyContent, alignItems } = attributes;
+	const { style, justifyContent, alignItems, reverseLg, reverseMd, reverseSm } = attributes;
 
 	const options = [
 		{ value: "1/4", label: __("25%") },
@@ -175,6 +176,28 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 							}}
 						/>
 					</BaseControl>
+				</PanelBody>
+				<PanelBody title={__("Order")} initialOpen={false}>
+					<BaseControl
+						help={__(
+							"Reverses the visual order of the columns in that width bucket. Keyboard and screen reader order is unchanged."
+						)}
+					/>
+					<ToggleControl
+						label={__("Reverse on Wide")}
+						checked={reverseLg}
+						onChange={(value) => setAttributes({ reverseLg: value })}
+					/>
+					<ToggleControl
+						label={__("Reverse on Medium")}
+						checked={reverseMd}
+						onChange={(value) => setAttributes({ reverseMd: value })}
+					/>
+					<ToggleControl
+						label={__("Reverse on Narrow")}
+						checked={reverseSm}
+						onChange={(value) => setAttributes({ reverseSm: value })}
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<div {...innerBlocksProps} />

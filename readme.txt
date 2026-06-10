@@ -46,6 +46,13 @@ An empty bucket inherits the next-wider setting. A fresh block starts with
 `fill` on Wide (equal columns) and `100%` on Narrow (stacked), with Medium
 inheriting Wide.
 
+= Ordering =
+
+Reverse the visual order of all columns per bucket (e.g. text before image
+when stacked on Narrow), or give an individual column its own order value
+per bucket. Ordering is visual only — keyboard and screen reader order
+follows the document.
+
 = Requirements =
 
 * WordPress 7.0+

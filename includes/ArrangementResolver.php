@@ -22,13 +22,19 @@ final class ArrangementResolver {
 	/**
 	 * Resolves per-child styles and break markers for all buckets.
 	 *
-	 * @param array<string> $lg
-	 * @param array<string> $md
-	 * @param array<string> $sm
+	 * Reversed buckets emit per-child --order-{bucket} props (count down to 1)
+	 * — CSS `order` applies before flex line wrapping, so it reverses rows and
+	 * stacked layouts alike, and the render can copy a child's order onto its
+	 * break spans to keep breaks adjacent under reversal.
+	 *
+	 * @param array<string>      $lg
+	 * @param array<string>      $md
+	 * @param array<string>      $sm
+	 * @param array<string,bool> $reverse Per-bucket reverse flags, e.g. [ 'sm' => true ].
 	 *
 	 * @return array<int,array{styles:array<string,string>,breaks:array<int,string>}>
 	 */
-	public static function resolve( array $lg, array $md, array $sm, int $count ): array {
+	public static function resolve( array $lg, array $md, array $sm, int $count, array $reverse = [] ): array {
 		$buckets = self::with_fallbacks( [ 'lg' => $lg, 'md' => $md, 'sm' => $sm ] );
 		$result  = [];
 
@@ -62,6 +68,10 @@ final class ArrangementResolver {
 
 				$result[ $i ]['styles'][ "--size-{$bucket}" ] = self::size( $token );
 				$result[ $i ]['styles'][ "--flex-{$bucket}" ] = self::flex( $token );
+
+				if ( ! empty( $reverse[ $bucket ] ) ) {
+					$result[ $i ]['styles'][ "--order-{$bucket}" ] = (string) ( $count - $i );
+				}
 			}
 		}
 
@@ -72,6 +82,10 @@ final class ArrangementResolver {
 			foreach ( self::BUCKETS as $bucket ) {
 				$ordered[ "--size-{$bucket}" ] = $entry['styles'][ "--size-{$bucket}" ];
 				$ordered[ "--flex-{$bucket}" ] = $entry['styles'][ "--flex-{$bucket}" ];
+
+				if ( isset( $entry['styles'][ "--order-{$bucket}" ] ) ) {
+					$ordered[ "--order-{$bucket}" ] = $entry['styles'][ "--order-{$bucket}" ];
+				}
 			}
 
 			$result[ $i ]['styles'] = $ordered;

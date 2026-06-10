@@ -24,6 +24,18 @@
 		"sizesSm": {
 			"type": "array",
 			"default": [ "1/1" ]
+		},
+		"reverseLg": {
+			"type": "boolean",
+			"default": false
+		},
+		"reverseMd": {
+			"type": "boolean",
+			"default": false
+		},
+		"reverseSm": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
@@ -46,7 +58,10 @@
 	"providesContext": {
 		"mai/sizesLg": "sizesLg",
 		"mai/sizesMd": "sizesMd",
-		"mai/sizesSm": "sizesSm"
+		"mai/sizesSm": "sizesSm",
+		"mai/reverseLg": "reverseLg",
+		"mai/reverseMd": "reverseMd",
+		"mai/reverseSm": "reverseSm"
 	},
 	"textdomain": "mai-columns",
 	"editorScript": "file:./index.js",

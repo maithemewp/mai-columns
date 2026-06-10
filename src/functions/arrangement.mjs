@@ -15,14 +15,19 @@ const BUCKETS = ["lg", "md", "sm"];
 /**
  * Resolves per-child styles and break markers for all buckets.
  *
- * @param {string[]} lg
- * @param {string[]} md
- * @param {string[]} sm
- * @param {number}   count
+ * Reversed buckets emit per-child --order-{bucket} props (count down to 1)
+ * — CSS `order` applies before flex line wrapping, so it reverses rows and
+ * stacked layouts alike.
+ *
+ * @param {string[]}                lg
+ * @param {string[]}                md
+ * @param {string[]}                sm
+ * @param {number}                  count
+ * @param {Object<string,boolean>}  reverse Per-bucket reverse flags, e.g. { sm: true }.
  *
  * @return {Array<{styles: Object<string,string>, breaks: string[]}>}
  */
-export const resolve = (lg, md, sm, count) => {
+export const resolve = (lg, md, sm, count, reverse = {}) => {
 	const buckets = withFallbacks({ lg, md, sm });
 	const result  = Array.from({ length: count }, () => ({ styles: {}, breaks: [] }));
 
@@ -52,6 +57,10 @@ export const resolve = (lg, md, sm, count) => {
 
 			result[i].styles[`--size-${bucket}`] = size(token);
 			result[i].styles[`--flex-${bucket}`] = flex(token);
+
+			if (reverse[bucket]) {
+				result[i].styles[`--order-${bucket}`] = String(count - i);
+			}
 		}
 	}
 
@@ -62,6 +71,10 @@ export const resolve = (lg, md, sm, count) => {
 		for (const bucket of BUCKETS) {
 			ordered[`--size-${bucket}`] = entry.styles[`--size-${bucket}`];
 			ordered[`--flex-${bucket}`] = entry.styles[`--flex-${bucket}`];
+
+			if (undefined !== entry.styles[`--order-${bucket}`]) {
+				ordered[`--order-${bucket}`] = entry.styles[`--order-${bucket}`];
+			}
 		}
 
 		entry.styles = ordered;

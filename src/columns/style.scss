@@ -69,6 +69,11 @@ $bucket-lg: 1024px;
    Nothing else changes — markup and custom props are mechanism-agnostic. */
 
 @container (max-width: #{$bucket-md - 1px}) {
+	.wp-block-mai-column,
+	.wp-block-mai-columns > .mai-column__break {
+		order: var(--order-sm, 0);
+	}
+
 	.wp-block-mai-column {
 		--size: var(--size-sm, 1);
 		--flex: var(--flex-sm, 1);
@@ -80,6 +85,11 @@ $bucket-lg: 1024px;
 }
 
 @container (min-width: #{$bucket-md}) and (max-width: #{$bucket-lg - 1px}) {
+	.wp-block-mai-column,
+	.wp-block-mai-columns > .mai-column__break {
+		order: var(--order-md, 0);
+	}
+
 	.wp-block-mai-column {
 		--size: var(--size-md, 1);
 		--flex: var(--flex-md, 1);
@@ -91,6 +101,11 @@ $bucket-lg: 1024px;
 }
 
 @container (min-width: #{$bucket-lg}) {
+	.wp-block-mai-column,
+	.wp-block-mai-columns > .mai-column__break {
+		order: var(--order-lg, 0);
+	}
+
 	.wp-block-mai-column {
 		--size: var(--size-lg, 1);
 		--flex: var(--flex-lg, 1);

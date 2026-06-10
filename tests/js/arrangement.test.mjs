@@ -9,6 +9,6 @@ const fixtures = JSON.parse(
 
 for (const c of fixtures.cases) {
 	test(c.name, () => {
-		assert.deepEqual(resolveArrangement(c.lg, c.md, c.sm, c.count), c.expected);
+		assert.deepEqual(resolveArrangement(c.lg, c.md, c.sm, c.count, c.reverse ?? {}), c.expected);
 	});
 }

@@ -232,3 +232,39 @@
 <!-- wp:paragraph --><p>bottom</p><!-- /wp:paragraph -->
 <!-- /wp:mai/column -->
 <!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">10 — Order: reverse + per-column</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><strong>Reverse on Narrow:</strong> A/B/C side by side on Wide/Medium; when stacked on Narrow they read C, B, A — the classic "image first on desktop, text first on mobile" move.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/3"],"sizesSm":["1/1"],"reverseSm":true,"className":"case-reverse"} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>A</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>B</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>C</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:paragraph -->
+<p><strong>Per-column order:</strong> the third column jumps to first on Wide/Medium via its own order value (-1); DOM order is unchanged.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/3"],"sizesSm":["1/1"],"className":"case-order"} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>First in DOM</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>Second in DOM</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"orderLg":-1,"orderMd":-1,"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>Third in DOM — shown first</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->

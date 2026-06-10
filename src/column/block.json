@@ -10,6 +10,15 @@
 	"attributes": {
 		"alignItems": {
 			"type": "string"
+		},
+		"orderLg": {
+			"type": "number"
+		},
+		"orderMd": {
+			"type": "number"
+		},
+		"orderSm": {
+			"type": "number"
 		}
 	},
 	"supports": {
@@ -27,7 +36,7 @@
 			"blockGap": true
 		}
 	},
-	"usesContext": ["mai/sizesLg", "mai/sizesMd", "mai/sizesSm", "mai/columnStyles"],
+	"usesContext": ["mai/sizesLg", "mai/sizesMd", "mai/sizesSm", "mai/reverseLg", "mai/reverseMd", "mai/reverseSm", "mai/columnStyles"],
 	"textdomain": "mai-columns",
 	"editorScript": "file:./index.js"
 }

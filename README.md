@@ -8,6 +8,9 @@ Define an arrangement — a sequence of size tokens that repeats across however 
 ## Tokens
 Preset fractions (`25%`–`100%`), custom fractions (`2/5`), percentages, CSS lengths (`300px`), `fit` (hug content), `fill` (share leftover space), and `break` (end the row early). Empty buckets inherit the next-wider setting.
 
+## Ordering
+Per-bucket "Reverse" toggles on the parent block, plus an optional per-column order value per bucket (CSS `order` — visual only; keyboard and screen reader order follows the document).
+
 ![Repeating 1/3 + 2/3 pattern](assets/screenshot-2.png)
 ![Row breaks end a row before it is full](assets/screenshot-4.png)
 ![Nested columns measure their own container](assets/screenshot-5.png)
