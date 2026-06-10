@@ -25,6 +25,13 @@ $bucket-lg: 1024px;
 }
 
 .mai-column {
+	/* The basis must be biased slightly UNDER its true value: flex line-
+	   breaking happens BEFORE flex-shrink, and browsers quantize each item's
+	   resolved size independently (1/64px LayoutUnits), so a row of fractions
+	   summing to exactly 1 can overflow by a subpixel and wrap. The 0.025px
+	   epsilon is the legacy guard; browsers with round() floor the value to a
+	   0.05px grid instead (below, same effect, readable intent). Do not
+	   "clean up" either one — that reintroduces the 33.33%-wraps bug. */
 	--flex-basis: calc((100% * var(--size) - (var(--column-gap) * (1 - var(--size)))) - 0.025px);
 	flex: var(--flex);
 	display: flex;
@@ -36,6 +43,14 @@ $bucket-lg: 1024px;
 .mai-column__break {
 	display: none;
 	flex-basis: 100%;
+}
+
+/* round() ships later than container queries (Chrome 125 vs 105, Firefox 118
+   vs 110) — browsers in that gap keep the epsilon form above. */
+@supports (width: round(down, 1px, 2px)) {
+	.mai-column {
+		--flex-basis: round(down, calc(100% * var(--size) - (var(--column-gap) * (1 - var(--size)))), 0.05px);
+	}
 }
 
 /* ── Container-query buckets ─────────────────────────────────────────────
