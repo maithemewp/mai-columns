@@ -538,16 +538,14 @@ final class Columns {
 			) )->render();
 		}
 
-		// Container-level custom props from block settings.
-		$style = [];
-
-		if ( ! empty( $attributes['justifyContent'] ) ) {
-			$style[] = sprintf( '--justify-content:%s;', esc_attr( self::flex_css_value( $attributes['justifyContent'] ) ) );
-		}
-
-		if ( ! empty( $attributes['alignItems'] ) ) {
-			$style[] = sprintf( '--align-items:%s;', esc_attr( self::flex_css_value( $attributes['alignItems'] ) ) );
-		}
+		// Container-level custom props from block settings. ALWAYS emitted
+		// (initial when unset): custom props inherit downward, so a nested
+		// mai/columns would otherwise pick up an ancestor mai/column's
+		// --justify-content. Explicit defaults seal the inheritance leak.
+		$style = [
+			sprintf( '--justify-content:%s;', esc_attr( self::flex_css_value( (string) ( $attributes['justifyContent'] ?? '' ) ) ) ),
+			sprintf( '--align-items:%s;', esc_attr( self::flex_css_value( (string) ( $attributes['alignItems'] ?? '' ) ) ) ),
+		];
 
 		foreach ( self::block_gap( $attributes['style']['spacing']['blockGap'] ?? null ) as $axis => $value ) {
 			$style[] = sprintf( '--%s-gap:%s;', $axis, esc_attr( $value ) );
