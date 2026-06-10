@@ -9,7 +9,6 @@ import {
 } from "@wordpress/block-editor";
 import { createBlock } from "@wordpress/blocks";
 import { useDispatch } from "@wordpress/data";
-import { useEffect } from "@wordpress/element";
 import {
 	PanelBody,
 	BaseControl,
@@ -23,15 +22,12 @@ import {
 	isFraction,
 	isPercentage,
 	isValidCSSValue,
-	mapValuesToLabels,
-	mapLabelsToValues,
 } from "../functions";
 
 import SelectSortable from "../components/SelectSortable";
-import MultiSelectSortableDuplicates from "../components/MultiSelectSortableDuplicates";
 
 export default function Edit({ clientId, attributes, setAttributes }) {
-	const { style, justifyContent, alignItems, sizesLg, sizesMd, sizesSm } = attributes;
+	const { style, justifyContent, alignItems } = attributes;
 
 	const options = [
 		{ value: "1/4", label: __("25%") },
@@ -47,7 +43,9 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 
 	/**
 	 * Make sure a value is valid new option.
-	 * No need to check for auto, fit, fill because those are predefined.
+	 * No need to check for fit, fill, break because those are predefined.
+	 * Fractions and percentages are capped at 100% — a column wider than its
+	 * row is never a layout, it's a typo.
 	 *
 	 * @since 0.1.0
 	 *
@@ -55,9 +53,22 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	 *
 	 * @return {bool}
 	 */
-	const isValidNew = ( value ) => {
-		return value && ( isFraction( value ) || isValidCSSValue( value ) );
-	}
+	const isValidNew = (value) => {
+		if (!value) {
+			return false;
+		}
+
+		if (isFraction(value)) {
+			const [numerator, denominator] = value.split("/").map(Number);
+			return numerator <= denominator;
+		}
+
+		if (isPercentage(value)) {
+			return parseFloat(value) <= 100;
+		}
+
+		return isValidCSSValue(value);
+	};
 
 	// Get the dispatch function to insert a block
 	const { insertBlock } = useDispatch("core/block-editor");
@@ -69,11 +80,6 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		// Insert the new block inside the current block (identified by clientId)
 		insertBlock(newBlock, undefined, clientId);
 	};
-
-	// Set the clientId as an attribute to identify the block
-	useEffect(() => {
-		setAttributes({ id: clientId });
-	}, [clientId, setAttributes]);
 
 	// Build inline styles based on attributes
 	const inlineStyles = useBlockProps().style || {};
@@ -121,10 +127,10 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					<h2>{__("Column Arrangements")}</h2>
 					<BaseControl
 						help={__(
-							"Custom arrangements will repeat in the sequence you set here. Set just one value if you want all sizes to be the same width. Leave empty to have equal widths based on the number of items. An empty field preceded by a non-empty field will inherit the previous field's settings."
+							"Arrangements respond to the space the columns sit in, not the device. Values repeat in the sequence you set. One value sizes all columns; an empty field inherits the next-wider setting."
 						)}
 					/>
-					<BaseControl label={__("Desktop")}>
+					<BaseControl label={__("Wide")}>
 						<SelectSortable
 							key="sizesLg"
 							attributeKey="sizesLg"
@@ -139,19 +145,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 							}}
 						/>
 					</BaseControl>
-					<BaseControl label={__("Tablet")}>
-						{/* <MultiSelectSortableDuplicates
-							key="sizesMd"
-							options={options}
-							value={mapValuesToLabels(sizesMd, options)}
-							onChange={(values) => {
-								setAttributes({ sizesMd: mapLabelsToValues(values, options) });
-							}}
-							onCreateOption={(value) => {
-								setAttributes({ sizesMd: [...sizesMd, value] });
-							}}
-							isValidNewOption={ isValidNew }
-						/> */}
+					<BaseControl label={__("Medium")}>
 						<SelectSortable
 							key="sizesMd"
 							attributeKey="sizesMd"
@@ -166,19 +160,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 							}}
 						/>
 					</BaseControl>
-					<BaseControl label={__("Mobile")}>
-						{/* <MultiSelectSortableDuplicates
-							key="sizesSm"
-							options={options}
-							value={mapValuesToLabels(sizesSm, options)}
-							onChange={(values) => {
-								setAttributes({ sizesSm: mapLabelsToValues(values, options) });
-							}}
-							onCreateOption={(value) => {
-								setAttributes({ sizesSm: [...sizesSm, value] });
-							}}
-							isValidNewOption={ isValidNew }
-						/> */}
+					<BaseControl label={__("Narrow")}>
 						<SelectSortable
 							key="sizesSm"
 							attributeKey="sizesSm"

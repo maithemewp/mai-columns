@@ -241,20 +241,3 @@ export const reverseObject = (obj) => {
 	return Object.fromEntries(Object.entries(obj).reverse());
 };
 
-export const mapValuesToLabels = (values, options) => {
-	const toReturn = values.map((value) => {
-		const option = options.find((opt) => opt.value === value);
-		return option ? option.label : value;
-	});
-
-	return toReturn;
-};
-
-export const mapLabelsToValues = (values, options) => {
-	const toReturn = values.map((value) => {
-		const option = options.find((opt) => opt.label === value);
-		return option ? option.value : value;
-	});
-
-	return toReturn;
-};

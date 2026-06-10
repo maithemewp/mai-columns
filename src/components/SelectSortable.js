@@ -11,6 +11,7 @@ const SelectSortable = ({
 	setAttributes,
 	onCreateOption = null,
 	isValidNewOption = null,
+	formatCreateLabel = null,
 	placeholder = "Select or create items...",
 }) => {
 	const [sortableItems, setSortableItems] = useState([]);
@@ -123,6 +124,7 @@ const SelectSortable = ({
 				value={[]}
 				styles={customStyles}
 				isValidNewOption={isValidNewOption}
+				{...(formatCreateLabel ? { formatCreateLabel } : {})}
 			/>
 			<DndContext onDragEnd={handleDragEnd} collisionDetection={closestCorners}>
 				<SortableContext
