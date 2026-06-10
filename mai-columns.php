@@ -44,13 +44,15 @@ add_action( 'plugins_loaded', function (): void {
 		$updater->setAuthentication( MAI_GITHUB_API_TOKEN );
 	}
 
-	// Add icons for Dashboard > Updates screen.
-	if ( function_exists( 'mai_get_updater_icons' ) && $icons = mai_get_updater_icons() ) {
-		$updater->addResultFilter(
-			function ( $info ) use ( $icons ) {
-				$info->icons = $icons;
-				return $info;
-			}
-		);
-	}
+	// Add icons for Dashboard > Updates screen (bundled — no mai-engine dependency).
+	$updater->addResultFilter(
+		function ( $info ) {
+			$info->icons = [
+				'1x' => plugins_url( 'assets/img/icon-128x128.png', __FILE__ ),
+				'2x' => plugins_url( 'assets/img/icon-256x256.png', __FILE__ ),
+			];
+
+			return $info;
+		}
+	);
 } );
