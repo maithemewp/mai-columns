@@ -1,9 +1,15 @@
 # Mai Columns rebuild — design
 
-> **Status:** Approved design, pending plan (`docs/plans/`). Decisions locked
-> with Mike 2026-06-10 (brainstorm in the Balloon Juice rebuild session).
-> Starting point: `select-sortable` @ `93aafef` (latest line = `develop` + the
-> two react-select sortable-control commits).
+> **Status:** Implemented (0.2.0 rebuild), 2026-06-10, on branch `rebuild`.
+> Commits: 39e88ea (cleanup) · e0738c2 (resolver) · a37019c (JS mirror) ·
+> 9098501 (parent-orchestrated render) · b6314d3 (block.json) · 3e8105d
+> (fresh-block defaults: fill Wide / inherit Medium / 1/1 Narrow — decided
+> with Mike during execution) · 186f0d4 (editor fixes) · a568106 (preview
+> parity) · 9f8ef8d (container-query CSS) · 6a8e59d (verification matrix:
+> 332 e2e assertions + live editor smoke).
+> Decisions locked with Mike 2026-06-10 (brainstorm in the Balloon Juice
+> rebuild session). Starting point: `select-sortable` @ `93aafef` (latest
+> line = `develop` + the two react-select sortable-control commits).
 
 ## What this is
 
