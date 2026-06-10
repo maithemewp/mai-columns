@@ -38,6 +38,12 @@ Mike tags it himself. Version stays `0.x` until then.
    `justify-content` does it free). Recorded non-goal.
 6. **Attribute names keep** `sizesLg` / `sizesMd` / `sizesSm` (existing test
    content keeps working); the saved `id` attribute is **deleted**.
+7. **Fractions serialize with spaces in style attributes**: `--size-lg: 1 / 2`,
+   never `1/2`. Mai Engine scar tissue (2026-06-10, Mike): a recipe plugin's
+   fraction-beautifier regex-replaced bare `1/2` inside `style=""` with a ½
+   glyph and broke layouts. `N / D` is equally valid in `calc()` and immune.
+   The resolver ACCEPTS `1/2`, `1 / 2`, and `50%` as input; OUTPUT is always
+   the spaced form.
 
 ## Architecture
 
