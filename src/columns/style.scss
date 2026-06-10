@@ -13,7 +13,7 @@
 $bucket-md: 640px;
 $bucket-lg: 1024px;
 
-.mai-columns {
+.wp-block-mai-columns {
 	container-type: inline-size;
 	--column-gap: 0.5em;
 	--row-gap: 0.5em;
@@ -24,7 +24,7 @@ $bucket-lg: 1024px;
 	gap: var(--row-gap) var(--column-gap);
 }
 
-.mai-column {
+.wp-block-mai-column {
 	flex: var(--flex);
 	display: flex;
 	flex-direction: column;
@@ -32,7 +32,7 @@ $bucket-lg: 1024px;
 	margin: 0;
 }
 
-.mai-column__break {
+.wp-block-mai-columns > .mai-column__break {
 	display: none;
 	flex-basis: 100%;
 }
@@ -49,13 +49,13 @@ $bucket-lg: 1024px;
    that gap get the legacy epsilon form. */
 
 @supports (width: round(down, 1px, 2px)) {
-	.mai-column {
+	.wp-block-mai-column {
 		--flex-basis: round(down, calc(100% * var(--size) - (var(--column-gap) * (1 - var(--size)))), 0.05px);
 	}
 }
 
 @supports not (width: round(down, 1px, 2px)) {
-	.mai-column {
+	.wp-block-mai-column {
 		--flex-basis: calc((100% * var(--size) - (var(--column-gap) * (1 - var(--size)))) - 0.025px);
 	}
 }
@@ -69,34 +69,34 @@ $bucket-lg: 1024px;
    Nothing else changes — markup and custom props are mechanism-agnostic. */
 
 @container (max-width: #{$bucket-md - 1px}) {
-	.mai-column {
+	.wp-block-mai-column {
 		--size: var(--size-sm, 1);
 		--flex: var(--flex-sm, 1);
 	}
 
-	.mai-column__break-sm {
+	.wp-block-mai-columns > .mai-column__break-sm {
 		display: block;
 	}
 }
 
 @container (min-width: #{$bucket-md}) and (max-width: #{$bucket-lg - 1px}) {
-	.mai-column {
+	.wp-block-mai-column {
 		--size: var(--size-md, 1);
 		--flex: var(--flex-md, 1);
 	}
 
-	.mai-column__break-md {
+	.wp-block-mai-columns > .mai-column__break-md {
 		display: block;
 	}
 }
 
 @container (min-width: #{$bucket-lg}) {
-	.mai-column {
+	.wp-block-mai-column {
 		--size: var(--size-lg, 1);
 		--flex: var(--flex-lg, 1);
 	}
 
-	.mai-column__break-lg {
+	.wp-block-mai-columns > .mai-column__break-lg {
 		display: block;
 	}
 }
