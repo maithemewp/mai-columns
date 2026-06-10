@@ -7,8 +7,10 @@
  * ArrangementResolver (PHP, front end) and arrangement.mjs (editor preview).
  */
 
-/* Bucket boundaries. Container width, not viewport. */
-$bucket-md: 600px;
+/* Bucket boundaries. Container width, not viewport. Tailwind's sm/lg values
+   (640/1024) — picked 2026-06-10 over WP's 782 because a standard ~740px
+   content column must land in the Medium bucket, not stack. */
+$bucket-md: 640px;
 $bucket-lg: 1024px;
 
 .mai-columns {
@@ -39,8 +41,8 @@ $bucket-lg: 1024px;
 /* ── Container-query buckets ─────────────────────────────────────────────
    REVERT PATH: to go back to viewport behavior, delete container-type above
    and replace each @container below with the equivalent @media:
-   sm: @media (max-width: 599px)
-   md: @media (min-width: 600px) and (max-width: 1023px)
+   sm: @media (max-width: 639px)
+   md: @media (min-width: 640px) and (max-width: 1023px)
    lg: @media (min-width: 1024px)
    Nothing else changes — markup and custom props are mechanism-agnostic. */
 

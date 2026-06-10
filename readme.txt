@@ -37,7 +37,7 @@ add a fifth column and it lands on `1/3` automatically.
 = Wide / Medium / Narrow: container buckets, not devices =
 
 Each arrangement is set per width bucket: Wide (1024px and up), Medium
-(600–1023px), and Narrow (under 600px). Buckets measure the container the
+(640–1023px), and Narrow (under 640px). Buckets measure the container the
 columns sit in — a columns block inside a sidebar or a narrow nested column
 uses its Narrow arrangement even on a desktop screen. Nested columns respond
 to their own available room.

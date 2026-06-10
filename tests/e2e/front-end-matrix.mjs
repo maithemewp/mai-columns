@@ -32,7 +32,7 @@ const assert = (cond, label) => {
 };
 
 const bucketFor = (containerWidth) =>
-	containerWidth < 600 ? "sm" : containerWidth < 1024 ? "md" : "lg";
+	containerWidth < 640 ? "sm" : containerWidth < 1024 ? "md" : "lg";
 
 // "0 1 var(--flex-basis)" -> { grow: "0", shrink: "1", basis: "var(--flex-basis)" }
 const parseFlex = (flex) => {
