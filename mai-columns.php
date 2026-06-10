@@ -11,9 +11,6 @@
  * Text Domain:       mai-columns
  */
 
-// Autoload Composer dependencies.
-require_once __DIR__ . '/vendor/autoload.php';
-
 // Prevent direct file access.
 defined( 'ABSPATH' ) || die;
 

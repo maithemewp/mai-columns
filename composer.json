@@ -1,6 +1,0 @@
-{
-    "require-dev": {
-        "spatie/ray": "^1.37",
-        "spatie/global-ray": "^1.2"
-    }
-}
