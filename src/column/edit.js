@@ -14,124 +14,60 @@ import {
 
 import { useSelect } from "@wordpress/data";
 
-import {
-	getIndexValueFromArray,
-	getFlex,
-	getFlexCSSValue,
-	getSize,
-	reverseObject,
-} from "../functions";
+import { getFlexCSSValue } from "../functions";
+import { resolve } from "../functions/arrangement.mjs";
 
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
+ *
+ * The per-bucket size/flex custom props come from the shared arrangement
+ * resolver — the same fixture-locked math the PHP render runs — so the canvas
+ * preview cannot drift from the front end.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes, context, clientId }) {
-	const { style, alignItems } = attributes;
+	const { alignItems } = attributes;
 
 	/**
-	 * Gets block index of parent.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @return {string}
+	 * Gets this column's index among its siblings and the sibling count,
+	 * the two inputs the resolver needs beyond the parent's size arrays.
 	 */
-	const blockIndex = useSelect(
+	const { blockIndex, siblingCount } = useSelect(
 		(select) => {
-			const { getBlockIndex } = select("core/block-editor");
-			return getBlockIndex(clientId);
+			const { getBlockIndex, getBlockRootClientId, getBlockCount } =
+				select("core/block-editor");
+
+			return {
+				blockIndex: getBlockIndex(clientId),
+				siblingCount: getBlockCount(getBlockRootClientId(clientId)),
+			};
 		},
 		[clientId],
 	);
 
 	/**
-	 * Gets the inner block count.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @return {int}
+	 * Gets the inner block count, for the appender.
 	 */
-	const blockCount = useSelect((select) => {
-		return select("core/block-editor").getBlockCount(clientId);
-	});
+	const blockCount = useSelect(
+		(select) => select("core/block-editor").getBlockCount(clientId),
+		[clientId],
+	);
 
 	/**
-	 * Adds arrangements to the object.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @param {object} arrangement
-	 *
-	 * @returns {object}
+	 * Build inline styles from the resolved arrangement.
 	 */
-	const setFallbacks = (arrangement) => {
-		// Set fallbacks.
-		for (const key in arrangements) {
-			if (!arrangements[key]) {
-				const keys  = Object.keys(arrangements);
-				const shift = keys.shift();
+	const resolved = resolve(
+		context["mai/sizesLg"] ?? [],
+		context["mai/sizesMd"] ?? [],
+		context["mai/sizesSm"] ?? [],
+		siblingCount,
+	)[blockIndex];
 
-				arrangements[key] = arrangements[shift];
-			}
-		}
-
-		return arrangements;
-	};
-
-	/**
-	 * Build inline styles from arrangements.
-	 */
-	let arrangements = {};
-	const inlineStyles = useBlockProps().style || {};
-	const data = [
-		{
-			break: "lg",
-			columns: context["mai/sizesLg"],
-			default: "",
-		},
-		{
-			break: "md",
-			columns: context["mai/sizesMd"],
-			default: "",
-		},
-		{
-			break: "sm",
-			columns: context["mai/sizesSm"],
-			default: "",
-		},
-	];
-
-	// Get arrangements.
-	data.forEach((item) => {
-		arrangements[item.break] = getIndexValueFromArray(
-			blockIndex,
-			item.columns,
-			item.default,
-		);
-	});
-
-	// Set standard fallbacks.
-	arrangements = setFallbacks(arrangements);
-
-	// Set reversed fallbacks.
-	arrangements = setFallbacks(reverseObject(arrangements));
-
-	// Reverse back.
-	arrangements = reverseObject(arrangements);
-
-	// Set sizes inline styles.
-	Object.entries(arrangements).forEach(([key, value]) => {
-		inlineStyles[`--size-${key}`] = getSize(value) || 1;
-	});
-
-	// Set flex inline styles.
-	Object.entries(arrangements).forEach(([key, value]) => {
-		inlineStyles[`--flex-${key}`] = getFlex(value);
-	});
+	const inlineStyles = { ...(resolved?.styles ?? {}) };
 
 	// Justify content is align items value since flex-direction is column.
 	inlineStyles["--justify-content"] = getFlexCSSValue(alignItems);
@@ -141,7 +77,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	 * If no blocks, add the appender.
 	 */
 	const appenderToUse = () => {
-		if ( ! blockCount ) {
+		if (!blockCount) {
 			return (
 				<InnerBlocks.ButtonBlockAppender
 					rootClientId={clientId}
@@ -156,12 +92,10 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	/**
 	 * Set props.
 	 */
-	const props = {
+	const blockProps = useBlockProps({
 		className: "mai-column",
 		style: inlineStyles,
-	};
-
-	const blockProps       = useBlockProps(props);
+	});
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		renderAppender: appenderToUse,
 	});
