@@ -49,14 +49,33 @@ final class Columns {
 			(array) ( $attributes['sizesLg'] ?? [] ),
 			(array) ( $attributes['sizesMd'] ?? [] ),
 			(array) ( $attributes['sizesSm'] ?? [] ),
-			count( $children )
+			count( $children ),
+			[
+				'lg' => ! empty( $attributes['reverseLg'] ),
+				'md' => ! empty( $attributes['reverseMd'] ),
+				'sm' => ! empty( $attributes['reverseSm'] ),
+			]
 		);
 
 		$inner = '';
 
 		foreach ( array_values( $children ) as $i => $child ) {
+			// Break spans copy their child's order props so a break stays
+			// adjacent to the column it precedes when a bucket is reversed.
+			$break_style = '';
+
+			foreach ( $resolved[ $i ]['styles'] as $prop => $value ) {
+				if ( str_starts_with( $prop, '--order-' ) ) {
+					$break_style .= sprintf( '%s:%s;', $prop, esc_attr( $value ) );
+				}
+			}
+
 			foreach ( $resolved[ $i ]['breaks'] as $bucket ) {
-				$inner .= sprintf( '<span class="mai-column__break mai-column__break-%s" aria-hidden="true"></span>', esc_attr( $bucket ) );
+				$inner .= sprintf(
+					'<span class="mai-column__break mai-column__break-%s"%s aria-hidden="true"></span>',
+					esc_attr( $bucket ),
+					$break_style ? sprintf( ' style="%s"', $break_style ) : ''
+				);
 			}
 
 			$inner .= ( new WP_Block(

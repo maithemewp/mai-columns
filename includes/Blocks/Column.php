@@ -45,6 +45,14 @@ final class Column {
 			$style .= sprintf( '--justify-content:%s;', esc_attr( Columns::flex_css_value( (string) $attributes['alignItems'] ) ) );
 		}
 
+		// Per-column order overrides; later duplicate props win in CSS, so
+		// these beat any parent-injected reverse order for the same bucket.
+		foreach ( [ 'lg' => 'orderLg', 'md' => 'orderMd', 'sm' => 'orderSm' ] as $bucket => $key ) {
+			if ( isset( $attributes[ $key ] ) && is_numeric( $attributes[ $key ] ) ) {
+				$style .= sprintf( '--order-%s:%d;', $bucket, (int) $attributes[ $key ] );
+			}
+		}
+
 		$wrapper = get_block_wrapper_attributes(
 			[
 				'class' => 'mai-column',

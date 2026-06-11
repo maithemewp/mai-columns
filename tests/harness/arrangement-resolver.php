@@ -13,7 +13,7 @@ $pass     = 0;
 $fail     = 0;
 
 foreach ( $fixtures['cases'] as $case ) {
-	$got = ArrangementResolver::resolve( $case['lg'], $case['md'], $case['sm'], $case['count'] );
+	$got = ArrangementResolver::resolve( $case['lg'], $case['md'], $case['sm'], $case['count'], $case['reverse'] ?? [] );
 
 	if ( $got === $case['expected'] ) {
 		$pass++;

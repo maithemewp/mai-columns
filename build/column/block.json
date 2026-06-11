@@ -12,6 +12,15 @@
   "attributes": {
     "alignItems": {
       "type": "string"
+    },
+    "orderLg": {
+      "type": "number"
+    },
+    "orderMd": {
+      "type": "number"
+    },
+    "orderSm": {
+      "type": "number"
     }
   },
   "supports": {
@@ -33,6 +42,9 @@
     "mai/sizesLg",
     "mai/sizesMd",
     "mai/sizesSm",
+    "mai/reverseLg",
+    "mai/reverseMd",
+    "mai/reverseSm",
     "mai/columnStyles"
   ],
   "textdomain": "mai-columns",
