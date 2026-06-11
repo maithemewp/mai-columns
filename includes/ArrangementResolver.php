@@ -139,8 +139,9 @@ final class ArrangementResolver {
 			return '0 1 var(--flex-basis)';
 		}
 
-		// Arbitrary CSS length (300px, 20rem, …).
-		return sprintf( '0 1 %s', $token );
+		// Arbitrary CSS length (300px, 20rem, …) — truly fixed, never
+		// shrinks; pair with a 1/1 Narrow arrangement for small containers.
+		return sprintf( '0 0 %s', $token );
 	}
 
 	/**

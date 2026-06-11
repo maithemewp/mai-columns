@@ -134,8 +134,9 @@ const flex = (token) => {
 		return "0 1 var(--flex-basis)";
 	}
 
-	// Arbitrary CSS length (300px, 20rem, …).
-	return `0 1 ${token}`;
+	// Arbitrary CSS length (300px, 20rem, …) — truly fixed, never shrinks;
+	// pair with a 1/1 Narrow arrangement for small containers.
+	return `0 0 ${token}`;
 };
 
 /**
