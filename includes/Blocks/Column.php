@@ -42,7 +42,7 @@ final class Column {
 
 		// Vertical alignment: flex-direction is column, so alignItems maps to justify-content.
 		if ( ! empty( $attributes['alignItems'] ) ) {
-			$style .= sprintf( '--justify-content:%s;', esc_attr( Columns::flex_css_value( (string) $attributes['alignItems'] ) ) );
+			$style .= sprintf( '--content-justify:%s;', esc_attr( Columns::flex_css_value( (string) $attributes['alignItems'] ) ) );
 		}
 
 		// Content gap from blockGap. Distinct prop name — the parent's

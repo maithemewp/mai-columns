@@ -78,7 +78,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const inlineStyles = { ...(resolved?.styles ?? {}) };
 
 	// Justify content is align items value since flex-direction is column.
-	inlineStyles["--justify-content"] = getFlexCSSValue(alignItems);
+	inlineStyles["--content-justify"] = getFlexCSSValue(alignItems);
 
 	// Content gap from blockGap (distinct prop — the parent's gap props
 	// inherit into this element and must not bleed into content spacing).

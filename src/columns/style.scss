@@ -25,18 +25,19 @@ $bucket-lg: 1024px;
 }
 
 .wp-block-mai-column {
-	/* Element-level declarations seal inheritance leaks (inline values from
-	   block settings still win): without these, a column picks up
-	   --justify-content from its own container — the parent's HORIZONTAL
-	   justify setting would become every column's VERTICAL content
-	   alignment — and --content-gap from an ancestor column. A custom prop
-	   set to `initial` is guaranteed-invalid, so var() takes its fallback. */
-	--justify-content: initial;
+	/* The column's content props are --content-* (pairing gap + justify),
+	   NEVER the container's names: this element simultaneously inherits the
+	   parent's --column-gap (the --flex-basis math reads it here) and needs
+	   its own content values — one name cannot hold both. Element-level
+	   declarations seal inheritance from ancestor columns; inline values
+	   from block settings still win. A custom prop set to `initial` is
+	   guaranteed-invalid, so var() takes its fallback. */
+	--content-justify: initial;
 	--content-gap: var(--wp--style--block-gap, 1em);
 	flex: var(--flex);
 	display: flex;
 	flex-direction: column;
-	justify-content: var(--justify-content, initial);
+	justify-content: var(--content-justify, initial);
 	margin: 0;
 	gap: var(--content-gap);
 }
