@@ -48,7 +48,7 @@
 			"expected": [
 				{ "styles": { "--size-lg": "1", "--flex-lg": "0 1 auto", "--size-md": "1", "--flex-md": "0 1 auto", "--size-sm": "1", "--flex-sm": "0 1 auto" }, "breaks": [] },
 				{ "styles": { "--size-lg": "1", "--flex-lg": "1 0 0", "--size-md": "1", "--flex-md": "1 0 0", "--size-sm": "1", "--flex-sm": "1 0 0" }, "breaks": [] },
-				{ "styles": { "--size-lg": "1", "--flex-lg": "0 0 300px", "--size-md": "1", "--flex-md": "0 0 300px", "--size-sm": "1", "--flex-sm": "0 0 300px" }, "breaks": [] }
+				{ "styles": { "--size-lg": "1", "--flex-lg": "0 0 min(300px, 100%)", "--size-md": "1", "--flex-md": "0 0 min(300px, 100%)", "--size-sm": "1", "--flex-sm": "0 0 min(300px, 100%)" }, "breaks": [] }
 			]
 		},
 		{

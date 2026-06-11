@@ -5,7 +5,7 @@
 * Added: Border supports (color/radius/style/width) on both blocks.
 * Fixed: Children now receive the full ancestry context (postId etc.) — context-consuming blocks like core/avatar rendered empty inside columns.
 * Changed: Default column gap follows the theme's global block gap.
-* Changed: Fixed-length columns (`300px`, `20rem`) no longer flex-shrink — a fixed size means exactly that. Pair with a `100%` Narrow arrangement for small containers.
+* Changed: Fixed-length columns (`300px`, `20rem`) are truly fixed — siblings never squeeze them (they wrap to a new row instead), shrinking only when the container itself is narrower than the fixed size.
 * Added: Column blockGap renders as the column's content gap (children get the standard flex-layout margin reset — gap is the single spacing source, defaulting to the theme's global block gap).
 * Added: Column ordering — per-bucket "Reverse" toggles on the parent and a per-column order value per bucket (visual order only; keyboard/screen reader order unchanged).
 * Added: Tag-based updater (Plugin Update Checker v5) — sites see updates once releases are tagged.
