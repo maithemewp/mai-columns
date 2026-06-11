@@ -268,3 +268,27 @@
 <!-- wp:paragraph --><p>Third in DOM — shown first</p><!-- /wp:paragraph -->
 <!-- /wp:mai/column -->
 <!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">11 — Rows follow the arrangement, not content</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Columns have <code>min-width: 0</code>, so wide content can never force a row to wrap — the trade-off is that an unbreakable word (or oversized image) overflows its column instead. Below, a <code>fit</code> + <code>fill</code> pair squeezed into a quarter-width column: the long word pokes out of the yellow fill column, but the row holds. Normal text simply wraps.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/4","fill"],"sizesSm":["1/4","fill"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fce8e6"}}} -->
+<!-- wp:mai/columns {"sizesLg":["fit","fill"],"sizesSm":[]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>fit</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>Supercalifragilisticexpialidocious</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>← The fit + fill row inside the pink quarter column stays one row; the unbreakable word overflows its yellow column. With min-width: auto (the flex default) that word would have forced the fill column below the fit — content dictating layout.</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
