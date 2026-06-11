@@ -30,6 +30,14 @@ $bucket-lg: 1024px;
 	flex-direction: column;
 	justify-content: var(--justify-content, initial);
 	margin: 0;
+	gap: var(--content-gap, var(--wp--style--block-gap, 1em));
+}
+
+/* Gap is the column's single spacing source (the same reset core's flex
+   layout applies to its children) — without this, default block margins
+   stack on top of the gap and pad the column past its content. */
+.wp-block-mai-column > * {
+	margin-block: 0;
 }
 
 .wp-block-mai-columns > .mai-column__break {

@@ -17,7 +17,7 @@ import { PanelBody, BaseControl, TextControl } from "@wordpress/components";
 
 import { useSelect } from "@wordpress/data";
 
-import { getFlexCSSValue } from "../functions";
+import { getFlexCSSValue, getBlockGap } from "../functions";
 import { resolve } from "../functions/arrangement.mjs";
 
 /**
@@ -33,7 +33,7 @@ import { resolve } from "../functions/arrangement.mjs";
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes, context, clientId }) {
-	const { alignItems, orderLg, orderMd, orderSm } = attributes;
+	const { alignItems, orderLg, orderMd, orderSm, style } = attributes;
 
 	/**
 	 * Gets this column's index among its siblings and the sibling count,
@@ -79,6 +79,12 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 	// Justify content is align items value since flex-direction is column.
 	inlineStyles["--justify-content"] = getFlexCSSValue(alignItems);
+
+	// Content gap from blockGap (distinct prop — the parent's gap props
+	// inherit into this element and must not bleed into content spacing).
+	if (style?.spacing?.blockGap) {
+		inlineStyles["--content-gap"] = getBlockGap(style.spacing.blockGap).row;
+	}
 
 	// Per-column order overrides beat any parent reverse order.
 	for (const [bucket, value] of [["lg", orderLg], ["md", orderMd], ["sm", orderSm]]) {

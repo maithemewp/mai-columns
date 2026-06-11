@@ -45,6 +45,15 @@ final class Column {
 			$style .= sprintf( '--justify-content:%s;', esc_attr( Columns::flex_css_value( (string) $attributes['alignItems'] ) ) );
 		}
 
+		// Content gap from blockGap. Distinct prop name — the parent's
+		// --row-gap/--column-gap inherit into this element and must not bleed
+		// into the column's own content spacing.
+		$gap = Columns::block_gap( $attributes['style']['spacing']['blockGap'] ?? null );
+
+		if ( isset( $gap['row'] ) ) {
+			$style .= sprintf( '--content-gap:%s;', esc_attr( $gap['row'] ) );
+		}
+
 		// Per-column order overrides; later duplicate props win in CSS, so
 		// these beat any parent-injected reverse order for the same bucket.
 		foreach ( [ 'lg' => 'orderLg', 'md' => 'orderMd', 'sm' => 'orderSm' ] as $bucket => $key ) {
