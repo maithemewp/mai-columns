@@ -1,8 +1,8 @@
 {
 	"name": "mai-columns",
-	"version": "0.1.0",
-	"description": "Example block scaffolded with Create Block tool.",
-	"author": "JiveDig",
+	"version": "0.2.0",
+	"description": "Repeatable, per-width column arrangements with simple and complex layouts.",
+	"author": "BizBudding",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
