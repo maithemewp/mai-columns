@@ -34,6 +34,10 @@ final class Column {
 	 * @return void
 	 */
 	public function register_block(): void {
+		// Supports live in build/column/block.json. Border + the six typography
+		// sub-controls use the __experimental* keys on purpose — they're the only
+		// keys WP 7.0's serializer reads. See docs/block-supports-keys.md before
+		// "modernizing" them to the un-prefixed names.
 		register_block_type(
 			MAI_COLUMNS_DIR . 'build/column',
 			[
