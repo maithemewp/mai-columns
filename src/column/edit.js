@@ -114,7 +114,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	};
 
 	const blockProps = useBlockProps({
-		className: "mai-column",
 		style: inlineStyles,
 	});
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {

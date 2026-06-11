@@ -94,7 +94,6 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	inlineStyles["--column-gap"] = gaps.column;
 
 	const blockProps = useBlockProps({
-		className: "mai-columns",
 		style: inlineStyles,
 	});
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {

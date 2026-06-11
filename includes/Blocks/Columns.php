@@ -104,14 +104,42 @@ final class Columns {
 			$style[] = sprintf( '--%s-gap:%s;', $axis, esc_attr( $value ) );
 		}
 
-		$wrapper = get_block_wrapper_attributes(
-			[
-				'class' => 'mai-columns',
-				'style' => implode( '', $style ),
-			]
-		);
+		$wrapper = self::wrapper_attributes( implode( '', $style ) );
 
 		return sprintf( '<div %s>%s</div>', $wrapper, $inner );
+	}
+
+	/**
+	 * get_block_wrapper_attributes() hardcodes style before class; rebuild
+	 * with class first to match the order static blocks get from the JS
+	 * serializer.
+	 */
+	public static function wrapper_attributes( string $style ): string {
+		$wrapper = get_block_wrapper_attributes( [ 'style' => $style ] );
+
+		$tags = new \WP_HTML_Tag_Processor( "<div {$wrapper}>" );
+		$tags->next_tag();
+
+		$attributes = [];
+
+		foreach ( (array) $tags->get_attribute_names_with_prefix( '' ) as $name ) {
+			$attributes[ $name ] = $tags->get_attribute( $name );
+		}
+
+		$class = $attributes['class'] ?? null;
+		unset( $attributes['class'] );
+
+		if ( null !== $class ) {
+			$attributes = [ 'class' => $class ] + $attributes;
+		}
+
+		$pairs = [];
+
+		foreach ( $attributes as $name => $value ) {
+			$pairs[] = true === $value ? $name : sprintf( '%s="%s"', $name, esc_attr( (string) $value ) );
+		}
+
+		return implode( ' ', $pairs );
 	}
 
 	/**

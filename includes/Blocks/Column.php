@@ -57,12 +57,7 @@ final class Column {
 			}
 		}
 
-		$wrapper = get_block_wrapper_attributes(
-			[
-				'class' => 'mai-column',
-				'style' => $style,
-			]
-		);
+		$wrapper = Columns::wrapper_attributes( $style );
 
 		return sprintf( '<div %s>%s</div>', $wrapper, $content );
 	}
