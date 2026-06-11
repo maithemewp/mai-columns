@@ -27,9 +27,12 @@ final class ArrangementResolver {
 	 * stacked layouts alike, and the render can copy a child's order onto its
 	 * break spans to keep breaks adjacent under reversal.
 	 *
-	 * @param array<string>      $lg
-	 * @param array<string>      $md
-	 * @param array<string>      $sm
+	 * @since 0.2.0
+	 *
+	 * @param array<string>      $lg      Large-bucket size tokens.
+	 * @param array<string>      $md      Medium-bucket size tokens.
+	 * @param array<string>      $sm      Small-bucket size tokens.
+	 * @param int                $count   The number of child columns.
 	 * @param array<string,bool> $reverse Per-bucket reverse flags, e.g. [ 'sm' => true ].
 	 *
 	 * @return array<int,array{styles:array<string,string>,breaks:array<int,string>}>
@@ -98,7 +101,9 @@ final class ArrangementResolver {
 	 * Nearest-defined fallback, preferring the larger bucket; all-empty
 	 * degrades to full width.
 	 *
-	 * @param array<string,array<string>> $buckets
+	 * @since 0.2.0
+	 *
+	 * @param array<string,array<string>> $buckets Size tokens keyed by bucket.
 	 *
 	 * @return array<string,array<string>>
 	 */
@@ -116,6 +121,12 @@ final class ArrangementResolver {
 
 	/**
 	 * Spaced fraction for fractional tokens; "1" (full flex share) otherwise.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string $token The size token.
+	 *
+	 * @return string
 	 */
 	private static function size( string $token ): string {
 		$fraction = self::to_fraction( $token );
@@ -125,6 +136,12 @@ final class ArrangementResolver {
 
 	/**
 	 * Flex shorthand per token type.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string $token The size token.
+	 *
+	 * @return string
 	 */
 	private static function flex( string $token ): string {
 		if ( 'fit' === $token ) {
@@ -149,6 +166,12 @@ final class ArrangementResolver {
 	 * Normalizes "1/2", "1 / 2", and "50%" to the SPACED fraction "1 / 2".
 	 * Empty means full width. Returns '' for non-fractional tokens
 	 * (fit/fill/lengths).
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string $token The size token.
+	 *
+	 * @return string
 	 */
 	private static function to_fraction( string $token ): string {
 		$token = trim( $token );
@@ -173,6 +196,16 @@ final class ArrangementResolver {
 		return '';
 	}
 
+	/**
+	 * Greatest common divisor, for reducing percentage fractions.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param int $a The numerator.
+	 * @param int $b The denominator.
+	 *
+	 * @return int
+	 */
 	private static function gcd( int $a, int $b ): int {
 		return 0 === $b ? $a : self::gcd( $b, $a % $b );
 	}

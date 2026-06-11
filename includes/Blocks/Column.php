@@ -15,10 +15,24 @@ use WP_Block;
  */
 final class Column {
 
+	/**
+	 * Hooks block registration.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
 	public function register(): void {
 		add_action( 'init', [ $this, 'register_block' ] );
 	}
 
+	/**
+	 * Registers the block.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
 	public function register_block(): void {
 		register_block_type(
 			MAI_COLUMNS_DIR . 'build/column',
@@ -29,9 +43,15 @@ final class Column {
 	}
 
 	/**
-	 * @param array    $attributes
-	 * @param string   $content
-	 * @param WP_Block $block
+	 * Renders the column.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content    The block content.
+	 * @param WP_Block $block      The block instance.
+	 *
+	 * @return string
 	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$style = '';
