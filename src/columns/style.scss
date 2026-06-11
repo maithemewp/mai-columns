@@ -50,7 +50,7 @@ $bucket-lg: 1024px;
 	margin-block: 0;
 }
 
-.wp-block-mai-columns > .mai-column__break {
+.wp-block-mai-columns > .wp-block-mai-columns__break {
 	display: none;
 	flex-basis: 100%;
 }
@@ -88,7 +88,7 @@ $bucket-lg: 1024px;
 
 @container (max-width: #{$bucket-md - 1px}) {
 	.wp-block-mai-column,
-	.wp-block-mai-columns > .mai-column__break {
+	.wp-block-mai-columns > .wp-block-mai-columns__break {
 		order: var(--order-sm, 0);
 	}
 
@@ -97,14 +97,14 @@ $bucket-lg: 1024px;
 		--flex: var(--flex-sm, 1);
 	}
 
-	.wp-block-mai-columns > .mai-column__break-sm {
+	.wp-block-mai-columns > .wp-block-mai-columns__break-sm {
 		display: block;
 	}
 }
 
 @container (min-width: #{$bucket-md}) and (max-width: #{$bucket-lg - 1px}) {
 	.wp-block-mai-column,
-	.wp-block-mai-columns > .mai-column__break {
+	.wp-block-mai-columns > .wp-block-mai-columns__break {
 		order: var(--order-md, 0);
 	}
 
@@ -113,14 +113,14 @@ $bucket-lg: 1024px;
 		--flex: var(--flex-md, 1);
 	}
 
-	.wp-block-mai-columns > .mai-column__break-md {
+	.wp-block-mai-columns > .wp-block-mai-columns__break-md {
 		display: block;
 	}
 }
 
 @container (min-width: #{$bucket-lg}) {
 	.wp-block-mai-column,
-	.wp-block-mai-columns > .mai-column__break {
+	.wp-block-mai-columns > .wp-block-mai-columns__break {
 		order: var(--order-lg, 0);
 	}
 
@@ -129,7 +129,7 @@ $bucket-lg: 1024px;
 		--flex: var(--flex-lg, 1);
 	}
 
-	.wp-block-mai-columns > .mai-column__break-lg {
+	.wp-block-mai-columns > .wp-block-mai-columns__break-lg {
 		display: block;
 	}
 }

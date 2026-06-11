@@ -52,7 +52,7 @@ const readContainer = (el) => {
 			return { grow: ccs.flexGrow, shrink: ccs.flexShrink, basis: ccs.flexBasis, order: ccs.order, w: r.width, y: r.top, x: r.left };
 		});
 	const breaks = [...el.children]
-		.filter((c) => c.classList.contains("mai-column__break"))
+		.filter((c) => c.classList.contains("wp-block-mai-columns__break"))
 		.map((c) => ({ cls: c.className, display: getComputedStyle(c).display }));
 	return {
 		width: el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight),
@@ -107,7 +107,7 @@ const assertInstance = (info, def, tag) => {
 		`${tag}: ${expectedBreakBuckets.length} break spans (got ${info.breaks.length})`,
 	);
 	info.breaks.forEach((b) => {
-		const bBucket = b.cls.match(/mai-column__break-(\w+)/)?.[1];
+		const bBucket = b.cls.match(/wp-block-mai-columns__break-(\w+)/)?.[1];
 		const expDisplay = bBucket === bucket ? "block" : "none";
 		assert(b.display === expDisplay, `${tag}: break-${bBucket} display ${expDisplay} (got ${b.display})`);
 	});
@@ -213,7 +213,7 @@ for (const [caseClass, def] of Object.entries(CASES)) {
 					return { grow: ccs.flexGrow, shrink: ccs.flexShrink, basis: ccs.flexBasis, order: ccs.order, w: r.width, y: r.top, x: r.left };
 				});
 			const breaks = [...el.children]
-				.filter((c) => c.classList.contains("mai-column__break"))
+				.filter((c) => c.classList.contains("wp-block-mai-columns__break"))
 				.map((c) => ({ cls: c.className, display: getComputedStyle(c).display }));
 			return {
 				width: el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight),

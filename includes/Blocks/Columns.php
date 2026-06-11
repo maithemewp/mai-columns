@@ -79,7 +79,7 @@ final class Columns {
 
 			foreach ( $resolved[ $i ]['breaks'] as $bucket ) {
 				$inner .= sprintf(
-					'<span class="mai-column__break mai-column__break-%s"%s aria-hidden="true"></span>',
+					'<span class="wp-block-mai-columns__break wp-block-mai-columns__break-%s"%s aria-hidden="true"></span>',
 					esc_attr( $bucket ),
 					$break_style ? sprintf( ' style="%s"', $break_style ) : ''
 				);
