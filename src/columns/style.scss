@@ -15,8 +15,8 @@ $bucket-lg: 1024px;
 
 .wp-block-mai-columns {
 	container-type: inline-size;
-	--column-gap: 0.5em;
-	--row-gap: 0.5em;
+	--column-gap: var(--wp--style--block-gap, 0.5em);
+	--row-gap: var(--wp--style--block-gap, 0.5em);
 	display: flex;
 	flex-wrap: wrap;
 	align-items: var(--align-items, initial);
@@ -25,14 +25,32 @@ $bucket-lg: 1024px;
 }
 
 .wp-block-mai-column {
+	/* --content-* props, never the container's names: this element also
+	   inherits the parent's --column-gap for the --flex-basis math, so one
+	   name can't hold both values. The render always emits them inline
+	   (sealing ancestor-column inheritance); the var() fallbacks only catch
+	   markup that bypassed it. */
 	flex: var(--flex);
 	display: flex;
 	flex-direction: column;
-	justify-content: var(--justify-content, initial);
+	justify-content: var(--content-justify, initial);
 	margin: 0;
+	/* Rows are composed by the ARRANGEMENT, never by content: without this,
+	   the implicit min-width:auto makes a fill column as wide as its
+	   min-content (longest word, widest image), which can force wraps the
+	   arrangement didn't ask for. */
+	min-width: 0;
+	gap: var(--content-gap, var(--wp--style--block-gap, 1em));
 }
 
-.wp-block-mai-columns > .mai-column__break {
+/* Gap is the column's single spacing source (the same reset core's flex
+   layout applies to its children) — without this, default block margins
+   stack on top of the gap and pad the column past its content. */
+.wp-block-mai-column > * {
+	margin-block: 0;
+}
+
+.wp-block-mai-columns > .wp-block-mai-columns__break {
 	display: none;
 	flex-basis: 100%;
 }
@@ -70,7 +88,7 @@ $bucket-lg: 1024px;
 
 @container (max-width: #{$bucket-md - 1px}) {
 	.wp-block-mai-column,
-	.wp-block-mai-columns > .mai-column__break {
+	.wp-block-mai-columns > .wp-block-mai-columns__break {
 		order: var(--order-sm, 0);
 	}
 
@@ -79,14 +97,14 @@ $bucket-lg: 1024px;
 		--flex: var(--flex-sm, 1);
 	}
 
-	.wp-block-mai-columns > .mai-column__break-sm {
+	.wp-block-mai-columns > .wp-block-mai-columns__break-sm {
 		display: block;
 	}
 }
 
 @container (min-width: #{$bucket-md}) and (max-width: #{$bucket-lg - 1px}) {
 	.wp-block-mai-column,
-	.wp-block-mai-columns > .mai-column__break {
+	.wp-block-mai-columns > .wp-block-mai-columns__break {
 		order: var(--order-md, 0);
 	}
 
@@ -95,14 +113,14 @@ $bucket-lg: 1024px;
 		--flex: var(--flex-md, 1);
 	}
 
-	.wp-block-mai-columns > .mai-column__break-md {
+	.wp-block-mai-columns > .wp-block-mai-columns__break-md {
 		display: block;
 	}
 }
 
 @container (min-width: #{$bucket-lg}) {
 	.wp-block-mai-column,
-	.wp-block-mai-columns > .mai-column__break {
+	.wp-block-mai-columns > .wp-block-mai-columns__break {
 		order: var(--order-lg, 0);
 	}
 
@@ -111,7 +129,7 @@ $bucket-lg: 1024px;
 		--flex: var(--flex-lg, 1);
 	}
 
-	.wp-block-mai-columns > .mai-column__break-lg {
+	.wp-block-mai-columns > .wp-block-mai-columns__break-lg {
 		display: block;
 	}
 }

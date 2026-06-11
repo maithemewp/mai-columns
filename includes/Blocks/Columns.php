@@ -19,10 +19,24 @@ use WP_Block;
  */
 final class Columns {
 
+	/**
+	 * Hooks block registration.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
 	public function register(): void {
 		add_action( 'init', [ $this, 'register_block' ] );
 	}
 
+	/**
+	 * Registers the block.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
 	public function register_block(): void {
 		register_block_type(
 			MAI_COLUMNS_DIR . 'build/columns',
@@ -34,9 +48,15 @@ final class Columns {
 	}
 
 	/**
-	 * @param array    $attributes
-	 * @param string   $content Always '' — skip_inner_blocks.
-	 * @param WP_Block $block
+	 * Renders the container and its children.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content    The block content. Always '' — skip_inner_blocks.
+	 * @param WP_Block $block      The block instance.
+	 *
+	 * @return string
 	 */
 	public function render( array $attributes, string $content, WP_Block $block ): string {
 		$children = $block->parsed_block['innerBlocks'] ?? [];
@@ -57,6 +77,13 @@ final class Columns {
 			]
 		);
 
+		// Children need the FULL ancestry context, not the uses_context-filtered
+		// $block->context — otherwise postId/postType vanish for descendants and
+		// blocks like core/avatar render empty. The property is protected;
+		// reflection beats core post-template's filter hack because our
+		// children are arbitrary.
+		$available = ( new \ReflectionProperty( WP_Block::class, 'available_context' ) )->getValue( $block );
+
 		$inner = '';
 
 		foreach ( array_values( $children ) as $i => $child ) {
@@ -72,7 +99,7 @@ final class Columns {
 
 			foreach ( $resolved[ $i ]['breaks'] as $bucket ) {
 				$inner .= sprintf(
-					'<span class="mai-column__break mai-column__break-%s"%s aria-hidden="true"></span>',
+					'<span class="wp-block-mai-columns__break wp-block-mai-columns__break-%s"%s aria-hidden="true"></span>',
 					esc_attr( $bucket ),
 					$break_style ? sprintf( ' style="%s"', $break_style ) : ''
 				);
@@ -80,7 +107,7 @@ final class Columns {
 
 			$inner .= ( new WP_Block(
 				$child,
-				[ 'mai/columnStyles' => $resolved[ $i ]['styles'] ] + $block->context
+				[ 'mai/columnStyles' => $resolved[ $i ]['styles'] ] + $available
 			) )->render();
 		}
 
@@ -97,18 +124,58 @@ final class Columns {
 			$style[] = sprintf( '--%s-gap:%s;', $axis, esc_attr( $value ) );
 		}
 
-		$wrapper = get_block_wrapper_attributes(
-			[
-				'class' => 'mai-columns',
-				'style' => implode( '', $style ),
-			]
-		);
+		$wrapper = self::wrapper_attributes( implode( '', $style ) );
 
 		return sprintf( '<div %s>%s</div>', $wrapper, $inner );
 	}
 
 	/**
+	 * get_block_wrapper_attributes() hardcodes style before class; rebuild
+	 * with class first to match the order static blocks get from the JS
+	 * serializer.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string $style The inline style value to merge into the wrapper.
+	 *
+	 * @return string
+	 */
+	public static function wrapper_attributes( string $style ): string {
+		$wrapper = get_block_wrapper_attributes( [ 'style' => $style ] );
+
+		$tags = new \WP_HTML_Tag_Processor( "<div {$wrapper}>" );
+		$tags->next_tag();
+
+		$attributes = [];
+
+		foreach ( (array) $tags->get_attribute_names_with_prefix( '' ) as $name ) {
+			$attributes[ $name ] = $tags->get_attribute( $name );
+		}
+
+		$class = $attributes['class'] ?? null;
+		unset( $attributes['class'] );
+
+		if ( null !== $class ) {
+			$attributes = [ 'class' => $class ] + $attributes;
+		}
+
+		$pairs = [];
+
+		foreach ( $attributes as $name => $value ) {
+			$pairs[] = true === $value ? $name : sprintf( '%s="%s"', $name, esc_attr( (string) $value ) );
+		}
+
+		return implode( ' ', $pairs );
+	}
+
+	/**
 	 * Maps editor alignment tokens to flex CSS values.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string $value The editor alignment token.
+	 *
+	 * @return string
 	 */
 	public static function flex_css_value( string $value ): string {
 		return match ( $value ) {
@@ -123,6 +190,10 @@ final class Columns {
 	/**
 	 * blockGap (single value or row/column array, preset slugs included) to
 	 * row/column CSS values.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @param string|array|null $gap The blockGap attribute value.
 	 *
 	 * @return array{row?:string,column?:string}
 	 */

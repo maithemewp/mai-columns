@@ -17,6 +17,8 @@ const CASES = {
 	"case-d": { lg: ["1/4", "3/4"], md: [], sm: ["1/1"], count: 2 },
 	"case-e": { lg: ["1/2", "1/2"], md: [], sm: ["1/1"], count: 2 },
 	"case-e-inner": { lg: ["1/3", "2/3"], md: [], sm: ["1/1"], count: 2 },
+	"case-f": { lg: ["1/3"], md: [], sm: ["1/1"], count: 3, reverse: { sm: true } },
+	"case-g": { lg: ["1/3"], md: [], sm: ["1/1"], count: 3, orders: { 2: { lg: -1, md: -1 } } },
 };
 
 let pass = 0;
@@ -47,10 +49,10 @@ const readContainer = (el) => {
 		.map((c) => {
 			const ccs = getComputedStyle(c);
 			const r = c.getBoundingClientRect();
-			return { grow: ccs.flexGrow, shrink: ccs.flexShrink, basis: ccs.flexBasis, w: r.width, y: r.top };
+			return { grow: ccs.flexGrow, shrink: ccs.flexShrink, basis: ccs.flexBasis, order: ccs.order, w: r.width, y: r.top, x: r.left };
 		});
 	const breaks = [...el.children]
-		.filter((c) => c.classList.contains("mai-column__break"))
+		.filter((c) => c.classList.contains("wp-block-mai-columns__break"))
 		.map((c) => ({ cls: c.className, display: getComputedStyle(c).display }));
 	return {
 		width: el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight),
@@ -63,7 +65,7 @@ const readContainer = (el) => {
 
 const assertInstance = (info, def, tag) => {
 	const bucket = bucketFor(info.width);
-	const expected = resolveArrangement(def.lg, def.md, def.sm, def.count);
+	const expected = resolveArrangement(def.lg, def.md, def.sm, def.count, def.reverse ?? {});
 	tag = `${tag} (container ${Math.round(info.width)}px → ${bucket})`;
 
 	assert(info.cols.length === def.count, `${tag}: ${def.count} columns rendered (got ${info.cols.length})`);
@@ -105,7 +107,7 @@ const assertInstance = (info, def, tag) => {
 		`${tag}: ${expectedBreakBuckets.length} break spans (got ${info.breaks.length})`,
 	);
 	info.breaks.forEach((b) => {
-		const bBucket = b.cls.match(/mai-column__break-(\w+)/)?.[1];
+		const bBucket = b.cls.match(/wp-block-mai-columns__break-(\w+)/)?.[1];
 		const expDisplay = bBucket === bucket ? "block" : "none";
 		assert(b.display === expDisplay, `${tag}: break-${bBucket} display ${expDisplay} (got ${b.display})`);
 	});
@@ -115,6 +117,22 @@ const assertInstance = (info, def, tag) => {
 	if (sizes.every((s) => s === "1 / 1")) {
 		const distinct = new Set(info.cols.map((c) => Math.round(c.y))).size;
 		assert(distinct === def.count, `${tag}: stacked — ${def.count} distinct rows (got ${distinct})`);
+	}
+
+	// Ordering: computed `order` = per-column override, else resolver reverse value, else 0.
+	info.cols.forEach((col, i) => {
+		const expOrder = String(def.orders?.[i]?.[bucket] ?? expected[i].styles[`--order-${bucket}`] ?? 0);
+		assert(col.order === expOrder, `${tag} col${i + 1}: order ${expOrder} (got ${col.order})`);
+	});
+
+	// Geometry: a reversed bucket renders the first DOM column visually after the last.
+	if (def.reverse?.[bucket]) {
+		const first = info.cols[0];
+		const last = info.cols[def.count - 1];
+		assert(
+			first.y > last.y || (first.y === last.y && first.x > last.x),
+			`${tag}: reversed — first DOM column renders after the last`,
+		);
 	}
 
 	// Geometry: an lg break forces the flagged child onto a new row.
@@ -192,10 +210,10 @@ for (const [caseClass, def] of Object.entries(CASES)) {
 				.map((c) => {
 					const ccs = getComputedStyle(c);
 					const r = c.getBoundingClientRect();
-					return { grow: ccs.flexGrow, shrink: ccs.flexShrink, basis: ccs.flexBasis, w: r.width, y: r.top };
+					return { grow: ccs.flexGrow, shrink: ccs.flexShrink, basis: ccs.flexBasis, order: ccs.order, w: r.width, y: r.top, x: r.left };
 				});
 			const breaks = [...el.children]
-				.filter((c) => c.classList.contains("mai-column__break"))
+				.filter((c) => c.classList.contains("wp-block-mai-columns__break"))
 				.map((c) => ({ cls: c.className, display: getComputedStyle(c).display }));
 			return {
 				width: el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight),

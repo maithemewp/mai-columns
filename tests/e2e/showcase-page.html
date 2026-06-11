@@ -73,7 +73,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>First hugs its content, second takes the leftovers, third is locked at 300px.</p>
+<p>First hugs its content, second takes the leftovers, third is locked at 300px — it wraps to its own row when needed and only shrinks if the container itself is narrower than 300px.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:mai/columns {"sizesLg":["fit","fill","300px"],"sizesSm":[]} -->
@@ -266,5 +266,29 @@
 <!-- /wp:mai/column -->
 <!-- wp:mai/column {"orderLg":-1,"orderMd":-1,"style":{"color":{"background":"#fef7e0"}}} -->
 <!-- wp:paragraph --><p>Third in DOM — shown first</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">11 — Rows follow the arrangement, not content</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Columns have <code>min-width: 0</code>, so wide content can never force a row to wrap — the trade-off is that an unbreakable word (or oversized image) overflows its column instead. Setup: an outer block arranged <code>1/4, fill</code> (pink quarter | green fill), with a second columns block nested inside the pink quarter arranged <code>fit, fill</code> (blue fit | yellow fill). The long word needs more room than the yellow fill column has, so it pokes out — but the fit + fill row holds. Normal text simply wraps.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:mai/columns {"sizesLg":["1/4","fill"],"sizesSm":["1/4","fill"]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fce8e6"}}} -->
+<!-- wp:mai/columns {"sizesLg":["fit","fill"],"sizesSm":[]} -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e8f0fe"}}} -->
+<!-- wp:paragraph --><p>fit</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#fef7e0"}}} -->
+<!-- wp:paragraph --><p>Supercalifragilisticexpialidocious</p><!-- /wp:paragraph -->
+<!-- /wp:mai/column -->
+<!-- /wp:mai/columns -->
+<!-- /wp:mai/column -->
+<!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
+<!-- wp:paragraph --><p>← This green column is the outer block’s <code>fill</code>. Inside the pink <code>1/4</code> column, the blue <code>fit</code> and yellow <code>fill</code> stay on one row; the unbreakable word overflows the yellow column. With min-width: auto (the flex default) that word would have forced the yellow column below the blue — content dictating layout.</p><!-- /wp:paragraph -->
 <!-- /wp:mai/column -->
 <!-- /wp:mai/columns -->
