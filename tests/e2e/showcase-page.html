@@ -274,7 +274,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Columns have <code>min-width: 0</code>, so wide content can never force a row to wrap — the trade-off is that an unbreakable word (or oversized image) overflows its column instead. Below, a <code>fit</code> + <code>fill</code> pair squeezed into a quarter-width column: the long word pokes out of the yellow fill column, but the row holds. Normal text simply wraps.</p>
+<p>Columns have <code>min-width: 0</code>, so wide content can never force a row to wrap — the trade-off is that an unbreakable word (or oversized image) overflows its column instead. Setup: an outer block arranged <code>1/4, fill</code> (pink quarter | green fill), with a second columns block nested inside the pink quarter arranged <code>fit, fill</code> (blue fit | yellow fill). The long word needs more room than the yellow fill column has, so it pokes out — but the fit + fill row holds. Normal text simply wraps.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:mai/columns {"sizesLg":["1/4","fill"],"sizesSm":["1/4","fill"]} -->
@@ -289,6 +289,6 @@
 <!-- /wp:mai/columns -->
 <!-- /wp:mai/column -->
 <!-- wp:mai/column {"style":{"color":{"background":"#e6f4ea"}}} -->
-<!-- wp:paragraph --><p>← The fit + fill row inside the pink quarter column stays one row; the unbreakable word overflows its yellow column. With min-width: auto (the flex default) that word would have forced the fill column below the fit — content dictating layout.</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p>← This green column is the outer block’s <code>fill</code>. Inside the pink <code>1/4</code> column, the blue <code>fit</code> and yellow <code>fill</code> stay on one row; the unbreakable word overflows the yellow column. With min-width: auto (the flex default) that word would have forced the yellow column below the blue — content dictating layout.</p><!-- /wp:paragraph -->
 <!-- /wp:mai/column -->
 <!-- /wp:mai/columns -->
