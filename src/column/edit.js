@@ -1,9 +1,3 @@
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
 import { __ } from "@wordpress/i18n";
 import {
 	useBlockProps,
@@ -21,12 +15,11 @@ import { getFlexCSSValue, getBlockGap } from "../functions";
 import { resolve } from "../functions/arrangement.mjs";
 
 /**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
+ * The edit function, describing the block in the editor.
  *
  * The per-bucket size/flex custom props come from the shared arrangement
- * resolver — the same fixture-locked math the PHP render runs — so the canvas
- * preview cannot drift from the front end.
+ * resolver — the same fixture-locked math the PHP render runs — so the
+ * canvas preview cannot drift from the front end.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
@@ -36,8 +29,8 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const { alignItems, orderLg, orderMd, orderSm, style } = attributes;
 
 	/**
-	 * Gets this column's index among its siblings and the sibling count,
-	 * the two inputs the resolver needs beyond the parent's size arrays.
+	 * Gets this column's index and its sibling count — the two resolver
+	 * inputs beyond the parent's size arrays.
 	 */
 	const { blockIndex, siblingCount } = useSelect(
 		(select) => {
@@ -53,7 +46,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	);
 
 	/**
-	 * Gets the inner block count, for the appender.
+	 * Gets the inner block count — the appender only shows on an empty column.
 	 */
 	const blockCount = useSelect(
 		(select) => select("core/block-editor").getBlockCount(clientId),
@@ -105,8 +98,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	);
 
 	/**
-	 * Define the appender to use.
-	 * If no blocks, add the appender.
+	 * Show the appender only when the column is empty.
 	 */
 	const appenderToUse = () => {
 		if (!blockCount) {
@@ -121,9 +113,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 		return false;
 	};
 
-	/**
-	 * Set props.
-	 */
 	const blockProps = useBlockProps({
 		className: "mai-column",
 		style: inlineStyles,

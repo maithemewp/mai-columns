@@ -40,12 +40,10 @@ final class Column {
 			$style .= sprintf( '%s:%s;', $prop, esc_attr( (string) $value ) );
 		}
 
-		// Content props (vertical alignment + gap) are ALWAYS emitted, with
-		// defaults when unset — custom props inherit, so a nested column
-		// would otherwise pick up an ancestor column's values. Same sealing
-		// rule as the container's props. Distinct --content-* names because
-		// this element also inherits the parent's --column-gap for the
-		// --flex-basis math — container names can never be reused here.
+		// Always emitted with defaults — custom props inherit, so an ancestor
+		// column's values would otherwise leak in. --content-* names because
+		// this element also inherits the parent's --column-gap for the basis
+		// math; container names can't be reused here.
 		$gap = Columns::block_gap( $attributes['style']['spacing']['blockGap'] ?? null );
 
 		$style .= sprintf( '--content-justify:%s;', esc_attr( Columns::flex_css_value( (string) ( $attributes['alignItems'] ?? '' ) ) ) );

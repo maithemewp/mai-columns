@@ -57,13 +57,11 @@ final class Columns {
 			]
 		);
 
-		// Children must receive the FULL ancestry context, not this block's
-		// uses_context-filtered $block->context — otherwise template-level
-		// defaults (postId, postType, …) vanish for every descendant and
-		// blocks like core/avatar render empty. Core hits the same wall in
-		// post-template and works around the protected property with a
-		// render_block_context filter for the two keys it knows it needs;
-		// our children are arbitrary, so forward everything.
+		// Children need the FULL ancestry context, not the uses_context-filtered
+		// $block->context — otherwise postId/postType vanish for descendants and
+		// blocks like core/avatar render empty. The property is protected;
+		// reflection beats core post-template's filter hack because our
+		// children are arbitrary.
 		$available = ( new \ReflectionProperty( WP_Block::class, 'available_context' ) )->getValue( $block );
 
 		$inner = '';

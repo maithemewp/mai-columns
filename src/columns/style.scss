@@ -25,18 +25,21 @@ $bucket-lg: 1024px;
 }
 
 .wp-block-mai-column {
-	/* The column's content props are --content-* (gap + justify), NEVER the
-	   container's names: this element also inherits the parent's
-	   --column-gap (the --flex-basis math reads it here), so container
-	   names can never be reused at this level. Like the container, the
-	   render ALWAYS emits both props inline (defaults when unset) so
-	   nothing inherits from an ancestor column; the var() fallbacks below
-	   only catch markup that bypassed the render. */
+	/* --content-* props, never the container's names: this element also
+	   inherits the parent's --column-gap for the --flex-basis math, so one
+	   name can't hold both values. The render always emits them inline
+	   (sealing ancestor-column inheritance); the var() fallbacks only catch
+	   markup that bypassed it. */
 	flex: var(--flex);
 	display: flex;
 	flex-direction: column;
 	justify-content: var(--content-justify, initial);
 	margin: 0;
+	/* Rows are composed by the ARRANGEMENT, never by content: without this,
+	   the implicit min-width:auto makes a fill column as wide as its
+	   min-content (longest word, widest image), which can force wraps the
+	   arrangement didn't ask for. */
+	min-width: 0;
 	gap: var(--content-gap, var(--wp--style--block-gap, 1em));
 }
 

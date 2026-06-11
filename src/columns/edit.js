@@ -71,32 +71,28 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		return isValidCSSValue(value);
 	};
 
-	// Get the dispatch function to insert a block
 	const { insertBlock } = useDispatch("core/block-editor");
 
-	// Function to insert a new column block
+	/**
+	 * Inserts a new mai/column inside this block (toolbar "Add Column").
+	 */
 	const insertColumn = () => {
-		// Create the new block
-		const newBlock = createBlock("mai/column", {});
-		// Insert the new block inside the current block (identified by clientId)
-		insertBlock(newBlock, undefined, clientId);
+		insertBlock(createBlock("mai/column", {}), undefined, clientId);
 	};
 
-	// Build inline styles based on attributes
-	const inlineStyles = useBlockProps().style || {};
-	inlineStyles["--justify-content"] = getFlexCSSValue(justifyContent);
-	inlineStyles["--align-items"] = getFlexCSSValue(alignItems);
+	// Container props mirror the front-end render: always emitted (defaults
+	// when unset) so a nested block never inherits an ancestor's values.
+	const inlineStyles = {
+		"--justify-content": getFlexCSSValue(justifyContent),
+		"--align-items": getFlexCSSValue(alignItems),
+	};
 
-	if (style && style.spacing.blockGap) {
-		const gaps = getBlockGap(style.spacing.blockGap);
-		inlineStyles["--row-gap"] = gaps.row;
-		inlineStyles["--column-gap"] = gaps.column;
-	} else {
-		inlineStyles["--row-gap"] = "2rem";
-		inlineStyles["--column-gap"] = "2rem";
-	}
+	const gaps = style?.spacing?.blockGap
+		? getBlockGap(style.spacing.blockGap)
+		: { row: "var(--wp--style--block-gap, 0.5em)", column: "var(--wp--style--block-gap, 0.5em)" };
+	inlineStyles["--row-gap"] = gaps.row;
+	inlineStyles["--column-gap"] = gaps.column;
 
-	// Set block props and inner block props
 	const blockProps = useBlockProps({
 		className: "mai-columns",
 		style: inlineStyles,

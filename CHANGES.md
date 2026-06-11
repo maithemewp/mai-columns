@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.2.0 (Unreleased)
+* Fixed: Row composition follows the arrangement, never content — a fill column's wide content (long word, image) no longer forces unintended wraps (min-width: 0 on columns).
 * Fixed: A parent's horizontal justify setting no longer bleeds into every column's vertical content alignment (custom-prop inheritance sealed at the column).
 * Added: Border supports (color/radius/style/width) on both blocks.
 * Fixed: Children now receive the full ancestry context (postId etc.) — context-consuming blocks like core/avatar rendered empty inside columns.
