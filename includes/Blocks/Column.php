@@ -40,19 +40,16 @@ final class Column {
 			$style .= sprintf( '%s:%s;', $prop, esc_attr( (string) $value ) );
 		}
 
-		// Vertical alignment: flex-direction is column, so alignItems maps to justify-content.
-		if ( ! empty( $attributes['alignItems'] ) ) {
-			$style .= sprintf( '--content-justify:%s;', esc_attr( Columns::flex_css_value( (string) $attributes['alignItems'] ) ) );
-		}
-
-		// Content gap from blockGap. Distinct prop name — the parent's
-		// --row-gap/--column-gap inherit into this element and must not bleed
-		// into the column's own content spacing.
+		// Content props (vertical alignment + gap) are ALWAYS emitted, with
+		// defaults when unset — custom props inherit, so a nested column
+		// would otherwise pick up an ancestor column's values. Same sealing
+		// rule as the container's props. Distinct --content-* names because
+		// this element also inherits the parent's --column-gap for the
+		// --flex-basis math — container names can never be reused here.
 		$gap = Columns::block_gap( $attributes['style']['spacing']['blockGap'] ?? null );
 
-		if ( isset( $gap['row'] ) ) {
-			$style .= sprintf( '--content-gap:%s;', esc_attr( $gap['row'] ) );
-		}
+		$style .= sprintf( '--content-justify:%s;', esc_attr( Columns::flex_css_value( (string) ( $attributes['alignItems'] ?? '' ) ) ) );
+		$style .= sprintf( '--content-gap:%s;', esc_attr( $gap['row'] ?? 'var(--wp--style--block-gap, 1em)' ) );
 
 		// Per-column order overrides; later duplicate props win in CSS, so
 		// these beat any parent-injected reverse order for the same bucket.

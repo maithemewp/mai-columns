@@ -80,11 +80,11 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	// Justify content is align items value since flex-direction is column.
 	inlineStyles["--content-justify"] = getFlexCSSValue(alignItems);
 
-	// Content gap from blockGap (distinct prop — the parent's gap props
-	// inherit into this element and must not bleed into content spacing).
-	if (style?.spacing?.blockGap) {
-		inlineStyles["--content-gap"] = getBlockGap(style.spacing.blockGap).row;
-	}
+	// Always set, like the front end: ancestor columns' values must not
+	// inherit into this column's content spacing.
+	inlineStyles["--content-gap"] = style?.spacing?.blockGap
+		? getBlockGap(style.spacing.blockGap).row
+		: "var(--wp--style--block-gap, 1em)";
 
 	// Per-column order overrides beat any parent reverse order.
 	for (const [bucket, value] of [["lg", orderLg], ["md", orderMd], ["sm", orderSm]]) {
