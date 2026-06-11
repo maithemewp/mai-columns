@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.2.0 (Unreleased)
+* Fixed: A parent's horizontal justify setting no longer bleeds into every column's vertical content alignment (custom-prop inheritance sealed at the column).
 * Added: Border supports (color/radius/style/width) on both blocks.
 * Fixed: Children now receive the full ancestry context (postId etc.) — context-consuming blocks like core/avatar rendered empty inside columns.
 * Changed: Default column gap follows the theme's global block gap.
