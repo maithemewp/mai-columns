@@ -109,6 +109,11 @@ final class Columns {
 				);
 			}
 
+			// Core runs this filter on every inner block it renders. Skipping it
+			// drops block supports that hook in here, e.g. the elements class
+			// behind a column's heading/link/button colors.
+			$child = apply_filters( 'render_block_data', $child, $child, $block );
+
 			$inner .= ( new WP_Block(
 				$child,
 				[ 'mai/columnStyles' => $resolved[ $i ]['styles'] ] + $available
